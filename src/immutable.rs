@@ -1,5 +1,6 @@
 use std::ops::Deref;
 
+#[derive(Debug)]
 pub struct Immutable<T> {
   value: T,
 }
