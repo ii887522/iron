@@ -35,12 +35,12 @@ pub struct Delayed<T: Copy> {
 
 impl<T: Copy> Delayed<T> {
   pub fn new<A: Into<Arg<T>>>(arg: A) -> Self {
-    let arg = arg.into();
+    let Arg { value, timeout } = arg.into();
     Self {
-      value: arg.value,
-      timeout: arg.timeout.into(),
+      value,
+      timeout: timeout.into(),
       t: 0.0,
-      pending_value: arg.value,
+      pending_value: value,
     }
   }
 
