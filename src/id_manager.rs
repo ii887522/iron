@@ -23,15 +23,18 @@ impl Error for OutOfRangeError {}
 
 /// It manages and recycles id numbers to be used for any purposes so that id numbers will not become depleted if users
 /// keep retrieving and discarding id numbers.
-#[derive(Default)]
+#[derive(Debug, Default)]
 pub struct IDManager {
   id_stack: Vec<usize>,
   next_id: usize,
 }
 
 impl IDManager {
-  pub fn new() -> Self {
-    Self::default()
+  pub const fn new() -> Self {
+    Self {
+      id_stack: vec![],
+      next_id: 0,
+    }
   }
 
   /// It makes the allocated id number to become available again and ready to be used in the future.
