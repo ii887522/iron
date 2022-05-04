@@ -1,5 +1,6 @@
 use crate::Immutable;
 
+#[derive(Debug)]
 pub struct Arg<T: Copy> {
   value: T,
   timeout: f64,
@@ -26,6 +27,7 @@ impl<T: Copy> From<(T, f64)> for Arg<T> {
 
 /// It is a value holder that allows new value to be assigned in the future by the `timeout` given. Users of this class
 /// must keep calling `step(dt)` method to simulate delayed assignment of new value.
+#[derive(Debug)]
 pub struct Delayed<T: Copy> {
   t: f64,
   pending_value: T,
@@ -34,7 +36,7 @@ pub struct Delayed<T: Copy> {
 }
 
 impl<T: Copy> Delayed<T> {
-  pub fn new<A: Into<Arg<T>>>(arg: A) -> Self {
+  pub fn new(arg: impl Into<Arg<T>>) -> Self {
     let Arg { value, timeout } = arg.into();
     Self {
       value,

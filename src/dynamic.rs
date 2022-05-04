@@ -1,5 +1,6 @@
 use crate::Immutable;
 
+#[derive(Debug)]
 pub struct Arg<T, F: FnMut() -> T> {
   next_value: F,
   interval: f64,
@@ -30,6 +31,7 @@ impl<T, F: FnMut() -> T> From<(F, f64)> for Arg<T, F> {
 /// It is a value holder that keeps changing its value by the `interval` given. Users of this class must keep calling
 ///
 /// `step(dt)` method to simulate frequently changing value.
+#[derive(Debug)]
 pub struct Dynamic<T, F: FnMut() -> T> {
   t: f64,
   value: T,
@@ -38,7 +40,7 @@ pub struct Dynamic<T, F: FnMut() -> T> {
 }
 
 impl<T, F: FnMut() -> T> Dynamic<T, F> {
-  pub fn new<A: Into<Arg<T, F>>>(arg: A) -> Self {
+  pub fn new(arg: impl Into<Arg<T, F>>) -> Self {
     let Arg {
       mut next_value,
       interval,

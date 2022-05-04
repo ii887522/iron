@@ -26,13 +26,13 @@ impl Display for AlreadyInitError {
 impl Error for AlreadyInitError {}
 
 /// It is a holder that allows late initialization of the value being held.
-#[derive(Default)]
+#[derive(Debug, Default)]
 pub struct Late<T> {
   value: Option<T>,
 }
 
 impl<T> Late<T> {
-  pub fn new() -> Self {
+  pub const fn new() -> Self {
     Self { value: None }
   }
 
