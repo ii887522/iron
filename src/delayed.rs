@@ -1,17 +1,17 @@
-use crate::Immutable;
+use crate::Readonly;
 
-#[derive(Debug)]
+#[derive(Copy, Clone, Debug)]
 pub struct Arg<T: Copy> {
-  value: T,
   timeout: f64,
+  value: T,
 }
 
 impl<T: Copy> From<T> for Arg<T> {
   /// `value`: The initial value held by this holder.
   fn from(value: T) -> Self {
     Self {
-      value,
       timeout: 1.0,
+      value,
     }
   }
 }
@@ -21,28 +21,28 @@ impl<T: Copy> From<(T, f64)> for Arg<T> {
   ///
   /// `timeout`: The time to be elasped before the new value is being assigned to this holder.
   fn from((value, timeout): (T, f64)) -> Self {
-    Self { value, timeout }
+    Self { timeout, value }
   }
 }
 
 /// It is a value holder that allows new value to be assigned in the future by the `timeout` given. Users of this class
 /// must keep calling `step(dt)` method to simulate delayed assignment of new value.
-#[derive(Debug)]
+#[derive(Copy, Clone, Debug)]
 pub struct Delayed<T: Copy> {
   t: f64,
+  timeout: Readonly<f64>,
   pending_value: T,
   value: T,
-  timeout: Immutable<f64>,
 }
 
 impl<T: Copy> Delayed<T> {
   pub fn new(arg: impl Into<Arg<T>>) -> Self {
-    let Arg { value, timeout } = arg.into();
+    let Arg { timeout, value } = arg.into();
     Self {
-      value,
-      timeout: timeout.into(),
       t: 0.0,
+      timeout: timeout.into(),
       pending_value: value,
+      value,
     }
   }
 

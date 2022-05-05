@@ -3,7 +3,7 @@ use std::fmt;
 use std::fmt::Display;
 use std::fmt::Formatter;
 
-#[derive(Debug)]
+#[derive(Copy, Clone, Debug)]
 pub struct NotInitYetError;
 
 impl Display for NotInitYetError {
@@ -14,7 +14,7 @@ impl Display for NotInitYetError {
 
 impl Error for NotInitYetError {}
 
-#[derive(Debug)]
+#[derive(Copy, Clone, Debug)]
 pub struct AlreadyInitError;
 
 impl Display for AlreadyInitError {
@@ -26,7 +26,7 @@ impl Display for AlreadyInitError {
 impl Error for AlreadyInitError {}
 
 /// It is a holder that allows late initialization of the value being held.
-#[derive(Debug, Default)]
+#[derive(Copy, Clone, Debug, Default)]
 pub struct Late<T> {
   value: Option<T>,
 }
@@ -37,10 +37,10 @@ impl<T> Late<T> {
   }
 
   pub fn get_value(&self) -> Result<&T, NotInitYetError> {
-    if self.value.is_none() {
-      Err(NotInitYetError)
+    if let Some(value) = &self.value {
+      Ok(value)
     } else {
-      Ok(self.value.as_ref().unwrap())
+      Err(NotInitYetError)
     }
   }
 

@@ -1,17 +1,17 @@
-use crate::Immutable;
+use crate::Readonly;
 
-#[derive(Debug)]
+#[derive(Copy, Clone, Debug)]
 pub struct Arg<T, F: FnMut() -> T> {
-  next_value: F,
   interval: f64,
+  next_value: F,
 }
 
 impl<T, F: FnMut() -> T> From<F> for Arg<T, F> {
   /// `get_value`: The function that returns a new temporary value of this holder.
   fn from(next_value: F) -> Self {
     Self {
-      next_value,
       interval: 1.0,
+      next_value,
     }
   }
 }
@@ -22,8 +22,8 @@ impl<T, F: FnMut() -> T> From<(F, f64)> for Arg<T, F> {
   /// `dt`: Some small amount of time to advance.
   fn from((next_value, interval): (F, f64)) -> Self {
     Self {
-      next_value,
       interval,
+      next_value,
     }
   }
 }
@@ -31,25 +31,25 @@ impl<T, F: FnMut() -> T> From<(F, f64)> for Arg<T, F> {
 /// It is a value holder that keeps changing its value by the `interval` given. Users of this class must keep calling
 ///
 /// `step(dt)` method to simulate frequently changing value.
-#[derive(Debug)]
+#[derive(Copy, Clone, Debug)]
 pub struct Dynamic<T, F: FnMut() -> T> {
   t: f64,
+  interval: Readonly<f64>,
   value: T,
   next_value: F,
-  interval: Immutable<f64>,
 }
 
 impl<T, F: FnMut() -> T> Dynamic<T, F> {
   pub fn new(arg: impl Into<Arg<T, F>>) -> Self {
     let Arg {
-      mut next_value,
       interval,
+      mut next_value,
     } = arg.into();
     Self {
       t: 0.0,
+      interval: interval.into(),
       value: next_value(),
       next_value,
-      interval: interval.into(),
     }
   }
 
