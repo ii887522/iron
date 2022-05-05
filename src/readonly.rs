@@ -1,17 +1,17 @@
 use std::ops::Deref;
 
-#[derive(Debug)]
-pub struct Immutable<T> {
+#[derive(Copy, Clone, Debug)]
+pub struct Readonly<T> {
   value: T,
 }
 
-impl<T> Immutable<T> {
+impl<T> Readonly<T> {
   pub const fn new(value: T) -> Self {
-    Self { value }
+    Readonly { value }
   }
 }
 
-impl<T> Deref for Immutable<T> {
+impl<T> Deref for Readonly<T> {
   type Target = T;
 
   fn deref(&self) -> &Self::Target {
@@ -19,8 +19,8 @@ impl<T> Deref for Immutable<T> {
   }
 }
 
-impl<T> From<T> for Immutable<T> {
+impl<T> From<T> for Readonly<T> {
   fn from(value: T) -> Self {
-    Self { value }
+    Readonly { value }
   }
 }

@@ -4,7 +4,7 @@ use iron::Late;
 
 #[test]
 fn test_late() {
-  let mut late_value = Late::<i32>::new();
+  let mut late_value = Late::new();
   assert!(late_value.get_value().is_err());
   assert!(late_value.set_value(0).is_ok());
   assert!(late_value.get_value().is_ok());

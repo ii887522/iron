@@ -1,12 +1,12 @@
-use crate::Immutable;
+use crate::Readonly;
 use std::error::Error;
 use std::fmt;
 use std::fmt::Display;
 use std::fmt::Formatter;
 
-#[derive(Debug)]
+#[derive(Copy, Clone, Debug)]
 pub struct OutOfRangeError {
-  id: Immutable<usize>,
+  id: Readonly<usize>,
 }
 
 impl Display for OutOfRangeError {

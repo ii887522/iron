@@ -30,7 +30,7 @@ fn watch_a_reactive_object_with_initial_value_equal_to_a() {
   assert_eq!(repeated_string.borrow().get_value(), &"bb".to_owned());
   string.set_value(Box::new("1"));
   assert_eq!(repeated_string.borrow().get_value(), &"11".to_owned());
-  let number = string.watch(move |&value| Box::new(value.parse::<i32>()));
+  let number = string.watch(move |value| Box::new(value.parse::<i32>()));
   assert_eq!(number.borrow().get_value(), &Ok(1));
   string.set_value(Box::new("2"));
   assert_eq!(number.borrow().get_value(), &Ok(2));
@@ -47,5 +47,7 @@ fn test_unwatch() {
   assert_eq!(squared_value.borrow().get_value(), &0);
   value.set_value(Box::new(3));
   assert_eq!(squared_value.borrow().get_value(), &9);
-  value.unwatch(squared_value);
+  value.unwatch(squared_value.clone());
+  value.set_value(Box::new(4));
+  assert_eq!(squared_value.borrow().get_value(), &9);
 }
