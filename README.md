@@ -23,6 +23,7 @@ It is a general-purpose library for rust that can help developers create various
 - Windows 11 or Linux
 - [Visual Studio Code](https://code.visualstudio.com/) with plugins:
   - Better TOML
+  - CodeLLDB
   - EditorConfig for VS Code
   - Markdown All in One
   - Rust
