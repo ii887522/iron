@@ -1,0 +1,141 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug unit tests in library 'iron'",
+      "cargo": {
+        "args": [
+          "test",
+          "--no-run",
+          "--lib",
+          "--package=iron"
+        ],
+        "filter": {
+          "name": "iron",
+          "kind": "lib"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug integration test 'delayed_test'",
+      "cargo": {
+        "args": [
+          "test",
+          "--no-run",
+          "--test=delayed_test",
+          "--package=iron"
+        ],
+        "filter": {
+          "name": "delayed_test",
+          "kind": "test"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug integration test 'dynamic_test'",
+      "cargo": {
+        "args": [
+          "test",
+          "--no-run",
+          "--test=dynamic_test",
+          "--package=iron"
+        ],
+        "filter": {
+          "name": "dynamic_test",
+          "kind": "test"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug integration test 'id_manager_test'",
+      "cargo": {
+        "args": [
+          "test",
+          "--no-run",
+          "--test=id_manager_test",
+          "--package=iron"
+        ],
+        "filter": {
+          "name": "id_manager_test",
+          "kind": "test"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug integration test 'late_test'",
+      "cargo": {
+        "args": [
+          "test",
+          "--no-run",
+          "--test=late_test",
+          "--package=iron"
+        ],
+        "filter": {
+          "name": "late_test",
+          "kind": "test"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug integration test 'reactive_test'",
+      "cargo": {
+        "args": [
+          "test",
+          "--no-run",
+          "--test=reactive_test",
+          "--package=iron"
+        ],
+        "filter": {
+          "name": "reactive_test",
+          "kind": "test"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug integration test 'reactivity_manager_test'",
+      "cargo": {
+        "args": [
+          "test",
+          "--no-run",
+          "--test=reactivity_manager_test",
+          "--package=iron"
+        ],
+        "filter": {
+          "name": "reactivity_manager_test",
+          "kind": "test"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    }
+  ]
+}

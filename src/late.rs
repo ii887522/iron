@@ -27,17 +27,15 @@ impl Error for AlreadyInitError {}
 
 /// It is a holder that allows late initialization of the value being held.
 #[derive(Copy, Clone, Debug, Default)]
-pub struct Late<T> {
-  value: Option<T>,
-}
+pub struct Late<T>(Option<T>);
 
 impl<T> Late<T> {
   pub const fn new() -> Self {
-    Self { value: None }
+    Self(None)
   }
 
   pub fn get_value(&self) -> Result<&T, NotInitYetError> {
-    if let Some(value) = &self.value {
+    if let Some(value) = &self.0 {
       Ok(value)
     } else {
       Err(NotInitYetError)
@@ -45,10 +43,10 @@ impl<T> Late<T> {
   }
 
   pub fn set_value(&mut self, value: T) -> Result<(), AlreadyInitError> {
-    if self.value.is_some() {
+    if self.0.is_some() {
       Err(AlreadyInitError)
     } else {
-      self.value = Some(value);
+      self.0 = Some(value);
       Ok(())
     }
   }
