@@ -1,6 +1,6 @@
 extern crate iron;
 
-use iron::reactive;
+use iron::any::reactive;
 
 #[test]
 fn watch_a_reactive_object_with_initial_value_equal_to_0() {
