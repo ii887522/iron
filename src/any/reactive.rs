@@ -109,7 +109,8 @@ impl<T: ?Sized + Debug> Reactive<T> {
   /// It retrieves a mutable reference to the inner value of this object to allow direct manipulation of the reactive
   /// value.
   ///
-  /// **UNSAFE**: Users who have called this function and have modified tha inner value of this object must ensure they
+  /// # Safety
+  /// Users who have called this function and have modified tha inner value of this object must ensure they
   /// call `self.wake_children()` so that all watchers registered to this object will be notified with an updated value.
   ///
   /// It returns a mutable reference to the inner value of this object.
@@ -127,7 +128,8 @@ impl<T: ?Sized + Debug> Reactive<T> {
 
   /// It notifies all other reactive objects associated with their watchers about the new value given just now.
   ///
-  /// **UNSAFE**: Users should only call this function after they have changed the inner value of this object through a
+  /// # Safety
+  /// Users should only call this function after they have changed the inner value of this object through a
   /// mutable reference received through `self.get_value_mut()` function. Calling this function prematurely when the
   /// inner value has not changed might cause watcher functions that produce side effects to introduce unexpected
   /// behaviors or errors for the program in the future.

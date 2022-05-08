@@ -1,6 +1,6 @@
 extern crate iron;
 
-use iron::reactive;
+use iron::any::reactive;
 use iron::ReactivityManager;
 
 #[test]
