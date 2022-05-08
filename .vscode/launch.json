@@ -7,17 +7,17 @@
     {
       "type": "lldb",
       "request": "launch",
-      "name": "Debug unit tests in library 'iron'",
+      "name": "Debug integration test 'collections_test'",
       "cargo": {
         "args": [
           "test",
           "--no-run",
-          "--lib",
+          "--test=collections_test",
           "--package=iron"
         ],
         "filter": {
-          "name": "iron",
-          "kind": "lib"
+          "name": "collections_test",
+          "kind": "test"
         }
       },
       "args": [],

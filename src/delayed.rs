@@ -11,7 +11,7 @@ impl<'a, T: ?Sized> From<&'a T> for Arg<'a, T> {
   fn from(value: &'a T) -> Self {
     Self {
       timeout: 1.0,
-      value: value,
+      value,
     }
   }
 }
@@ -42,7 +42,7 @@ impl<'a, T: ?Sized> Delayed<'a, T> {
       t: 0.0,
       timeout: timeout.into(),
       pending_value: value,
-      value: value,
+      value,
     }
   }
 
@@ -51,12 +51,12 @@ impl<'a, T: ?Sized> Delayed<'a, T> {
   }
 
   pub fn set_value(&mut self, value: &'a T) {
-    self.pending_value = &value;
+    self.pending_value = value;
   }
 
   pub fn set_now(&mut self, value: &'a T) {
-    self.pending_value = &value;
-    self.value = &value;
+    self.pending_value = value;
+    self.value = value;
   }
 
   /// It advances the time being tracked by the given `dt` for simulating delayed assignment of new value.

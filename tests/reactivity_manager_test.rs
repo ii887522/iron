@@ -7,27 +7,26 @@ use iron::ReactivityManager;
 pub fn test_watch() {
   let mut reactivity_manager = ReactivityManager::new();
   let value = reactive::Handle::from(0);
-  let squared_value = reactivity_manager.watch(value.clone(), move |&value| value * value);
+  let squared_value = reactivity_manager.watch(value.clone(), |&value| value * value);
   assert_eq!(squared_value.borrow().get_value(), &0);
   value.borrow_mut().set_value(1);
   assert_eq!(squared_value.borrow().get_value(), &1);
   value.borrow_mut().set_value(2);
   assert_eq!(squared_value.borrow().get_value(), &4);
-  let value_str = reactivity_manager.watch(value.clone(), move |&value| format!("{value}"));
+  let value_str = reactivity_manager.watch(value.clone(), |&value| format!("{value}"));
   assert_eq!(value_str.borrow().get_value(), &"2".to_owned());
   value.borrow_mut().set_value(3);
   assert_eq!(value_str.borrow().get_value(), &"3".to_owned());
   value.borrow_mut().set_value(4);
   assert_eq!(value_str.borrow().get_value(), &"4".to_owned());
   let string = reactive::Handle::from("a");
-  let repeated_str =
-    reactivity_manager.watch(string.clone(), move |&value| format!("{value}{value}"));
+  let repeated_str = reactivity_manager.watch(string.clone(), |&value| format!("{value}{value}"));
   assert_eq!(repeated_str.borrow().get_value(), &"aa".to_owned());
   string.borrow_mut().set_value("b");
   assert_eq!(repeated_str.borrow().get_value(), &"bb".to_owned());
   string.borrow_mut().set_value("1");
   assert_eq!(repeated_str.borrow().get_value(), &"11".to_owned());
-  let number = reactivity_manager.watch(string.clone(), move |&value| value.parse::<i32>());
+  let number = reactivity_manager.watch(string.clone(), |&value| value.parse::<i32>());
   assert_eq!(number.borrow().get_value(), &Ok(1));
   string.borrow_mut().set_value("2");
   assert_eq!(number.borrow().get_value(), &Ok(2));
@@ -40,7 +39,7 @@ fn test_watch2() {
   let mut reactivity_manager = ReactivityManager::new();
   let a = reactive::Handle::from(0);
   let b = reactive::Handle::from(0);
-  let sum = reactivity_manager.watch2(a.clone(), b.clone(), move |&a, &b| a + b);
+  let sum = reactivity_manager.watch2(a.clone(), b.clone(), |&a, &b| a + b);
   assert_eq!(sum.borrow().get_value(), &0);
   a.borrow_mut().set_value(1);
   assert_eq!(sum.borrow().get_value(), &1);
@@ -50,7 +49,7 @@ fn test_watch2() {
   assert_eq!(sum.borrow().get_value(), &5);
   b.borrow_mut().set_value(4);
   assert_eq!(sum.borrow().get_value(), &7);
-  let diff = reactivity_manager.watch2(a.clone(), b.clone(), move |&a, &b| a - b);
+  let diff = reactivity_manager.watch2(a.clone(), b.clone(), |&a, &b| a - b);
   assert_eq!(diff.borrow().get_value(), &-1);
   a.borrow_mut().set_value(5);
   assert_eq!(diff.borrow().get_value(), &1);
@@ -62,7 +61,7 @@ fn test_watch2() {
   assert_eq!(diff.borrow().get_value(), &4);
   let c = reactive::Handle::from("a");
   let d = reactive::Handle::from("b");
-  let cd = reactivity_manager.watch2(c.clone(), d.clone(), move |&c, &d| format!("{c}{d}"));
+  let cd = reactivity_manager.watch2(c.clone(), d.clone(), |&c, &d| format!("{c}{d}"));
   assert_eq!(cd.borrow().get_value(), &"ab".to_owned());
   c.borrow_mut().set_value("b");
   assert_eq!(cd.borrow().get_value(), &"bb".to_owned());
@@ -72,11 +71,7 @@ fn test_watch2() {
   assert_eq!(cd.borrow().get_value(), &"dc".to_owned());
   d.borrow_mut().set_value("e");
   assert_eq!(cd.borrow().get_value(), &"de".to_owned());
-  let min_str = reactivity_manager.watch2(
-    c.clone(),
-    d.clone(),
-    move |&c, &d| if c < d { c } else { d },
-  );
+  let min_str = reactivity_manager.watch2(c.clone(), d.clone(), |&c, &d| if c < d { c } else { d });
   assert_eq!(min_str.borrow().get_value(), &"d".to_owned());
   c.borrow_mut().set_value("f");
   assert_eq!(min_str.borrow().get_value(), &"e".to_owned());
@@ -94,7 +89,7 @@ fn test_watch3() {
   let a = reactive::Handle::from(0);
   let b = reactive::Handle::from(0);
   let c = reactive::Handle::from(0);
-  let sum = reactivity_manager.watch3(a.clone(), b.clone(), c.clone(), move |&a, &b, &c| a + b + c);
+  let sum = reactivity_manager.watch3(a.clone(), b.clone(), c.clone(), |&a, &b, &c| a + b + c);
   assert_eq!(sum.borrow().get_value(), &0);
   a.borrow_mut().set_value(1);
   assert_eq!(sum.borrow().get_value(), &1);
@@ -108,8 +103,7 @@ fn test_watch3() {
   assert_eq!(sum.borrow().get_value(), &12);
   c.borrow_mut().set_value(6);
   assert_eq!(sum.borrow().get_value(), &15);
-  let diff =
-    reactivity_manager.watch3(a.clone(), b.clone(), c.clone(), move |&a, &b, &c| a - b - c);
+  let diff = reactivity_manager.watch3(a.clone(), b.clone(), c.clone(), |&a, &b, &c| a - b - c);
   assert_eq!(diff.borrow().get_value(), &-7);
   a.borrow_mut().set_value(7);
   assert_eq!(diff.borrow().get_value(), &-4);
@@ -126,7 +120,7 @@ fn test_watch3() {
   let d = reactive::Handle::from("a");
   let e = reactive::Handle::from("b");
   let f = reactive::Handle::from("c");
-  let def = reactivity_manager.watch3(d.clone(), e.clone(), f.clone(), move |&d, &e, &f| {
+  let def = reactivity_manager.watch3(d.clone(), e.clone(), f.clone(), |&d, &e, &f| {
     format!("{d}{e}{f}")
   });
   assert_eq!(def.borrow().get_value(), &"abc".to_owned());
@@ -142,7 +136,7 @@ fn test_watch3() {
   assert_eq!(def.borrow().get_value(), &"ghf".to_owned());
   f.borrow_mut().set_value("i");
   assert_eq!(def.borrow().get_value(), &"ghi".to_owned());
-  let min_str = reactivity_manager.watch3(d.clone(), e.clone(), f.clone(), move |&d, &e, &f| {
+  let min_str = reactivity_manager.watch3(d.clone(), e.clone(), f.clone(), |&d, &e, &f| {
     if d < e {
       if d < f {
         d
