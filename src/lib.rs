@@ -8,6 +8,7 @@ pub mod late;
 pub mod reactive;
 pub mod reactivity_manager;
 pub mod readonly;
+pub mod str;
 
 pub use delayed::Delayed;
 pub use dynamic::Dynamic;
