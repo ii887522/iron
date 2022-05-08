@@ -30,7 +30,7 @@ impl ReactivityManager {
   /// `on_change`: It is a watcher that listens for new value and processes it.
   ///
   /// It returns a transformed reactive object.
-  pub fn watch<A: ?Sized + Debug, R: Debug + 'static>(
+  pub fn watch<A: ?Sized + Debug + 'static, R: Debug + 'static>(
     &mut self,
     reactive: reactive::Handle<A>,
     on_change: impl FnMut(&A) -> R + 'static,
@@ -176,13 +176,9 @@ impl ReactivityManager {
 impl Drop for ReactivityManager {
   fn drop(&mut self) {
     for reactive_id in self.watcher_reactives.keys() {
+      let mut reactive = self.reactives.get(reactive_id).unwrap().borrow_mut();
       for watcher_reactive in self.watcher_reactives.get(reactive_id).unwrap() {
-        self
-          .reactives
-          .get(reactive_id)
-          .unwrap()
-          .borrow_mut()
-          .unwatch::<dyn Debug>(Rc::clone(watcher_reactive).into());
+        reactive.unwatch::<dyn Debug>(Rc::clone(watcher_reactive).into());
       }
     }
   }
