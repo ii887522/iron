@@ -9,6 +9,7 @@ use std::hash::Hash;
 /// `slice` through the `get_value` function given.
 ///
 /// `slice`: The slice to be searched from.
+///
 /// `get_value`: The function that retrieves a value from the object in the `slice`.
 ///
 /// It returns the minimum objects.
@@ -38,6 +39,7 @@ pub fn min<T, R: Ord>(array: &[T], mut get_value: impl FnMut(&T, usize) -> R) ->
 /// `slice` through the `get_value` function given.
 ///
 /// `slice`: The array to be searched from.
+///
 /// `get_value: The function that retrieves a value from the object in the `slice`.
 ///
 /// It returns the maximum objects.
@@ -112,6 +114,7 @@ pub fn into_map<'a, K: Hash + Eq, V: crate::Hash<Part = &'a K>>(
 /// It concatenates two maps received that may have duplicate objects into a map which contains duplicates.
 ///
 /// `am`: The first map to include.
+///
 /// `bm`: The second map to include.
 ///
 /// It returns a map which contains duplicates.
@@ -151,6 +154,7 @@ pub fn add<'a, K: Hash + Eq, V: crate::Hash<Part = &'a K>>(
 /// It removes objects from the first map where they exist in the second map and returns it.
 ///
 /// `am`: The map to remove objects from.
+///
 /// `bm`: The map which contains the objects to be searched from the first map for removal.
 ///
 /// It returns the first map without objects that exist in the second map.

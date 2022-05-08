@@ -26,6 +26,7 @@ impl ReactivityManager {
   /// different type.
   ///
   /// `reactive`: The reactive object which its value changes are listened for.
+  ///
   /// `on_change`: It is a watcher that listens for new value and processes it.
   ///
   /// It returns a transformed reactive object.
@@ -52,7 +53,9 @@ impl ReactivityManager {
   /// different type.
   ///
   /// `reactive_a`: The first reactive object which its value changes are listened for.
+  ///
   /// `reactive_b`: The second reactive object which its value changes are listened for.
+  ///
   /// `on_change`: It is a watcher that listens for new value and processes it.
   ///
   /// It returns a transformed reactive object.
@@ -98,8 +101,11 @@ impl ReactivityManager {
   /// different type.
   ///
   /// `reactive_a`: The first reactive object which its value changes are listened for.
+  ///
   /// `reactive_b`: The second reactive object which its value changes are listened for.
+  ///
   /// `reactive_c`: The third reactive object which its value changes are listened for.
+  ///
   /// `on_change`: It is a watcher that listens for new value and processes it.
   ///
   /// It returns a transformed reactive object.
