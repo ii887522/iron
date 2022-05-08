@@ -5,7 +5,7 @@ use iron::Dynamic;
 #[test]
 fn step_dynamic_value_when_value_keeps_increasing() {
   let mut value = 0;
-  let mut dynamic_value = Dynamic::new(move || {
+  let mut dynamic_value = Dynamic::new(|| {
     value += 1;
     value
   });
@@ -24,7 +24,7 @@ fn step_dynamic_value_when_value_keeps_increasing() {
 #[test]
 fn step_dynamic_value_when_value_keeps_decreasing() {
   let mut value = 0;
-  let mut dynamic_value = Dynamic::new(move || {
+  let mut dynamic_value = Dynamic::new(|| {
     value -= 1;
     value
   });
@@ -44,7 +44,7 @@ fn step_dynamic_value_when_value_keeps_decreasing() {
 fn step_dynamic_value_when_value_keeps_decreasing_and_interval_is_10() {
   let mut value = 0;
   let mut dynamic_value = Dynamic::new((
-    move || {
+    || {
       value -= 1;
       value
     },
