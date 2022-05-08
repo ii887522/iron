@@ -1,6 +1,7 @@
 pub mod collections;
 pub mod delayed;
 pub mod dynamic;
+pub mod fs;
 pub mod hash;
 pub mod id_manager;
 pub mod late;
