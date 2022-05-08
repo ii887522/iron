@@ -106,16 +106,32 @@ impl<T: ?Sized + Debug> Reactive<T> {
     &self.value
   }
 
+  /// It retrieves a mutable reference to the inner value of this object to allow direct manipulation of the reactive
+  /// value.
+  ///
+  /// **UNSAFE**: Users who have called this function and have modified tha inner value of this object must ensure they
+  /// call `self.wake_children()` so that all watchers registered to this object will be notified with an updated value.
+  ///
+  /// It returns a mutable reference to the inner value of this object.
+  pub unsafe fn get_value_mut(&mut self) -> &mut T {
+    &mut self.value
+  }
+
   fn set_boxed_value(&mut self, value: Box<T>) {
     if format!("{:?}", &*self.value) == format!("{:?}", &*value) {
       return;
     }
     self.value = value;
-    self.wake_children();
+    unsafe { self.wake_children() };
   }
 
   /// It notifies all other reactive objects associated with their watchers about the new value given just now.
-  fn wake_children(&mut self) {
+  ///
+  /// **UNSAFE**: Users should only call this function after they have changed the inner value of this object through a
+  /// mutable reference received through `self.get_value_mut()` function. Calling this function prematurely when the
+  /// inner value has not changed might cause watcher functions that produce side effects to introduce unexpected
+  /// behaviors or errors for the program in the future.
+  pub unsafe fn wake_children(&mut self) {
     for child in &mut self.children.iter_mut().flatten() {
       child
         .reactive
@@ -155,7 +171,7 @@ impl<T: ?Sized + Debug> Reactive<T> {
   /// changes of the value held by this reactive object.
   ///
   /// `reactive`: The transformed reactive that is associated with the watcher to be unwatched.
-  pub fn unwatch<U: ?Sized + Debug + 'static>(&mut self, reactive: Handle<U>) {
+  pub fn unwatch<U: ?Sized + Debug>(&mut self, reactive: Handle<U>) {
     let watcher_id = reactive.borrow().watcher_id.unwrap();
     self.children[watcher_id] = None;
     self.watcher_id_manager.free(watcher_id).unwrap();
@@ -163,6 +179,10 @@ impl<T: ?Sized + Debug> Reactive<T> {
 }
 
 impl<T: Debug> Reactive<T> {
+  pub fn into_value(self) -> T {
+    *self.value
+  }
+
   pub fn set_value(&mut self, value: T) {
     self.set_boxed_value(Box::new(value));
   }
@@ -177,6 +197,16 @@ impl<T: ?Sized + Debug> From<Handle<T>> for Shared<Reactive<dyn Debug>> {
 impl<T: ?Sized + Debug> From<Handle<T>> for Reactive<dyn Debug> {
   fn from(value: Handle<T>) -> Self {
     Rc::try_unwrap(value.0)
+      .expect(
+        "value should be the only reactive handle instance to a particular reactive object exists at the current moment!"
+      )
+      .into_inner()
+  }
+}
+
+impl<T: Debug> From<Handle<T>> for Reactive<T> {
+  fn from(value: Handle<T>) -> Self {
+    Rc::try_unwrap(unsafe { transmute::<_, Shared<_>>(value.0) })
       .expect(
         "value should be the only reactive handle instance to a particular reactive object exists at the current moment!"
       )

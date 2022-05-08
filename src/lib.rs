@@ -6,6 +6,7 @@ pub mod hash;
 pub mod id_manager;
 pub mod late;
 pub mod reactive;
+pub mod reactive_slice;
 pub mod reactivity_manager;
 pub mod readonly;
 pub mod str;
@@ -16,6 +17,7 @@ pub use hash::Hash;
 pub use id_manager::IDManager;
 pub use late::Late;
 pub use reactive::Reactive;
+pub use reactive_slice::ReactiveSlice;
 pub use reactivity_manager::ReactivityManager;
 pub use readonly::Readonly;
 
