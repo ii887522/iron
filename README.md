@@ -26,7 +26,7 @@ It is a general-purpose library for rust that can help developers create various
   - CodeLLDB
   - EditorConfig for VS Code
   - Markdown All in One
-  - Rust
+  - rust-analyzer
   - YAML
 - [Rust 1.60.0](https://www.rust-lang.org/) and later
 - [rustfmt 1.4.38](https://github.com/rust-lang/rustfmt) and later

@@ -1,5 +1,3 @@
-extern crate iron;
-
 use iron::fs::has_file_with_ext;
 
 #[test]

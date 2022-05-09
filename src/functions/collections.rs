@@ -158,7 +158,7 @@ pub fn add<'a, K: Hash + Eq, V: crate::Hash<Part = &'a K>>(
 /// `bm`: The map which contains the objects to be searched from the first map for removal.
 ///
 /// It returns the first map without objects that exist in the second map.
-pub fn subtract<'a, K: Hash + Eq, V: crate::Hash<Part = &'a K>>(
+pub fn sub<'a, K: Hash + Eq, V: crate::Hash<Part = &'a K>>(
   am: HashMap<&'a K, &'a [&V]>,
   bm: HashMap<&'a K, &'a [&V]>,
 ) -> HashMap<&'a K, Cow<'a, [&'a V]>> {

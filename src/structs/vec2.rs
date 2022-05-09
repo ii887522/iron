@@ -1,0 +1,217 @@
+use crate::ApproxEq;
+use std::fmt;
+use std::fmt::Display;
+use std::fmt::Formatter;
+use std::ops::Add;
+use std::ops::AddAssign;
+use std::ops::Div;
+use std::ops::DivAssign;
+use std::ops::Mul;
+use std::ops::MulAssign;
+use std::ops::Sub;
+use std::ops::SubAssign;
+
+#[derive(Copy, Clone, Debug)]
+pub struct Arg {
+  x: f64,
+  y: f64,
+}
+
+impl From<()> for Arg {
+  fn from(_: ()) -> Self {
+    Self { x: 0.0, y: 0.0 }
+  }
+}
+
+impl From<f64> for Arg {
+  fn from(value: f64) -> Self {
+    Self { x: value, y: value }
+  }
+}
+
+impl From<(f64, f64)> for Arg {
+  fn from((x, y): (f64, f64)) -> Self {
+    Self { x, y }
+  }
+}
+
+#[derive(Copy, Clone, Debug, PartialEq)]
+pub struct Vec2 {
+  x: f64,
+  y: f64,
+  len: f64,
+  is_len_valid: bool,
+}
+
+impl Vec2 {
+  pub fn new(arg: impl Into<Arg>) -> Self {
+    let Arg { x, y } = arg.into();
+    Self {
+      x,
+      y,
+      len: 0.0,
+      is_len_valid: false,
+    }
+  }
+
+  pub const fn get_x(&self) -> f64 {
+    self.x
+  }
+
+  pub fn set_x(&mut self, value: f64) {
+    if self.x == value {
+      return;
+    }
+    self.x = value;
+    self.is_len_valid = false;
+  }
+
+  pub fn with_x(&self, value: f64) -> Self {
+    Self::new((value, self.y))
+  }
+
+  pub const fn get_y(&self) -> f64 {
+    self.y
+  }
+
+  pub fn set_y(&mut self, value: f64) {
+    if self.y == value {
+      return;
+    }
+    self.y = value;
+    self.is_len_valid = false;
+  }
+
+  pub fn with_y(&self, value: f64) -> Self {
+    Self::new((self.x, value))
+  }
+
+  pub fn set(&mut self, other: Self) {
+    if *self == other {
+      return;
+    }
+    self.x = other.x;
+    self.y = other.y;
+    self.is_len_valid = false
+  }
+
+  pub fn get_squared_len(&self) -> f64 {
+    f64::mul_add(self.x, self.x, self.y * self.y)
+  }
+
+  pub fn get_len(&mut self) -> f64 {
+    if self.is_len_valid {
+      return self.len;
+    }
+    let result = self.x.hypot(self.y);
+    self.len = result;
+    self.is_len_valid = true;
+    result
+  }
+
+  pub fn get_normalized(&mut self) -> Self {
+    *self / self.get_len()
+  }
+
+  pub fn get_x_fliped(&self) -> Self {
+    Self::new((-self.x, self.y))
+  }
+
+  pub fn get_y_fliped(&self) -> Self {
+    Self::new((self.x, -self.y))
+  }
+
+  pub fn get_fliped(&self) -> Self {
+    Self::new((-self.x, -self.y))
+  }
+}
+
+impl Add for Vec2 {
+  type Output = Self;
+
+  fn add(self, other: Self) -> Self::Output {
+    Self::new((self.x + other.x, self.y + other.y))
+  }
+}
+
+impl AddAssign for Vec2 {
+  fn add_assign(&mut self, other: Self) {
+    if other == Self::new(()) {
+      return;
+    }
+    self.x += other.x;
+    self.y += other.y;
+    self.is_len_valid = false;
+  }
+}
+
+impl Sub for Vec2 {
+  type Output = Self;
+
+  fn sub(self, other: Self) -> Self::Output {
+    Self::new((self.x - other.x, self.y - other.y))
+  }
+}
+
+impl SubAssign for Vec2 {
+  fn sub_assign(&mut self, other: Self) {
+    if other == Self::new(()) {
+      return;
+    }
+    self.x -= other.x;
+    self.y -= other.y;
+    self.is_len_valid = false;
+  }
+}
+
+impl Mul<f64> for Vec2 {
+  type Output = Self;
+
+  fn mul(self, value: f64) -> Self::Output {
+    Self::new((self.x * value, self.y * value))
+  }
+}
+
+impl MulAssign<f64> for Vec2 {
+  fn mul_assign(&mut self, value: f64) {
+    if value == 1.0 {
+      return;
+    }
+    self.x *= value;
+    self.y *= value;
+    self.is_len_valid = false;
+  }
+}
+
+impl Div<f64> for Vec2 {
+  type Output = Self;
+
+  fn div(self, value: f64) -> Self::Output {
+    Self::new((self.x / value, self.y / value))
+  }
+}
+
+impl DivAssign<f64> for Vec2 {
+  fn div_assign(&mut self, value: f64) {
+    if value == 1.0 {
+      return;
+    }
+    self.x /= value;
+    self.y /= value;
+    self.is_len_valid = false;
+  }
+}
+
+impl Display for Vec2 {
+  fn fmt(&self, formatter: &mut Formatter<'_>) -> Result<(), fmt::Error> {
+    write!(formatter, "{},{}", self.x, self.y)
+  }
+}
+
+impl ApproxEq for Vec2 {
+  type Rhs = Self;
+
+  fn approx_eq(&self, other: Self::Rhs) -> bool {
+    self.x.approx_eq(other.x) && self.y.approx_eq(other.y)
+  }
+}
