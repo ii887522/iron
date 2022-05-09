@@ -43,7 +43,7 @@ impl Seq {
   ///
   /// It returns a value belongs to this sequence.
   pub fn unnormalize(&self, value: f64) -> f64 {
-    value * (self.1 - self.0) + self.0
+    f64::mul_add(value, self.1 - self.0, self.0)
   }
 }
 

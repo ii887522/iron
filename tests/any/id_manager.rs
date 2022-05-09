@@ -1,5 +1,3 @@
-extern crate iron;
-
 use iron::IDManager;
 
 #[test]

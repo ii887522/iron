@@ -1,5 +1,3 @@
-extern crate iron;
-
 use iron::Bound;
 use iron::Seq;
 
@@ -63,20 +61,6 @@ fn test_intersect() {
     Bound::new((2.0, 2.0)).intersect(Bound::new((2.0, 2.0))),
     Some(Bound::new((2.0, 2.0)))
   );
-}
-
-#[test]
-fn test_clamp() {
-  assert_eq!(Bound::new((0.0, 0.0)).clamp(0.0), 0.0);
-  assert_eq!(Bound::new((0.0, 1.0)).clamp(0.0), 0.0);
-  assert_eq!(Bound::new((0.0, 2.0)).clamp(0.0), 0.0);
-  assert_eq!(Bound::new((1.0, 2.0)).clamp(0.0), 1.0);
-  assert_eq!(Bound::new((2.0, 2.0)).clamp(0.0), 2.0);
-  assert_eq!(Bound::new((2.0, 4.0)).clamp(1.0), 2.0);
-  assert_eq!(Bound::new((2.0, 4.0)).clamp(2.0), 2.0);
-  assert_eq!(Bound::new((2.0, 4.0)).clamp(3.0), 3.0);
-  assert_eq!(Bound::new((2.0, 4.0)).clamp(4.0), 4.0);
-  assert_eq!(Bound::new((2.0, 4.0)).clamp(5.0), 4.0);
 }
 
 #[test]

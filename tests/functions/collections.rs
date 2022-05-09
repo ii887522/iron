@@ -1,11 +1,9 @@
-extern crate iron;
-
 use iron::collections::add;
 use iron::collections::into_map;
 use iron::collections::into_slice;
 use iron::collections::max;
 use iron::collections::min;
-use iron::collections::subtract;
+use iron::collections::sub;
 use iron::Hash;
 use std::borrow::Cow;
 use std::collections::HashMap;
@@ -483,48 +481,48 @@ fn test_add() {
 }
 
 #[test]
-fn test_subtract() {
+fn test_sub() {
   assert_eq!(
-    subtract::<usize, Value>(HashMap::new(), HashMap::new()),
+    sub::<usize, Value>(HashMap::new(), HashMap::new()),
     HashMap::<&usize, Cow<[&Value]>>::new()
   );
   assert_eq!(
-    subtract(
+    sub(
       HashMap::from([(&0, &[&Value(0, &[&0])] as &[&Value])]),
       HashMap::new()
     ),
     HashMap::from([(&0, Cow::Borrowed(&[&Value(0, &[&0])] as &[&Value]))])
   );
   assert_eq!(
-    subtract(
+    sub(
       HashMap::from([(&0, &[&Value(1, &[&0])] as &[&Value])]),
       HashMap::new()
     ),
     HashMap::from([(&0, Cow::Borrowed(&[&Value(1, &[&0])] as &[&Value]))])
   );
   assert_eq!(
-    subtract(
+    sub(
       HashMap::from([(&0, &[&Value(2, &[&0])] as &[&Value])]),
       HashMap::new()
     ),
     HashMap::from([(&0, Cow::Borrowed(&[&Value(2, &[&0])] as &[&Value]))])
   );
   assert_eq!(
-    subtract(
+    sub(
       HashMap::from([(&1, &[&Value(2, &[&1])] as &[&Value])]),
       HashMap::new()
     ),
     HashMap::from([(&1, Cow::Borrowed(&[&Value(2, &[&1])] as &[&Value]))])
   );
   assert_eq!(
-    subtract(
+    sub(
       HashMap::from([(&2, &[&Value(2, &[&2])] as &[&Value])]),
       HashMap::new()
     ),
     HashMap::from([(&2, Cow::Borrowed(&[&Value(2, &[&2])] as &[&Value]))])
   );
   assert_eq!(
-    subtract(
+    sub(
       HashMap::from([
         (&0, &[&Value(2, &[&2, &0])] as &[&Value]),
         (&2, &[&Value(2, &[&2, &0])])
@@ -537,7 +535,7 @@ fn test_subtract() {
     ])
   );
   assert_eq!(
-    subtract(
+    sub(
       HashMap::from([
         (&1, &[&Value(2, &[&2, &1])] as &[&Value]),
         (&2, &[&Value(2, &[&2, &1])])
@@ -550,7 +548,7 @@ fn test_subtract() {
     ])
   );
   assert_eq!(
-    subtract(
+    sub(
       HashMap::from([
         (&1, &[&Value(2, &[&3, &1])] as &[&Value]),
         (&3, &[&Value(2, &[&3, &1])])
@@ -563,7 +561,7 @@ fn test_subtract() {
     ])
   );
   assert_eq!(
-    subtract(
+    sub(
       HashMap::from([
         (&0, &[&Value(2, &[&3, &1, &0])] as &[&Value]),
         (&1, &[&Value(2, &[&3, &1, &0])]),
@@ -578,7 +576,7 @@ fn test_subtract() {
     ])
   );
   assert_eq!(
-    subtract(
+    sub(
       HashMap::from([
         (&0, &[&Value(2, &[&3, &1, &0])] as &[&Value]),
         (&1, &[&Value(2, &[&3, &1, &0])]),
@@ -593,7 +591,7 @@ fn test_subtract() {
     ])
   );
   assert_eq!(
-    subtract(
+    sub(
       HashMap::from([
         (&0, &[&Value(2, &[&3, &1, &0])] as &[&Value]),
         (&1, &[&Value(2, &[&3, &1, &0])]),
@@ -608,7 +606,7 @@ fn test_subtract() {
     ])
   );
   assert_eq!(
-    subtract(
+    sub(
       HashMap::from([
         (&0, &[&Value(2, &[&3, &1, &0])] as &[&Value]),
         (&1, &[&Value(2, &[&3, &1, &0])]),
@@ -623,7 +621,7 @@ fn test_subtract() {
     ])
   );
   assert_eq!(
-    subtract(
+    sub(
       HashMap::from([
         (&0, &[&Value(2, &[&3, &1, &0])] as &[&Value]),
         (&1, &[&Value(2, &[&3, &1, &0])]),
@@ -638,7 +636,7 @@ fn test_subtract() {
     ])
   );
   assert_eq!(
-    subtract(
+    sub(
       HashMap::from([
         (&0, &[&Value(2, &[&3, &1, &0])] as &[&Value]),
         (&1, &[&Value(2, &[&3, &1, &0])]),
@@ -656,7 +654,7 @@ fn test_subtract() {
     ])
   );
   assert_eq!(
-    subtract(
+    sub(
       HashMap::from([
         (&0, &[&Value(2, &[&3, &1, &0])] as &[&Value]),
         (&1, &[&Value(2, &[&3, &1, &0])]),
@@ -674,7 +672,7 @@ fn test_subtract() {
     ])
   );
   assert_eq!(
-    subtract(
+    sub(
       HashMap::from([
         (&0, &[&Value(2, &[&3, &1, &0])] as &[&Value]),
         (&1, &[&Value(2, &[&3, &1, &0])]),

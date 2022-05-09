@@ -1,3 +1,4 @@
+pub mod approx_eq;
 pub mod delayed;
 pub mod dynamic;
 pub mod hash;
@@ -7,6 +8,7 @@ pub mod reactive;
 pub mod reactivity_manager;
 pub mod readonly;
 
+pub use approx_eq::ApproxEq;
 pub use delayed::Delayed;
 pub use dynamic::Dynamic;
 pub use hash::Hash;

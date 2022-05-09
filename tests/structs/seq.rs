@@ -1,5 +1,3 @@
-extern crate iron;
-
 use iron::Bound;
 use iron::Seq;
 
