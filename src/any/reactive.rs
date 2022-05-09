@@ -31,7 +31,7 @@ impl<T: ?Sized, R: ?Sized + Debug> Debug for Child<T, R> {
 }
 
 #[derive(Debug)]
-pub struct Handle<T: ?Sized + Debug>(Shared<Reactive<dyn Debug>>, PhantomData<T>);
+pub struct Handle<T: ?Sized>(Shared<Reactive<dyn Debug>>, PhantomData<T>);
 
 impl<T: ?Sized + Debug> Handle<T> {
   fn new(value: Shared<Reactive<dyn Debug>>) -> Self {
@@ -47,7 +47,7 @@ impl<T: ?Sized + Debug> Handle<T> {
   }
 }
 
-impl<T: ?Sized + Debug> Clone for Handle<T> {
+impl<T: ?Sized> Clone for Handle<T> {
   fn clone(&self) -> Self {
     Self(Rc::clone(&self.0), PhantomData)
   }
@@ -62,13 +62,13 @@ impl<T: Debug + 'static> Handle<T> {
   }
 }
 
-impl<T: ?Sized + Debug> From<Shared<Reactive<dyn Debug>>> for Handle<T> {
+impl<T: ?Sized> From<Shared<Reactive<dyn Debug>>> for Handle<T> {
   fn from(value: Shared<Reactive<dyn Debug>>) -> Self {
     Self(value, PhantomData)
   }
 }
 
-impl<T: ?Sized + Debug> From<Reactive<dyn Debug>> for Handle<T> {
+impl<T: ?Sized> From<Reactive<dyn Debug>> for Handle<T> {
   fn from(value: Reactive<dyn Debug>) -> Self {
     Self(Rc::new(RefCell::new(value)), PhantomData)
   }
@@ -78,7 +78,7 @@ impl<T: ?Sized + Debug> From<Reactive<dyn Debug>> for Handle<T> {
 /// about the new value given. It is used to establish communications between multiple modules to achieve loose coupling
 /// between the modules involved.
 #[derive(Debug)]
-pub struct Reactive<T: ?Sized + Debug> {
+pub struct Reactive<T: ?Sized> {
   watcher_id_manager: IDManager,
   id: Readonly<usize>,
   watcher_id: Option<usize>,
@@ -190,13 +190,13 @@ impl<T: Debug> Reactive<T> {
   }
 }
 
-impl<T: ?Sized + Debug> From<Handle<T>> for Shared<Reactive<dyn Debug>> {
+impl<T: ?Sized> From<Handle<T>> for Shared<Reactive<dyn Debug>> {
   fn from(value: Handle<T>) -> Self {
     value.0
   }
 }
 
-impl<T: ?Sized + Debug> From<Handle<T>> for Reactive<dyn Debug> {
+impl<T: ?Sized> From<Handle<T>> for Reactive<dyn Debug> {
   fn from(value: Handle<T>) -> Self {
     Rc::try_unwrap(value.0)
       .expect(

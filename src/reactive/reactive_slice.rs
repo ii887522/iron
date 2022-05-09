@@ -25,7 +25,7 @@ impl<T> From<Vec<T>> for Arg<T> {
 /// about the new values in the array given. It is used to establish communications between multiple modules to achieve
 /// loose coupling between the modules involved.
 #[derive(Debug)]
-pub struct ReactiveSlice<T: Debug> {
+pub struct ReactiveSlice<T> {
   proto: reactive::Handle<Vec<T>>,
 }
 
@@ -116,7 +116,7 @@ impl<T: Debug> IntoIterator for Reactive<Vec<T>> {
 }
 
 #[derive(Copy, Clone, Debug)]
-pub struct Iter<'a, T: Debug> {
+pub struct Iter<'a, T> {
   index: usize,
   reactive: &'a Reactive<Vec<T>>,
 }
