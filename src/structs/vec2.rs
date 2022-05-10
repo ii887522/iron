@@ -19,12 +19,15 @@ impl From<()> for Arg {
 
 impl From<f64> for Arg {
   fn from(value: f64) -> Self {
+    debug_assert!(!value.is_nan(), "value must be a number!");
     Self { x: value, y: value }
   }
 }
 
 impl From<(f64, f64)> for Arg {
   fn from((x, y): (f64, f64)) -> Self {
+    debug_assert!(!x.is_nan(), "x must be a number!");
+    debug_assert!(!y.is_nan(), "y must be a number!");
     Self { x, y }
   }
 }
@@ -53,6 +56,7 @@ impl Vec2 {
   }
 
   pub fn set_x(&mut self, value: f64) {
+    debug_assert!(!value.is_nan(), "value must be a number!");
     if self.x == value {
       return;
     }
@@ -61,6 +65,7 @@ impl Vec2 {
   }
 
   pub fn with_x(&self, value: f64) -> Self {
+    debug_assert!(!value.is_nan(), "value must be a number!");
     Self::new((value, self.y))
   }
 
@@ -69,6 +74,7 @@ impl Vec2 {
   }
 
   pub fn set_y(&mut self, value: f64) {
+    debug_assert!(!value.is_nan(), "value must be a number!");
     if self.y == value {
       return;
     }
@@ -77,6 +83,7 @@ impl Vec2 {
   }
 
   pub fn with_y(&self, value: f64) -> Self {
+    debug_assert!(!value.is_nan(), "value must be a number!");
     Self::new((self.x, value))
   }
 
@@ -162,6 +169,7 @@ impl Mul<f64> for Vec2 {
   type Output = Self;
 
   fn mul(self, value: f64) -> Self::Output {
+    debug_assert!(!value.is_nan(), "value must be a number!");
     Self::new((self.x * value, self.y * value))
   }
 }
@@ -181,12 +189,22 @@ impl Div<f64> for Vec2 {
   type Output = Self;
 
   fn div(self, value: f64) -> Self::Output {
+    debug_assert!(!value.is_nan(), "value must be a number!");
+    debug_assert_ne!(
+      value, 0.0,
+      "value must not be equal to 0.0 to avoid causing division by zero error!"
+    );
     Self::new((self.x / value, self.y / value))
   }
 }
 
 impl DivAssign<f64> for Vec2 {
   fn div_assign(&mut self, value: f64) {
+    debug_assert!(!value.is_nan(), "value must be a number!");
+    debug_assert_ne!(
+      value, 0.0,
+      "value must not be equal to 0.0 to avoid causing division by zero error!"
+    );
     if value == 1.0 {
       return;
     }

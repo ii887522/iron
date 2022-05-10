@@ -2,6 +2,22 @@ use iron::{collections::*, Hash};
 use std::{borrow::Cow, collections::HashMap};
 
 #[test]
+fn test_is_unique() {
+  assert!(([] as [i32; 0]).is_unique());
+  assert!(([0]).is_unique());
+  assert!(([1]).is_unique());
+  assert!(([2]).is_unique());
+  assert!(([2, 0]).is_unique());
+  assert!(([2, 1]).is_unique());
+  assert!(([3, 1]).is_unique());
+  assert!(([3, 1, 0]).is_unique());
+  assert!(!([3, 1, 1]).is_unique());
+  assert!(!([1, 1, 0]).is_unique());
+  assert!(!([0, 1, 0]).is_unique());
+  assert!(!([0, 0, 0]).is_unique());
+}
+
+#[test]
 fn test_min() {
   assert_eq!(&*min(&[], |_: &i32, _| 0), &[] as &[&i32]);
   assert_eq!(&*min(&[0], |_, _| 0), &[&0]);
@@ -29,7 +45,7 @@ fn test_max() {
   assert_eq!(&*max(&[3, 1, 0], |&value, _| -value), &[&0]);
 }
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Copy, Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
 struct Value<'a>(i32, &'a [&'a usize]);
 
 impl<'a> Hash for Value<'a> {

@@ -52,6 +52,8 @@ impl<T: Debug> Reactive<Vec<T>> {
   ///
   /// `item`: The new item located at the `index`.
   pub fn set(&mut self, index: usize, item: T) {
+    // SAFETY: Changing the inner value before waking up all the child watchers does not violate the invariants of the
+    // called functions, therefore it is considered safe to execute the below code.
     unsafe {
       self.get_value_mut()[index] = item;
       self.wake_children();
@@ -64,10 +66,10 @@ impl<T: Debug> Reactive<Vec<T>> {
   ///
   /// It returns the item located at `index` or `None` if `index` is out of bounds.
   pub fn get(&self, index: usize) -> Option<&T> {
-    if index >= self.get_value().len() {
-      None
-    } else {
+    if index < self.get_value().len() {
       Some(&self.get_value()[index])
+    } else {
+      None
     }
   }
 
@@ -75,6 +77,8 @@ impl<T: Debug> Reactive<Vec<T>> {
   ///
   /// `item`: The new item to be inserted at the end of this array.
   pub fn push(&mut self, item: T) {
+    // SAFETY: Changing the inner value before waking up all the child watchers does not violate the invariants of the
+    // called functions, therefore it is considered safe to execute the below code.
     unsafe {
       self.get_value_mut().push(item);
       self.wake_children()
@@ -85,6 +89,8 @@ impl<T: Debug> Reactive<Vec<T>> {
   ///
   /// It returns the old item that is just removed from this array.
   pub fn pop(&mut self) -> Option<T> {
+    // SAFETY: Changing the inner value before waking up all the child watchers does not violate the invariants of the
+    // called functions, therefore it is considered safe to execute the below code.
     unsafe {
       let result = self.get_value_mut().pop();
       self.wake_children();
@@ -125,12 +131,12 @@ impl<'a, T: Debug> Iterator for Iter<'a, T> {
   type Item = &'a T;
 
   fn next(&mut self) -> Option<Self::Item> {
-    if self.index == self.reactive.get_value().len() {
-      None
-    } else {
+    if self.index != self.reactive.get_value().len() {
       let value = &self.reactive.get_value()[self.index];
       self.index += 1;
       Some(value)
+    } else {
+      None
     }
   }
 }

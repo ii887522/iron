@@ -43,11 +43,11 @@ impl<T> Late<T> {
   }
 
   pub fn set_value(&mut self, value: T) -> Result<(), AlreadyInitError> {
-    if self.0.is_some() {
-      Err(AlreadyInitError)
-    } else {
+    if self.0.is_none() {
       self.0 = Some(value);
       Ok(())
+    } else {
+      Err(AlreadyInitError)
     }
   }
 }

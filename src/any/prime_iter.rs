@@ -34,7 +34,7 @@ impl Iterator for PrimeIter {
       self.0 = 2;
       return Some(self.0);
     }
-    let mut result = (self.0 + if (self.0 as i32).is_even() { 1 } else { 2 }) as i32;
+    let mut result = (self.0 + if (self.0 as i32).is_odd() { 2 } else { 1 }) as i32;
     while !result.is_prime() {
       result += 2;
     }

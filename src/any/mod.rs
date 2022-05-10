@@ -1,3 +1,5 @@
+//! It contains some child modules that do not belongs to any other parent modules.
+
 pub mod delayed;
 pub mod dynamic;
 pub mod hash;
