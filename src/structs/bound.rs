@@ -11,9 +11,6 @@ impl From<()> for Arg {
 }
 
 impl From<(f64, f64)> for Arg {
-  /// `a`: The first value
-  ///
-  /// `b`: The second value
   fn from((a, b): (f64, f64)) -> Self {
     Self(a, b)
   }

@@ -1,10 +1,5 @@
-use crate::any::reactive;
-use crate::Reactive;
-use crate::Shared;
-use std::cell::RefCell;
-use std::collections::HashMap;
-use std::fmt::Debug;
-use std::rc::Rc;
+use crate::{any::reactive, Reactive, Shared};
+use std::{cell::RefCell, collections::HashMap, fmt::Debug, rc::Rc};
 
 /// It is a manager that allows users to register watchers more conveniently and unwatch all registered watchers at
 /// once.

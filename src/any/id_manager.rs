@@ -1,8 +1,9 @@
 use crate::Readonly;
-use std::error::Error;
-use std::fmt;
-use std::fmt::Display;
-use std::fmt::Formatter;
+
+use std::{
+  error::Error,
+  fmt::{self, Display, Formatter},
+};
 
 #[derive(Copy, Clone, Debug)]
 pub struct OutOfRangeError(Readonly<usize>);
@@ -51,7 +52,6 @@ impl IDManager {
 impl Iterator for IDManager {
   type Item = usize;
 
-  /// It returns the next available id number.
   fn next(&mut self) -> Option<Self::Item> {
     if let Some(id) = self.id_stack.pop() {
       Some(id)

@@ -7,7 +7,6 @@ pub struct Arg<'a, T: ?Sized> {
 }
 
 impl<'a, T: ?Sized> From<&'a T> for Arg<'a, T> {
-  /// `value`: The initial value held by this holder.
   fn from(value: &'a T) -> Self {
     Self {
       timeout: 1.0,
@@ -17,9 +16,6 @@ impl<'a, T: ?Sized> From<&'a T> for Arg<'a, T> {
 }
 
 impl<'a, T: ?Sized> From<(&'a T, f64)> for Arg<'a, T> {
-  /// `value`: The initial value held by this holder.
-  ///
-  /// `timeout`: The time to be elasped before the new value is being assigned to this holder.
   fn from((value, timeout): (&'a T, f64)) -> Self {
     Self { timeout, value }
   }

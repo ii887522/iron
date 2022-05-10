@@ -1,8 +1,7 @@
-use std::fs::create_dir;
-use std::fs::read_dir;
-use std::fs::remove_dir_all;
-use std::fs::remove_file;
-use std::io;
+use std::{
+  fs::{create_dir, read_dir, remove_dir_all, remove_file},
+  io,
+};
 
 // It removes all files and subdirectories in the directory where its path is received from its parameter.
 //

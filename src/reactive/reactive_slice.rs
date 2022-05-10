@@ -1,9 +1,10 @@
-use crate::any::reactive;
-use crate::Reactive;
-use std::cell::Ref;
-use std::cell::RefMut;
-use std::fmt::Debug;
-use std::vec;
+use crate::{any::reactive, Reactive};
+
+use std::{
+  cell::{Ref, RefMut},
+  fmt::Debug,
+  vec,
+};
 
 #[derive(Debug)]
 pub struct Arg<T>(Vec<T>);
@@ -15,7 +16,6 @@ impl<T> From<()> for Arg<T> {
 }
 
 impl<T> From<Vec<T>> for Arg<T> {
-  /// `value`: The initial value to be held by this wrapper.
   fn from(value: Vec<T>) -> Self {
     Self(value)
   }

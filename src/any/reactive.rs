@@ -1,16 +1,13 @@
-use crate::IDManager;
-use crate::Readonly;
-use crate::Shared;
-use std::any::type_name;
-use std::cell::Ref;
-use std::cell::RefCell;
-use std::cell::RefMut;
-use std::fmt;
-use std::fmt::Debug;
-use std::fmt::Formatter;
-use std::marker::PhantomData;
-use std::mem::transmute;
-use std::rc::Rc;
+use crate::{IDManager, Readonly, Shared};
+
+use std::{
+  any::type_name,
+  cell::{Ref, RefCell, RefMut},
+  fmt::{self, Debug, Formatter},
+  marker::PhantomData,
+  mem::transmute,
+  rc::Rc,
+};
 
 struct Child<T: ?Sized, R: ?Sized + Debug = dyn Debug> {
   reactive: Shared<Reactive<R>>,

@@ -7,7 +7,6 @@ pub struct Arg<T, F: FnMut() -> T> {
 }
 
 impl<T, F: FnMut() -> T> From<F> for Arg<T, F> {
-  /// `get_value`: The function that returns a new temporary value of this holder.
   fn from(next_value: F) -> Self {
     Self {
       interval: 1.0,
@@ -17,9 +16,6 @@ impl<T, F: FnMut() -> T> From<F> for Arg<T, F> {
 }
 
 impl<T, F: FnMut() -> T> From<(F, f64)> for Arg<T, F> {
-  /// `get_value`: The function that returns a new temporary value of this holder.
-  ///
-  /// `dt`: Some small amount of time to advance.
   fn from((next_value, interval): (F, f64)) -> Self {
     Self {
       interval,
