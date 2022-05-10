@@ -87,6 +87,9 @@ impl PropChecker for i32 {
 ///
 /// It returns a value at time `t`.
 pub fn lerp(t: f64, a: f64, b: f64) -> f64 {
+  debug_assert!(!t.is_nan(), "t must be a number!");
+  debug_assert!(!a.is_nan(), "a must be a number!");
+  debug_assert!(!b.is_nan(), "b must be a number!");
   f64::mul_add(b - a, t, a)
 }
 
@@ -100,6 +103,7 @@ pub fn lerp(t: f64, a: f64, b: f64) -> f64 {
 ///
 /// It returns a value at time `t`.
 pub fn lerp_vec2(t: f64, a: Vec2, b: Vec2) -> Vec2 {
+  debug_assert!(!t.is_nan(), "t must be a number!");
   Vec2::new((lerp(t, a.get_x(), b.get_x()), lerp(t, a.get_y(), b.get_y())))
 }
 
@@ -113,6 +117,7 @@ pub fn lerp_vec2(t: f64, a: Vec2, b: Vec2) -> Vec2 {
 ///
 /// It returns a value at time `t`.
 pub fn lerp_vec3(t: f64, a: Vec3, b: Vec3) -> Vec3 {
+  debug_assert!(!t.is_nan(), "t must be a number!");
   Vec3::new((
     lerp(t, a.get_x(), b.get_x()),
     lerp(t, a.get_y(), b.get_y()),
@@ -130,6 +135,7 @@ pub fn lerp_vec3(t: f64, a: Vec3, b: Vec3) -> Vec3 {
 ///
 /// It returns a value at time `t`.
 pub fn lerp_vec4(t: f64, a: Vec4, b: Vec4) -> Vec4 {
+  debug_assert!(!t.is_nan(), "t must be a number!");
   Vec4::new((
     lerp(t, a.get_x(), b.get_x()),
     lerp(t, a.get_y(), b.get_y()),
@@ -158,6 +164,10 @@ impl ExtremumFinder for [f64] {
   type Item = f64;
 
   fn min_pos(&self) -> Option<(usize, Self::Item)> {
+    debug_assert!(
+      self.iter().all(|&value| !value.is_nan()),
+      "This array must contains number only!"
+    );
     let mut min_pos = f64::INFINITY;
     let mut index = None;
     for (i, &value) in self.iter().enumerate() {
@@ -171,6 +181,10 @@ impl ExtremumFinder for [f64] {
   }
 
   fn max_pos(&self) -> Option<(usize, Self::Item)> {
+    debug_assert!(
+      self.iter().all(|&value| !value.is_nan()),
+      "This array must contains number only!"
+    );
     let mut max_pos = f64::NEG_INFINITY;
     let mut index = None;
     for (i, &value) in self.iter().enumerate() {
@@ -184,6 +198,10 @@ impl ExtremumFinder for [f64] {
   }
 
   fn min_neg(&self) -> Option<(usize, Self::Item)> {
+    debug_assert!(
+      self.iter().all(|&value| !value.is_nan()),
+      "This array must contains number only!"
+    );
     let mut min_neg = f64::INFINITY;
     let mut index = None;
     for (i, &value) in self.iter().enumerate() {
@@ -197,6 +215,10 @@ impl ExtremumFinder for [f64] {
   }
 
   fn max_neg(&self) -> Option<(usize, Self::Item)> {
+    debug_assert!(
+      self.iter().all(|&value| !value.is_nan()),
+      "This array must contains number only!"
+    );
     let mut max_neg = f64::NEG_INFINITY;
     let mut index = None;
     for (i, &value) in self.iter().enumerate() {
@@ -220,6 +242,7 @@ impl ExtremumFinder for [f64] {
 ///
 /// It returns a mapped value that belongs to the second sequence given.
 pub fn linear_map(value: f64, from: Seq, to: Seq) -> f64 {
+  debug_assert!(!value.is_nan(), "value must be a number!");
   to.unnormalize(from.normalize(value))
 }
 

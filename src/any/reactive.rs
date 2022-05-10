@@ -36,10 +36,14 @@ impl<T: ?Sized + Debug> Handle<T> {
   }
 
   pub fn borrow(&self) -> Ref<Reactive<T>> {
+    // SAFETY: Reactive object has created with a value of type T and has implicitly coerced into a trait object,
+    // therefore it is safe to transmute the trait object back into a reactive object with a value of type T.
     unsafe { transmute::<_, &Shared<_>>(&self.0) }.borrow()
   }
 
   pub fn borrow_mut(&self) -> RefMut<Reactive<T>> {
+    // SAFETY: Reactive object has created with a value of type T and has implicitly coerced into a trait object,
+    // therefore it is safe to transmute the trait object back into a reactive object with a value of type T.
     unsafe { transmute::<_, &Shared<_>>(&self.0) }.borrow_mut()
   }
 }
@@ -88,7 +92,10 @@ impl<T: ?Sized + Debug> Reactive<T> {
     static mut ID_MANAGER: IDManager = IDManager::new();
     Self {
       watcher_id_manager: IDManager::new(),
+
+      // SAFETY: This function is only called by the main thread.
       id: unsafe { ID_MANAGER.next() }.unwrap().into(),
+
       watcher_id,
       children: vec![],
       value,
@@ -120,6 +127,8 @@ impl<T: ?Sized + Debug> Reactive<T> {
       return;
     }
     self.value = value;
+
+    // SAFETY: The inner value has already changed.
     unsafe { self.wake_children() };
   }
 
@@ -205,6 +214,8 @@ impl<T: ?Sized> From<Handle<T>> for Reactive<dyn Debug> {
 
 impl<T: Debug> From<Handle<T>> for Reactive<T> {
   fn from(value: Handle<T>) -> Self {
+    // SAFETY: Reactive object has created with a value of type T and has implicitly coerced into a trait object,
+    // therefore it is safe to transmute the trait object back into a reactive object with a value of type T.
     Rc::try_unwrap(unsafe { transmute::<_, Shared<_>>(value.0) })
       .expect(
         "value should be the only reactive handle instance to a particular reactive object exists at the current moment!"

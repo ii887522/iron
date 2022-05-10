@@ -24,6 +24,7 @@ impl From<()> for Arg {
 
 impl From<f64> for Arg {
   fn from(value: f64) -> Self {
+    debug_assert!(!value.is_nan(), "value must be a number!");
     Self {
       x: value,
       y: value,
@@ -34,6 +35,9 @@ impl From<f64> for Arg {
 
 impl From<(f64, f64, f64)> for Arg {
   fn from((x, y, z): (f64, f64, f64)) -> Self {
+    debug_assert!(!x.is_nan(), "x must be a number!");
+    debug_assert!(!y.is_nan(), "y must be a number!");
+    debug_assert!(!z.is_nan(), "z must be a number!");
     Self { x, y, z }
   }
 }
@@ -64,6 +68,7 @@ impl Vec3 {
   }
 
   pub fn set_x(&mut self, value: f64) {
+    debug_assert!(!value.is_nan(), "value must be a number!");
     if self.x == value {
       return;
     }
@@ -72,6 +77,7 @@ impl Vec3 {
   }
 
   pub fn with_x(&self, value: f64) -> Self {
+    debug_assert!(!value.is_nan(), "value must be a number!");
     Self::new((value, self.y, self.z))
   }
 
@@ -80,6 +86,7 @@ impl Vec3 {
   }
 
   pub fn set_y(&mut self, value: f64) {
+    debug_assert!(!value.is_nan(), "value must be a number!");
     if self.y == value {
       return;
     }
@@ -88,6 +95,7 @@ impl Vec3 {
   }
 
   pub fn with_y(&self, value: f64) -> Self {
+    debug_assert!(!value.is_nan(), "value must be a number!");
     Self::new((self.x, value, self.z))
   }
 
@@ -96,6 +104,7 @@ impl Vec3 {
   }
 
   pub fn set_z(&mut self, value: f64) {
+    debug_assert!(!value.is_nan(), "value must be a number!");
     if self.z == value {
       return;
     }
@@ -104,6 +113,7 @@ impl Vec3 {
   }
 
   pub fn with_z(&self, value: f64) -> Self {
+    debug_assert!(!value.is_nan(), "value must be a number!");
     Self::new((self.x, self.y, value))
   }
 
@@ -200,12 +210,14 @@ impl Mul<f64> for Vec3 {
   type Output = Self;
 
   fn mul(self, value: f64) -> Self::Output {
+    debug_assert!(!value.is_nan(), "value must be a number!");
     Self::new((self.x * value, self.y * value, self.z * value))
   }
 }
 
 impl MulAssign<f64> for Vec3 {
   fn mul_assign(&mut self, value: f64) {
+    debug_assert!(!value.is_nan(), "value must be a number!");
     if value == 1.0 {
       return;
     }
@@ -220,12 +232,22 @@ impl Div<f64> for Vec3 {
   type Output = Self;
 
   fn div(self, value: f64) -> Self::Output {
+    debug_assert!(!value.is_nan(), "value must be a number!");
+    debug_assert_ne!(
+      value, 0.0,
+      "value must not be equal to 0.0 to avoid causing division by zero error!"
+    );
     Self::new((self.x / value, self.y / value, self.z / value))
   }
 }
 
 impl DivAssign<f64> for Vec3 {
   fn div_assign(&mut self, value: f64) {
+    debug_assert!(!value.is_nan(), "value must be a number!");
+    debug_assert_ne!(
+      value, 0.0,
+      "value must not be equal to 0.0 to avoid causing division by zero error!"
+    );
     if value == 1.0 {
       return;
     }

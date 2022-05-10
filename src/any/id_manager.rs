@@ -40,11 +40,15 @@ impl IDManager {
   ///
   /// `id`: The allocated id number to return.
   pub fn free(&mut self, id: usize) -> Result<(), OutOfRangeError> {
-    if id >= self.next_id {
-      Err(OutOfRangeError(id.into()))
-    } else {
+    debug_assert!(
+      !self.id_stack.contains(&id),
+      "id {id} has already been freed and cannot be freed again!"
+    );
+    if id < self.next_id {
       self.id_stack.push(id);
       Ok(())
+    } else {
+      Err(OutOfRangeError(id.into()))
     }
   }
 }

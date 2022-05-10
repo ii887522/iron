@@ -76,9 +76,7 @@ fn test_rand() {
 
 #[test]
 fn test_into_seq() {
-  assert_eq!(Seq::from(Bound::new((0.0, 0.0))), Seq::new((0.0, 0.0)));
   assert_eq!(Seq::from(Bound::new((0.0, 1.0))), Seq::new((0.0, 1.0)));
   assert_eq!(Seq::from(Bound::new((0.0, 2.0))), Seq::new((0.0, 2.0)));
   assert_eq!(Seq::from(Bound::new((1.0, 2.0))), Seq::new((1.0, 2.0)));
-  assert_eq!(Seq::from(Bound::new((2.0, 2.0))), Seq::new((2.0, 2.0)));
 }

@@ -12,6 +12,8 @@ impl From<()> for Arg {
 
 impl From<(f64, f64)> for Arg {
   fn from((a, b): (f64, f64)) -> Self {
+    debug_assert!(!a.is_nan(), "a must be a number!");
+    debug_assert!(!b.is_nan(), "b must be a number!");
     Self(a, b)
   }
 }
@@ -19,8 +21,8 @@ impl From<(f64, f64)> for Arg {
 /// It defines a boundary between the minimum and maximum value.
 #[derive(Copy, Clone, Debug, PartialEq)]
 pub struct Bound {
-  pub min: f64,
-  pub max: f64,
+  min: f64,
+  max: f64,
 }
 
 impl Bound {
@@ -32,8 +34,16 @@ impl Bound {
     }
   }
 
+  pub const fn get_min(&self) -> f64 {
+    self.min
+  }
+
   pub fn get_middle(&self) -> f64 {
     (self.min + self.max) * 0.5
+  }
+
+  pub const fn get_max(&self) -> f64 {
+    self.max
   }
 
   /// It checks whether the boundary received overlaps with this boundary.
@@ -68,7 +78,7 @@ impl Bound {
 }
 
 impl From<Seq> for Bound {
-  fn from(Seq(a, b): Seq) -> Self {
-    Self::new((a, b))
+  fn from(seq: Seq) -> Self {
+    Self::new((seq.get_a(), seq.get_b()))
   }
 }

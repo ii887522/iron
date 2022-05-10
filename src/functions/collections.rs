@@ -1,9 +1,23 @@
+use crate::any;
+
 use std::{
   borrow::Cow,
   cmp::Ordering::{Equal, Greater, Less},
-  collections::HashMap,
+  collections::{HashMap, HashSet},
   hash::Hash,
 };
+
+pub trait PropChecker {
+  /// It checks whether this object does not contain any duplicate elements.
+  fn is_unique(&self) -> bool;
+}
+
+impl<T: Eq + Hash> PropChecker for [T] {
+  fn is_unique(&self) -> bool {
+    let mut unique = HashSet::new();
+    self.iter().all(|value| unique.insert(value))
+  }
+}
 
 /// It find the minimum objects from the `slice` received determined by the value retrieved from each object in the
 /// `slice` through the `get_value` function given.
@@ -70,7 +84,7 @@ pub fn max<T, R: Ord>(array: &[T], mut get_value: impl FnMut(&T, usize) -> R) ->
 /// `map`: The map to be converted from.
 ///
 /// It returns a slice without duplicates.
-pub fn into_slice<'a, K: Hash + Eq, V: crate::Hash<Part = &'a K>>(
+pub fn into_slice<'a, K: Eq + Hash, V: crate::Hash<Part = &'a K>>(
   map: HashMap<&'a K, &'a [&V]>,
 ) -> Cow<'a, [&'a V]> {
   let mut result = Vec::with_capacity(map.len());
@@ -92,12 +106,16 @@ pub fn into_slice<'a, K: Hash + Eq, V: crate::Hash<Part = &'a K>>(
 /// `slice`: The slice to be converted from.
 ///
 /// It returns a map with duplicates.
-pub fn into_map<'a, K: Hash + Eq, V: crate::Hash<Part = &'a K>>(
+pub fn into_map<'a, K: Eq + Hash, V: crate::Hash<Part = &'a K> + Eq + Hash>(
   slice: &'a [&V],
 ) -> HashMap<&'a K, Cow<'a, [&'a V]>> {
+  debug_assert!(
+    slice.is_unique(),
+    "slice must not contains duplicate objects!"
+  );
   let mut result = HashMap::<_, Vec<_>>::new();
   for &any in slice {
-    for &hash_part in &*any.hash() {
+    for &hash_part in &*any::hash::Hash::hash(any) {
       if let Some(row) = result.get_mut(hash_part) {
         row.push(any);
       } else {
@@ -118,7 +136,7 @@ pub fn into_map<'a, K: Hash + Eq, V: crate::Hash<Part = &'a K>>(
 /// `bm`: The second map to include.
 ///
 /// It returns a map which contains duplicates.
-pub fn add<'a, K: Hash + Eq, V: crate::Hash<Part = &'a K>>(
+pub fn add<'a, K: Eq + Hash, V: crate::Hash<Part = &'a K>>(
   am: HashMap<&'a K, &'a [&V]>,
   bm: HashMap<&'a K, &'a [&V]>,
 ) -> HashMap<&'a K, Cow<'a, [&'a V]>> {
@@ -158,7 +176,7 @@ pub fn add<'a, K: Hash + Eq, V: crate::Hash<Part = &'a K>>(
 /// `bm`: The map which contains the objects to be searched from the first map for removal.
 ///
 /// It returns the first map without objects that exist in the second map.
-pub fn sub<'a, K: Hash + Eq, V: crate::Hash<Part = &'a K>>(
+pub fn sub<'a, K: Eq + Hash, V: crate::Hash<Part = &'a K>>(
   am: HashMap<&'a K, &'a [&V]>,
   bm: HashMap<&'a K, &'a [&V]>,
 ) -> HashMap<&'a K, Cow<'a, [&'a V]>> {

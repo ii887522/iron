@@ -6,7 +6,7 @@
 [![GitHub license](https://img.shields.io/github/license/ii887522/iron.svg)](https://github.com/ii887522/iron/blob/master/LICENSE)
 [![Github tag](https://badgen.net/github/tag/ii887522/iron)](https://github.com/ii887522/iron/tags/)
 
-It is a general-purpose library for rust that can help developers create various kinds of applications in a shorter amount of time.
+It is a general-purpose library for Rust that can help developers create various kinds of applications in a shorter amount of time. This library is also used to serve as a custom extension to the Rust standard library.
 
 ## Table of contents
 - [Prerequisites](https://github.com/ii887522/iron#prerequisites)
