@@ -1,9 +1,9 @@
-use std::borrow::Cow;
-use std::cmp::Ordering::Equal;
-use std::cmp::Ordering::Greater;
-use std::cmp::Ordering::Less;
-use std::collections::HashMap;
-use std::hash::Hash;
+use std::{
+  borrow::Cow,
+  cmp::Ordering::{Equal, Greater, Less},
+  collections::HashMap,
+  hash::Hash,
+};
 
 /// It find the minimum objects from the `slice` received determined by the value retrieved from each object in the
 /// `slice` through the `get_value` function given.
@@ -16,8 +16,8 @@ use std::hash::Hash;
 pub fn min<T, R: Ord>(array: &[T], mut get_value: impl FnMut(&T, usize) -> R) -> Cow<[&T]> {
   let mut min_value: Option<R> = None;
   let mut result = vec![];
-  for (index, any) in array.iter().enumerate() {
-    let value = get_value(any, index);
+  for (i, any) in array.iter().enumerate() {
+    let value = get_value(any, i);
     if let Some(unwrapped_min_value) = &min_value {
       match value.cmp(unwrapped_min_value) {
         Greater => continue,
@@ -46,8 +46,8 @@ pub fn min<T, R: Ord>(array: &[T], mut get_value: impl FnMut(&T, usize) -> R) ->
 pub fn max<T, R: Ord>(array: &[T], mut get_value: impl FnMut(&T, usize) -> R) -> Cow<[&T]> {
   let mut max_value: Option<R> = None;
   let mut result = vec![];
-  for (index, any) in array.iter().enumerate() {
-    let value = get_value(any, index);
+  for (i, any) in array.iter().enumerate() {
+    let value = get_value(any, i);
     if let Some(unwrapped_max_value) = &max_value {
       match value.cmp(unwrapped_max_value) {
         Less => continue,

@@ -1,4 +1,4 @@
 mod collections;
-mod f64;
 mod fs;
+mod math;
 mod str;

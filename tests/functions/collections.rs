@@ -1,12 +1,5 @@
-use iron::collections::add;
-use iron::collections::into_map;
-use iron::collections::into_slice;
-use iron::collections::max;
-use iron::collections::min;
-use iron::collections::sub;
-use iron::Hash;
-use std::borrow::Cow;
-use std::collections::HashMap;
+use iron::{collections::*, Hash};
+use std::{borrow::Cow, collections::HashMap};
 
 #[test]
 fn test_min() {

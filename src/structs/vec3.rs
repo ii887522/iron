@@ -1,15 +1,9 @@
-use crate::ApproxEq;
-use std::fmt;
-use std::fmt::Display;
-use std::fmt::Formatter;
-use std::ops::Add;
-use std::ops::AddAssign;
-use std::ops::Div;
-use std::ops::DivAssign;
-use std::ops::Mul;
-use std::ops::MulAssign;
-use std::ops::Sub;
-use std::ops::SubAssign;
+use crate::math::ApproxEq;
+
+use std::{
+  fmt::{self, Display, Formatter},
+  ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Sub, SubAssign},
+};
 
 #[derive(Copy, Clone, Debug)]
 pub struct Arg {

@@ -1,5 +1,4 @@
-use iron::Bound;
-use iron::Seq;
+use iron::{Bound, Seq};
 
 #[test]
 fn test_normalize() {
