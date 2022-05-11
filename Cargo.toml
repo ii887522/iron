@@ -6,6 +6,17 @@ description = "It is a general-purpose library for rust that can help developers
 repository = "https://github.com/ii887522/iron"
 license = "MIT"
 keywords = ["library", "lib", "iron", "general-purpose", "general"]
+exclude = [
+  ".github/*",
+  ".vscode/*",
+  "tests/*",
+  ".editorconfig",
+  ".gitignore",
+  "CODE_OF_CONDUCT.md",
+  "LICENSE",
+  "README.md",
+  "rustfmt.toml"
+]
 
 [dependencies]
 rand = "0.8.5"

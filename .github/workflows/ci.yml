@@ -69,3 +69,23 @@ jobs:
       - uses: actions-rs/cargo@v1
         with:
           command: test
+  publish:
+    if: github.base_ref == 'master'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+      - name: Use Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+      - uses: actions-rs/cargo@v1
+        with:
+          command: login
+          args: ${{ secrets.CARGO }}
+      - uses: actions-rs/cargo@v1
+        with:
+          command: publish
+    needs: [check, fmt, clippy, test]
