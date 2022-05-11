@@ -1,4 +1,4 @@
-# iron
+# iron-ingot
 [![Semantic Versioning 2.0.0](https://img.shields.io/badge/semver-2.0.0-standard.svg)](https://semver.org/)
 [![Linux](https://svgshare.com/i/Zhy.svg)](https://svgshare.com/i/Zhy.svg)
 [![Windows](https://svgshare.com/i/ZhY.svg)](https://svgshare.com/i/ZhY.svg)
@@ -6,7 +6,7 @@
 [![GitHub license](https://img.shields.io/github/license/ii887522/iron.svg)](https://github.com/ii887522/iron/blob/master/LICENSE)
 [![Github tag](https://badgen.net/github/tag/ii887522/iron)](https://github.com/ii887522/iron/tags/)
 
-It is a general-purpose library for rust that can help developers create various kinds of applications in a shorter amount of time.
+It is a general-purpose library for Rust that can help developers create various kinds of applications in a shorter amount of time. This library is also used to serve as a custom extension to the Rust standard library.
 
 ## Table of contents
 - [Prerequisites](https://github.com/ii887522/iron#prerequisites)
@@ -23,9 +23,10 @@ It is a general-purpose library for rust that can help developers create various
 - Windows 11 or Linux
 - [Visual Studio Code](https://code.visualstudio.com/) with plugins:
   - Better TOML
+  - CodeLLDB
   - EditorConfig for VS Code
   - Markdown All in One
-  - Rust
+  - rust-analyzer
   - YAML
 - [Rust 1.60.0](https://www.rust-lang.org/) and later
 - [rustfmt 1.4.38](https://github.com/rust-lang/rustfmt) and later

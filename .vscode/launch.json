@@ -1,0 +1,100 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug unit tests in library 'iron'",
+      "cargo": {
+        "args": [
+          "test",
+          "--no-run",
+          "--lib",
+          "--package=iron"
+        ],
+        "filter": {
+          "name": "iron",
+          "kind": "lib"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug integration test 'any'",
+      "cargo": {
+        "args": [
+          "test",
+          "--no-run",
+          "--test=any",
+          "--package=iron"
+        ],
+        "filter": {
+          "name": "any",
+          "kind": "test"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug integration test 'functions'",
+      "cargo": {
+        "args": [
+          "test",
+          "--no-run",
+          "--test=functions",
+          "--package=iron"
+        ],
+        "filter": {
+          "name": "functions",
+          "kind": "test"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug integration test 'reactive'",
+      "cargo": {
+        "args": [
+          "test",
+          "--no-run",
+          "--test=reactive",
+          "--package=iron"
+        ],
+        "filter": {
+          "name": "reactive",
+          "kind": "test"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug integration test 'struct'",
+      "cargo": {
+        "args": [
+          "test",
+          "--no-run",
+          "--test=struct",
+          "--package=iron"
+        ],
+        "filter": {
+          "name": "struct",
+          "kind": "test"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    }
+  ]
+}

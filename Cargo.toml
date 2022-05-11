@@ -1,8 +1,22 @@
 [package]
-name = "iron"
+name = "iron-ingot"
 version = "0.1.0"
 edition = "2021"
 description = "It is a general-purpose library for rust that can help developers create various kinds of applications in a shorter amount of time."
-repository = "https://github.com/ii887522/iron"
+repository = "https://github.com/ii887522/iron-ingot"
 license = "MIT"
 keywords = ["library", "lib", "iron", "general-purpose", "general"]
+exclude = [
+  ".github/*",
+  ".vscode/*",
+  "tests/*",
+  ".editorconfig",
+  ".gitignore",
+  "CODE_OF_CONDUCT.md",
+  "LICENSE",
+  "README.md",
+  "rustfmt.toml"
+]
+
+[dependencies]
+rand = "0.8.5"
