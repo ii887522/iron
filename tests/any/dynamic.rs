@@ -1,4 +1,4 @@
-use iron::Dynamic;
+use iron_ingot::Dynamic;
 
 #[test]
 fn step_dynamic_value_when_value_keeps_increasing() {

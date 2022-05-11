@@ -1,4 +1,4 @@
-use iron::{math::ApproxEq, Vec3};
+use iron_ingot::{math::ApproxEq, Vec3};
 
 #[test]
 fn test_from_f64() {

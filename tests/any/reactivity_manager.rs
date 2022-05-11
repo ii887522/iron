@@ -1,4 +1,4 @@
-use iron::{any::reactive, ReactivityManager};
+use iron_ingot::{any::reactive, ReactivityManager};
 
 #[test]
 pub fn test_watch() {

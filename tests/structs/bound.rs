@@ -1,4 +1,4 @@
-use iron::{Bound, Seq};
+use iron_ingot::{Bound, Seq};
 
 #[test]
 fn test_get_middle() {

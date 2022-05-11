@@ -1,4 +1,4 @@
-use iron::{NanoSec, Sec};
+use iron_ingot::{NanoSec, Sec};
 
 #[test]
 fn test_from() {

@@ -1,4 +1,4 @@
-use iron::IDManager;
+use iron_ingot::IDManager;
 
 #[test]
 fn test_id_manager() {

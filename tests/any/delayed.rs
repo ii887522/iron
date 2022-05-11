@@ -1,4 +1,4 @@
-use iron::Delayed;
+use iron_ingot::Delayed;
 
 #[test]
 fn step_delayed_value_when_initial_value_is_0() {

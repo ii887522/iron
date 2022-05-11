@@ -38,6 +38,7 @@ jobs:
           command: fmt
           args: --check
   clippy:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository

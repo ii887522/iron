@@ -1,4 +1,4 @@
-use iron::fs::has_file_with_ext;
+use iron_ingot::fs::has_file_with_ext;
 
 #[test]
 fn test_has_file_with_ext() {

@@ -1,4 +1,4 @@
-use iron::PrimeIter;
+use iron_ingot::PrimeIter;
 use std::borrow::Cow;
 
 #[test]

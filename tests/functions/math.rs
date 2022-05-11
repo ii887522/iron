@@ -1,4 +1,4 @@
-use iron::{math::*, Seq, Vec2, Vec3, Vec4};
+use iron_ingot::{math::*, Seq, Vec2, Vec3, Vec4};
 
 #[test]
 fn test_approx_eq() {

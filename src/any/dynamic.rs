@@ -88,7 +88,7 @@ impl<T, F: FnMut() -> T> Dynamic<T, F> {
   /// # Examples
   ///
   /// ```
-  /// use iron::Dynamic;
+  /// use iron_ingot::Dynamic;
   ///
   /// let mut value = 0;
   /// let dynamic_value = Dynamic::new(|| {
@@ -112,7 +112,7 @@ impl<T, F: FnMut() -> T> Dynamic<T, F> {
   /// # Examples
   ///
   /// ```
-  /// use iron::Dynamic;
+  /// use iron_ingot::Dynamic;
   ///
   /// let mut value = 0;
   /// let mut dynamic_value = Dynamic::new((|| {

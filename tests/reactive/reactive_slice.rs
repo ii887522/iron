@@ -1,4 +1,4 @@
-use iron::{Reactive, ReactiveSlice};
+use iron_ingot::{Reactive, ReactiveSlice};
 
 #[test]
 fn test_set() {

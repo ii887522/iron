@@ -1,4 +1,4 @@
-use iron::{collections::*, Hash};
+use iron_ingot::{collections::*, Hash};
 use std::{borrow::Cow, collections::HashMap};
 
 #[test]

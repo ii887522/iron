@@ -77,7 +77,7 @@ impl<'a, T: ?Sized> Delayed<'a, T> {
   /// # Examples
   ///
   /// ```
-  /// use iron::Delayed;
+  /// use iron_ingot::Delayed;
   ///
   /// assert_eq!(Delayed::new(&0).get_value(), &0);
   /// ```
@@ -93,7 +93,7 @@ impl<'a, T: ?Sized> Delayed<'a, T> {
   /// # Examples
   ///
   /// ```
-  /// use iron::Delayed;
+  /// use iron_ingot::Delayed;
   ///
   /// let mut delayed_value = Delayed::new((&0, 1.0));
   /// delayed_value.set_value(&1);
@@ -120,7 +120,7 @@ impl<'a, T: ?Sized> Delayed<'a, T> {
   /// # Examples
   ///
   /// ```
-  /// use iron::Delayed;
+  /// use iron_ingot::Delayed;
   ///
   /// let mut delayed_value = Delayed::new(&0);
   /// delayed_value.set_now(&3);
@@ -142,7 +142,7 @@ impl<'a, T: ?Sized> Delayed<'a, T> {
   /// # Examples
   ///
   /// ```
-  /// use iron::Delayed;
+  /// use iron_ingot::Delayed;
   ///
   /// let mut delayed_value = Delayed::new((&0, 1.0));
   /// delayed_value.set_value(&1);

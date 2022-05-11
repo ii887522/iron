@@ -1,4 +1,4 @@
-use iron::any::reactive;
+use iron_ingot::any::reactive;
 
 #[test]
 fn watch_a_reactive_object_with_initial_value_equal_to_0() {
