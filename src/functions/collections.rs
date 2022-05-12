@@ -14,7 +14,7 @@ pub trait PropChecker {
 
 impl<T: Eq + Hash> PropChecker for [T] {
   fn is_unique(&self) -> bool {
-    let mut unique = HashSet::new();
+    let mut unique = HashSet::with_capacity(self.len());
     self.iter().all(|value| unique.insert(value))
   }
 }

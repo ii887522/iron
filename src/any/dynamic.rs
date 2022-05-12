@@ -1,6 +1,6 @@
 //! It is a value holder that keeps changing its value by the `interval` given.
 //!
-//! Users of this module must keep calling [Dynamic::step(dt)](./struct.Dynamic.html#method.step) method to simulate
+//! Users of this module must keep calling [Dynamic::step](./struct.Dynamic.html#method.step) method to simulate
 //! frequently changing value.
 //!
 //! Note that when a [Dynamic](./struct.Dynamic.html) object is created, the `next_value` callback function will be
@@ -8,7 +8,7 @@
 
 use crate::Readonly;
 
-/// It is an argument object to be passed to [Dynamic::new(arg)](./struct.Dynamic.html#method.new) to construct a new
+/// It is an argument object to be passed to [Dynamic::new](./struct.Dynamic.html#method.new) to construct a new
 /// [Dynamic](./struct.Dynamic.html) object.
 ///
 /// An argument object can be constructed either from [a callback function](./struct.Arg.html#impl-From<F>) or
@@ -20,10 +20,8 @@ pub struct Arg<T, F: FnMut() -> T> {
 }
 
 impl<T, F: FnMut() -> T> From<F> for Arg<T, F> {
-  /// Performs the conversion.
-  ///
-  /// `next_value`: A callback function that gets called when an `interval` has elasped through
-  /// [Dynamic::step(dt)](./struct.Dynamic.html#method.step).
+  /// Performs the conversion from the `next_value` callback function that gets called when an `interval` has elasped
+  /// through [Dynamic::step](./struct.Dynamic.html#method.step).
   fn from(next_value: F) -> Self {
     Self {
       interval: 1.0,
@@ -33,13 +31,9 @@ impl<T, F: FnMut() -> T> From<F> for Arg<T, F> {
 }
 
 impl<T, F: FnMut() -> T> From<(F, f64)> for Arg<T, F> {
-  /// Performs the conversion.
-  ///
-  /// `next_value`: A callback function that gets called when an `interval` has passed through
-  /// [Dynamic::step(dt)](./struct.Dynamic.html#method.step).
-  ///
-  /// `interval`: A certain amount of time to be elasped for the `next_value` callback function gets called and return
-  /// a result to be assigned to this object. It must be a number that is greater than 0.0 .
+  /// Performs the conversion from the `next_value` callback function that gets called when an `interval` has elasped
+  /// through [Dynamic::step](./struct.Dynamic.html#method.step) and a certain amount of time called `interval` to be
+  /// elasped for the `next_value` callback function gets called and return a result to be assigned to this object.
   ///
   /// # Panics
   ///
@@ -66,10 +60,8 @@ pub struct Dynamic<T, F: FnMut() -> T> {
 }
 
 impl<T, F: FnMut() -> T> Dynamic<T, F> {
-  /// It constructs a new [Dynamic](./struct.Dynamic.html) object.
-  ///
-  /// `arg`: An argument object. See [Arg](./struct.Arg.html) for more information on how to create an argument object
-  /// to be passed into here.
+  /// It constructs a new [Dynamic](./struct.Dynamic.html) object from an `arg`. See [Arg](./struct.Arg.html) for more
+  /// information on how to create an argument object to be passed into here.
   pub fn new(arg: impl Into<Arg<T, F>>) -> Self {
     let Arg {
       interval,
@@ -101,9 +93,7 @@ impl<T, F: FnMut() -> T> Dynamic<T, F> {
     &self.value
   }
 
-  /// It advances the time being tracked by the given `dt` for simulating frequently changing value.
-  ///
-  /// `dt`: Some small amount of time to advance. It must be a positive number.
+  /// It advances the time being tracked by a small amount of time called `dt` for simulating frequently changing value.
   ///
   /// # Panics
   ///
