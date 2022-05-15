@@ -1,3 +1,6 @@
+//! An object that manages and recycles id numbers to be used for any purposes so that id numbers will not become
+//! depleted if users keep retrieving and discarding id numbers.
+
 use crate::Readonly;
 
 use std::{
@@ -5,6 +8,7 @@ use std::{
   fmt::{self, Display, Formatter},
 };
 
+/// An error that will occured when an id number given has not been generated before.
 #[derive(Copy, Clone, Debug)]
 pub struct OutOfRangeError(Readonly<usize>);
 
@@ -20,8 +24,8 @@ impl Display for OutOfRangeError {
 
 impl Error for OutOfRangeError {}
 
-/// It manages and recycles id numbers to be used for any purposes so that id numbers will not become depleted if users
-/// keep retrieving and discarding id numbers.
+/// An object that manages and recycles id numbers to be used for any purposes so that id numbers will not become
+/// depleted if users keep retrieving and discarding id numbers.
 #[derive(Clone, Debug, Default)]
 pub struct IDManager {
   id_stack: Vec<usize>,
@@ -29,6 +33,7 @@ pub struct IDManager {
 }
 
 impl IDManager {
+  /// Constructs a new id manager that starts from 0.
   pub const fn new() -> Self {
     Self {
       id_stack: vec![],
@@ -36,9 +41,67 @@ impl IDManager {
     }
   }
 
-  /// It makes the allocated id number to become available again and ready to be used in the future.
+  /// Makes the allocated `id` number to become available again and ready to be used in the future.
   ///
-  /// `id`: The allocated id number to return.
+  /// This method will return an `OutOfRangeError` if the `id` given has not been generated before. Also, the `id` given
+  /// must not have already been freed.
+  ///
+  /// Note that when this method is being called multiple times without asking for a new id number from this manager
+  /// by calling [IDManager::next](./struct.IDManager.html#method.next) method, this manager will return a sequence of
+  /// id numbers that is the reverse of id numbers that have been freed in the free order.
+  ///
+  /// # Panics
+  ///
+  /// Panics if `id` given has already been freed.
+  ///
+  /// # Examples
+  ///
+  /// When `free` is only called one time.
+  /// ```
+  /// use iron_ingot::IDManager;
+  ///
+  /// let mut id_manager = IDManager::new();
+  /// assert_eq!(id_manager.next(), Some(0));
+  /// assert!(id_manager.free(0).is_ok());
+  /// assert_eq!(id_manager.next(), Some(0));
+  /// assert!(id_manager.free(1).is_err());
+  /// ```
+  /// <br />
+  ///
+  /// When `free` is called multiple times consecutively.
+  /// ```
+  /// use iron_ingot::IDManager;
+  ///
+  /// let mut id_manager = IDManager::new();
+  ///
+  /// // Generates some id numbers to be freed later.
+  /// assert_eq!(id_manager.next(), Some(0));
+  /// assert_eq!(id_manager.next(), Some(1));
+  /// assert_eq!(id_manager.next(), Some(2));
+  /// assert_eq!(id_manager.next(), Some(3));
+  /// assert_eq!(id_manager.next(), Some(4));
+  /// assert_eq!(id_manager.next(), Some(5));
+  ///
+  /// // Free some id numbers in this order: 0 -> 3 -> 5.
+  /// assert!(id_manager.free(0).is_ok());
+  /// assert!(id_manager.free(3).is_ok());
+  /// assert!(id_manager.free(5).is_ok());
+  ///
+  /// // When next method is called multiple times consecutively, it returns 5 -> 3 -> 0 which is
+  /// // the reverse of the above free order.
+  /// assert_eq!(id_manager.next(), Some(5));
+  /// assert_eq!(id_manager.next(), Some(3));
+  /// assert_eq!(id_manager.next(), Some(0));
+  ///
+  /// // When all freed id numbers have been generated again by next method calls as can be seen in
+  /// // the above code section, new id numbers that have not yet occured before will be returned in
+  /// // ascending order as usual by the next method calls.
+  /// assert_eq!(id_manager.next(), Some(6));
+  /// assert_eq!(id_manager.next(), Some(7));
+  /// assert_eq!(id_manager.next(), Some(8));
+  ///
+  /// assert!(id_manager.free(9).is_err());
+  /// ```
   pub fn free(&mut self, id: usize) -> Result<(), OutOfRangeError> {
     debug_assert!(
       !self.id_stack.contains(&id),
@@ -56,6 +119,35 @@ impl IDManager {
 impl Iterator for IDManager {
   type Item = usize;
 
+  /// Generates an id number and mark it as an allocated id number to be used.
+  ///
+  /// This method will always return an id number so the returned value can be safely unwrapped without panicking. It
+  /// also means that this manager should be carefully used as an iterator inside a loop because it can cause infinite
+  /// loop if the loop does not have any stopping conditions.
+  ///
+  /// Note that when this method is being called multiple times without freeing any allocated id numbers from this
+  /// manager by calling [IDManager::free](./struct.IDManager.html#method.free) method, this manager will return a
+  /// sequence of id numbers in ascending order.
+  ///
+  /// # Examples
+  ///
+  /// ```
+  /// use iron_ingot::IDManager;
+  ///
+  /// let mut id_manager = IDManager::new();
+  /// assert_eq!(id_manager.next(), Some(0));
+  /// assert_eq!(id_manager.next(), Some(1));
+  /// assert_eq!(id_manager.next(), Some(2));
+  /// assert!(id_manager.free(0).is_ok());
+  /// assert!(id_manager.free(1).is_ok());
+  /// assert!(id_manager.free(2).is_ok());
+  /// assert_eq!(id_manager.next(), Some(2));
+  /// assert_eq!(id_manager.next(), Some(1));
+  /// assert_eq!(id_manager.next(), Some(0));
+  /// assert_eq!(id_manager.next(), Some(3));
+  /// assert_eq!(id_manager.next(), Some(4));
+  /// assert_eq!(id_manager.next(), Some(5));
+  /// ```
   fn next(&mut self) -> Option<Self::Item> {
     if let Some(id) = self.id_stack.pop() {
       Some(id)

@@ -4,17 +4,17 @@ use std::{borrow::Cow, collections::HashMap};
 #[test]
 fn test_is_unique() {
   assert!(([] as [i32; 0]).is_unique());
-  assert!(([0]).is_unique());
-  assert!(([1]).is_unique());
-  assert!(([2]).is_unique());
-  assert!(([2, 0]).is_unique());
-  assert!(([2, 1]).is_unique());
-  assert!(([3, 1]).is_unique());
-  assert!(([3, 1, 0]).is_unique());
-  assert!(!([3, 1, 1]).is_unique());
-  assert!(!([1, 1, 0]).is_unique());
-  assert!(!([0, 1, 0]).is_unique());
-  assert!(!([0, 0, 0]).is_unique());
+  assert!([0].is_unique());
+  assert!([1].is_unique());
+  assert!([2].is_unique());
+  assert!([2, 0].is_unique());
+  assert!([2, 1].is_unique());
+  assert!([3, 1].is_unique());
+  assert!([3, 1, 0].is_unique());
+  assert!(![3, 1, 1].is_unique());
+  assert!(![1, 1, 0].is_unique());
+  assert!(![0, 1, 0].is_unique());
+  assert!(![0, 0, 0].is_unique());
 }
 
 #[test]

@@ -30,19 +30,19 @@ impl<T: ?Sized, R: ?Sized + Debug> Debug for Child<T, R> {
 #[derive(Debug)]
 pub struct Handle<T: ?Sized>(Shared<Reactive<dyn Debug>>, PhantomData<T>);
 
-impl<T: ?Sized + Debug> Handle<T> {
+impl<T: ?Sized> Handle<T> {
   fn new(value: Shared<Reactive<dyn Debug>>) -> Self {
     Self(value, PhantomData)
   }
 
   pub fn borrow(&self) -> Ref<Reactive<T>> {
-    // SAFETY: Reactive object has created with a value of type T and has implicitly coerced into a trait object,
+    // SAFETY: Reactive object has been created with a value of type T and has implicitly coerced into a trait object,
     // therefore it is safe to transmute the trait object back into a reactive object with a value of type T.
     unsafe { transmute::<_, &Shared<_>>(&self.0) }.borrow()
   }
 
   pub fn borrow_mut(&self) -> RefMut<Reactive<T>> {
-    // SAFETY: Reactive object has created with a value of type T and has implicitly coerced into a trait object,
+    // SAFETY: Reactive object has been created with a value of type T and has implicitly coerced into a trait object,
     // therefore it is safe to transmute the trait object back into a reactive object with a value of type T.
     unsafe { transmute::<_, &Shared<_>>(&self.0) }.borrow_mut()
   }
@@ -75,7 +75,7 @@ impl<T: ?Sized> From<Reactive<dyn Debug>> for Handle<T> {
   }
 }
 
-/// It is a wrapper that listens for changes to the value being held and automatically notifies all registered watchers
+/// A wrapper that listens for changes to the value being held and automatically notifies all registered watchers
 /// about the new value given. It is used to establish communications between multiple modules to achieve loose coupling
 /// between the modules involved.
 #[derive(Debug)]
@@ -110,7 +110,7 @@ impl<T: ?Sized + Debug> Reactive<T> {
     &self.value
   }
 
-  /// It retrieves a mutable reference to the inner value of this object to allow direct manipulation of the reactive
+  /// Retrieves a mutable reference to the inner value of this object to allow direct manipulation of the reactive
   /// value.
   ///
   /// # Safety
@@ -118,7 +118,7 @@ impl<T: ?Sized + Debug> Reactive<T> {
   /// call `self.wake_children()` so that all watchers registered to this object will be notified with an updated value.
   ///
   /// It returns a mutable reference to the inner value of this object.
-  pub unsafe fn get_value_mut(&mut self) -> &mut T {
+  pub(crate) unsafe fn get_value_mut(&mut self) -> &mut T {
     &mut self.value
   }
 
@@ -132,14 +132,14 @@ impl<T: ?Sized + Debug> Reactive<T> {
     unsafe { self.wake_children() };
   }
 
-  /// It notifies all other reactive objects associated with their watchers about the new value given just now.
+  /// Notifies all other reactive objects associated with their watchers about the new value given just now.
   ///
   /// # Safety
   /// Users should only call this function after they have changed the inner value of this object through a
   /// mutable reference received through `self.get_value_mut()` function. Calling this function prematurely when the
   /// inner value has not changed might cause watcher functions that produce side effects to introduce unexpected
   /// behaviors or errors for the program in the future.
-  pub unsafe fn wake_children(&mut self) {
+  pub(crate) unsafe fn wake_children(&mut self) {
     for child in &mut self.children.iter_mut().flatten() {
       child
         .reactive
@@ -148,7 +148,7 @@ impl<T: ?Sized + Debug> Reactive<T> {
     }
   }
 
-  /// It registers a new watcher that transforms this reactive object into a new reactive object that holds a different
+  /// Registers a new watcher that transforms this reactive object into a new reactive object that holds a different
   /// type.
   ///
   /// `on_change`: It is a watcher that listens for new value and processes it.
@@ -175,7 +175,7 @@ impl<T: ?Sized + Debug> Reactive<T> {
     Handle::new(reactive)
   }
 
-  /// It detaches the registered watcher associated with the `reactive` given so the watcher no longer reacts to
+  /// Detaches the registered watcher associated with the `reactive` given so the watcher no longer reacts to
   /// changes of the value held by this reactive object.
   ///
   /// `reactive`: The transformed reactive that is associated with the watcher to be unwatched.
@@ -214,7 +214,7 @@ impl<T: ?Sized> From<Handle<T>> for Reactive<dyn Debug> {
 
 impl<T: Debug> From<Handle<T>> for Reactive<T> {
   fn from(value: Handle<T>) -> Self {
-    // SAFETY: Reactive object has created with a value of type T and has implicitly coerced into a trait object,
+    // SAFETY: Reactive object has been created with a value of type T and has implicitly coerced into a trait object,
     // therefore it is safe to transmute the trait object back into a reactive object with a value of type T.
     Rc::try_unwrap(unsafe { transmute::<_, Shared<_>>(value.0) })
       .expect(

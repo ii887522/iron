@@ -1,9 +1,13 @@
+//! A holder that only allows retrieving its value.
+
 use std::ops::Deref;
 
+/// A holder that only allows retrieving its value.
 #[derive(Copy, Clone, Debug)]
 pub struct Readonly<T>(T);
 
 impl<T> Readonly<T> {
+  /// Constructs a holder with the given `value`.
   pub const fn new(value: T) -> Self {
     Readonly(value)
   }

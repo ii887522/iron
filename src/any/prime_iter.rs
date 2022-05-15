@@ -15,7 +15,7 @@ impl From<u32> for Arg {
   }
 }
 
-/// It is an iterator used to generate a sequence of prime numbers.
+/// An iterator used to generate a sequence of prime numbers.
 #[derive(Copy, Clone, Debug)]
 pub struct PrimeIter(u32);
 
