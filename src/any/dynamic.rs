@@ -1,4 +1,4 @@
-//! It is a value holder that keeps changing its value by the `interval` given.
+//! A value holder that keeps changing its value by the `interval` given.
 //!
 //! Users of this module must keep calling [Dynamic::step](./struct.Dynamic.html#method.step) method to simulate
 //! frequently changing value.
@@ -8,7 +8,7 @@
 
 use crate::Readonly;
 
-/// It is an argument object to be passed to [Dynamic::new](./struct.Dynamic.html#method.new) to construct a new
+/// An argument object to be passed to [Dynamic::new](./struct.Dynamic.html#method.new) to construct a new
 /// [Dynamic](./struct.Dynamic.html) object.
 ///
 /// An argument object can be constructed either from [a callback function](./struct.Arg.html#impl-From<F>) or
@@ -50,7 +50,7 @@ impl<T, F: FnMut() -> T> From<(F, f64)> for Arg<T, F> {
   }
 }
 
-/// It is a value holder that keeps changing its value by the `interval` given.
+/// A value holder that keeps changing its value by the `interval` given.
 #[derive(Copy, Clone, Debug)]
 pub struct Dynamic<T, F: FnMut() -> T> {
   t: f64,
@@ -60,7 +60,7 @@ pub struct Dynamic<T, F: FnMut() -> T> {
 }
 
 impl<T, F: FnMut() -> T> Dynamic<T, F> {
-  /// It constructs a new [Dynamic](./struct.Dynamic.html) object from an `arg`. See [Arg](./struct.Arg.html) for more
+  /// Constructs a new [Dynamic](./struct.Dynamic.html) object from an `arg`. See [Arg](./struct.Arg.html) for more
   /// information on how to create an argument object to be passed into here.
   pub fn new(arg: impl Into<Arg<T, F>>) -> Self {
     let Arg {
@@ -75,7 +75,7 @@ impl<T, F: FnMut() -> T> Dynamic<T, F> {
     }
   }
 
-  /// It retrieves a value held by this object. The value retrieved is the result of calling the `next_value` function.
+  /// Retrieves a value held by this object. The value retrieved is the result of calling the `next_value` function.
   ///
   /// # Examples
   ///
@@ -93,7 +93,7 @@ impl<T, F: FnMut() -> T> Dynamic<T, F> {
     &self.value
   }
 
-  /// It advances the time being tracked by a small amount of time called `dt` for simulating frequently changing value.
+  /// Advances the time being tracked by a small amount of time called `dt` for simulating frequently changing value.
   ///
   /// # Panics
   ///
