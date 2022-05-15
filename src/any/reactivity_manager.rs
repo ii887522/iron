@@ -1,7 +1,7 @@
 use crate::{any::reactive, Reactive, Shared};
 use std::{cell::RefCell, collections::HashMap, fmt::Debug, rc::Rc};
 
-/// It is a manager that allows users to register watchers more conveniently and unwatch all registered watchers at
+/// A manager that allows users to register watchers more conveniently and unwatch all registered watchers at
 /// once.
 #[derive(Debug, Default)]
 pub struct ReactivityManager {
@@ -17,7 +17,7 @@ impl ReactivityManager {
     }
   }
 
-  /// It registers a new watcher that transforms the reactive object received into a new reactive object that holds a
+  /// Registers a new watcher that transforms the reactive object received into a new reactive object that holds a
   /// different type.
   ///
   /// `reactive`: The reactive object which its value changes are listened for.
@@ -44,7 +44,7 @@ impl ReactivityManager {
     result
   }
 
-  /// It registers a new watcher that transforms these reactive objects received into a new reactive object that holds a
+  /// Registers a new watcher that transforms these reactive objects received into a new reactive object that holds a
   /// different type.
   ///
   /// `reactive_a`: The first reactive object which its value changes are listened for.
@@ -92,7 +92,7 @@ impl ReactivityManager {
     result
   }
 
-  /// It registers a new watcher that transforms these reactive objects received into a new reactive object that holds a
+  /// Registers a new watcher that transforms these reactive objects received into a new reactive object that holds a
   /// different type.
   ///
   /// `reactive_a`: The first reactive object which its value changes are listened for.

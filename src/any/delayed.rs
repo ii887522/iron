@@ -1,13 +1,12 @@
-//! It is a value holder that allows new value to be assigned in the future by the `timeout` given.
+//! A value holder that allows new value to be assigned in the future by the `timeout` given.
 //!
-//! Users of this module must keep calling [Delayed::step(dt)](./struct.Delayed.html#method.step) method after created
-//! an object through [Delayed::new(arg)](./struct.Delayed.html#method.new) function and assigned a new value through
-//! [Delayed::set_value(value)](./struct.Delayed.html#method.set_value) method to simulate delayed assignment of new
-//! value.
+//! Users of this module must keep calling [Delayed::step](./struct.Delayed.html#method.step) method after created an
+//! object through [Delayed::new](./struct.Delayed.html#method.new) function and assigned a new value through
+//! [Delayed::set_value](./struct.Delayed.html#method.set_value) method to simulate delayed assignment of new value.
 
 use crate::Readonly;
 
-/// It is an argument object to be passed to [Delayed::new(arg)](./struct.Delayed.html#method.new) to construct a new
+/// An argument object to be passed to [Delayed::new](./struct.Delayed.html#method.new) to construct a new
 /// [Delayed](./struct.Delayed.html) object.
 ///
 /// An argument object can be constructed either from [a single value](./struct.Arg.html#impl-From<%26%27a%20T>) or
@@ -28,10 +27,8 @@ impl<'a, T: ?Sized> From<&'a T> for Arg<'a, T> {
 }
 
 impl<'a, T: ?Sized> From<(&'a T, f64)> for Arg<'a, T> {
-  /// Performs the conversion.
-  ///
-  /// `timeout`: A certain amount of time to be elasped before the new `value` is being assigned and held. It must be a
-  /// number that is greater than 0.0 .
+  /// Performs the conversion from a `value` and a certain amount of `timeout` to be elapsed before the new `value` is
+  /// being assigned and held.
   ///
   /// # Panics
   ///
@@ -45,9 +42,9 @@ impl<'a, T: ?Sized> From<(&'a T, f64)> for Arg<'a, T> {
   }
 }
 
-/// It is a value holder that allows new value to be assigned in the future by the `timeout` given.
+/// A value holder that allows new value to be assigned in the future by the `timeout` given.
 ///
-/// A `Delayed` object can be constructed by calling [Delayed::new(arg)](./struct.Delayed.html#method.new) function.
+/// A `Delayed` object can be constructed by calling [Delayed::new](./struct.Delayed.html#method.new) function.
 #[derive(Copy, Clone, Debug)]
 pub struct Delayed<'a, T: ?Sized> {
   t: f64,
@@ -57,10 +54,8 @@ pub struct Delayed<'a, T: ?Sized> {
 }
 
 impl<'a, T: ?Sized> Delayed<'a, T> {
-  /// It constructs a new [Delayed](./struct.Delayed.html) object.
-  ///
-  /// `arg`: An argument object. See [Arg](./struct.Arg.html) for more information on how to create an argument object
-  /// to be passed into here.
+  /// Constructs a new [Delayed](./struct.Delayed.html) object from the given `arg`. See [Arg](./struct.Arg.html) for
+  /// more information on how to create an argument object to be passed into here.
   pub fn new(arg: impl Into<Arg<'a, T>>) -> Self {
     let Arg { timeout, value } = arg.into();
     Self {
@@ -71,24 +66,35 @@ impl<'a, T: ?Sized> Delayed<'a, T> {
     }
   }
 
-  /// It retrieves a value held by this object. The value retrieved may or may not be the latest value assigned by
-  /// [Delayed::set_value(value)](./struct.Delayed.html#method.set_value) method.
+  /// Retrieves a value held by this object.
+  ///
+  /// Note that the value retrieved may or may not be the latest value assigned by
+  /// [Delayed::set_value](./struct.Delayed.html#method.set_value) method.
   ///
   /// # Examples
   ///
   /// ```
   /// use iron_ingot::Delayed;
   ///
-  /// assert_eq!(Delayed::new(&0).get_value(), &0);
+  /// let mut delayed_value = Delayed::new(&0);
+  ///
+  /// // The latest value is the initial value when creating the delayed_value object. When there is
+  /// // no set_value method call in between, get_value method call should return the latest value
+  /// // which is 0.
+  /// assert_eq!(delayed_value.get_value(), &0);
+  ///
+  /// // Change the latest value to become 1.
+  /// delayed_value.set_value(&1);
+  ///
+  /// // Since the user has not called step method to simulate delayed assignment of latest value.
+  /// // get_value method call below still return the old value which is 0.
+  /// assert_eq!(delayed_value.get_value(), &0);
   /// ```
   pub fn get_value(&self) -> &T {
     self.value
   }
 
-  /// It assigns a new `value` to be held by this object in the future.
-  ///
-  /// `value`: The value that can be retrieved in the future by calling
-  /// [Delayed::get_value()](./struct.Delayed.html#method.get_value).
+  /// Assigns a new `value` to be held by this object in the future.
   ///
   /// # Examples
   ///
@@ -111,11 +117,8 @@ impl<'a, T: ?Sized> Delayed<'a, T> {
     self.pending_value = value;
   }
 
-  /// It assigns a new `value` to be held by this object immediately without needing to wait and
+  /// Assigns a new `value` to be held by this object immediately without needing to wait and
   /// [step](./struct.Delayed.html#method.step).
-  ///
-  /// `value`: The value that can be retrieved immediately by calling
-  /// [Delayed::get_value()](./struct.Delayed.html#method.get_value).
   ///
   /// # Examples
   ///
@@ -131,9 +134,8 @@ impl<'a, T: ?Sized> Delayed<'a, T> {
     self.value = value;
   }
 
-  /// It advances the time being tracked by the given `dt` for simulating delayed assignment of new value.
-  ///
-  /// `dt`: Some small amount of time to advance. It must be a positive number.
+  /// Advances the time being tracked by a small amount of time called `dt` for simulating delayed assignment of new
+  /// value.
   ///
   /// # Panics
   ///

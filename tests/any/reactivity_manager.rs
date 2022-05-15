@@ -1,7 +1,7 @@
 use iron_ingot::{any::reactive, ReactivityManager};
 
 #[test]
-pub fn test_watch() {
+fn test_watch() {
   let mut reactivity_manager = ReactivityManager::new();
   let value = reactive::Handle::from(0);
   let squared_value = reactivity_manager.watch(value.clone(), |&value| value * value);

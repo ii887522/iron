@@ -1,5 +1,8 @@
+//! A holder to a value in nanoseconds.
+
 use crate::Sec;
 
+/// A holder to a value in nanoseconds.
 #[derive(Copy, Clone, Debug, PartialEq)]
 pub struct NanoSec(pub f64);
 
