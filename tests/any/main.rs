@@ -1,3 +1,4 @@
+mod camel_case_str;
 mod delayed;
 mod dynamic;
 mod id_manager;
@@ -7,3 +8,4 @@ mod prime_iter;
 mod reactive;
 mod reactivity_manager;
 mod sec;
+mod snake_case_str;
