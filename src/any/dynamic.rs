@@ -6,8 +6,6 @@
 //! Note that when a [Dynamic](./struct.Dynamic.html) object is created, the `next_value` callback function will be
 //! called to get its result to initialize the [Dynamic](./struct.Dynamic.html) object created just now.
 
-use crate::Readonly;
-
 /// An argument object to be passed to [Dynamic::new](./struct.Dynamic.html#method.new) to construct a new
 /// [Dynamic](./struct.Dynamic.html) object.
 ///
@@ -54,7 +52,7 @@ impl<T, F: FnMut() -> T> From<(F, f64)> for Arg<T, F> {
 #[derive(Copy, Clone, Debug)]
 pub struct Dynamic<T, F: FnMut() -> T> {
   t: f64,
-  interval: Readonly<f64>,
+  interval: f64,
   value: T,
   next_value: F,
 }
@@ -69,7 +67,7 @@ impl<T, F: FnMut() -> T> Dynamic<T, F> {
     } = arg.into();
     Self {
       t: 0.0,
-      interval: interval.into(),
+      interval,
       value: next_value(),
       next_value,
     }
@@ -120,10 +118,10 @@ impl<T, F: FnMut() -> T> Dynamic<T, F> {
   pub fn step(&mut self, dt: f64) {
     debug_assert!(dt >= 0.0, "dt must be a positive number!");
     self.t += dt;
-    if self.t < *self.interval {
+    if self.t < self.interval {
       return;
     }
-    self.t %= *self.interval;
+    self.t %= self.interval;
     self.value = (self.next_value)();
   }
 }

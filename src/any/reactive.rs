@@ -1,4 +1,4 @@
-use crate::{IDManager, Readonly, Shared};
+use crate::{IDManager, Shared};
 
 use std::{
   any::type_name,
@@ -81,7 +81,7 @@ impl<T: ?Sized> From<Reactive<dyn Debug>> for Handle<T> {
 #[derive(Debug)]
 pub struct Reactive<T: ?Sized> {
   watcher_id_manager: IDManager,
-  id: Readonly<usize>,
+  id: usize,
   watcher_id: Option<usize>,
   children: Vec<Option<Child<T>>>,
   value: Box<T>,
@@ -94,7 +94,7 @@ impl<T: ?Sized + Debug> Reactive<T> {
       watcher_id_manager: IDManager::new(),
 
       // SAFETY: This function is only called by the main thread.
-      id: unsafe { ID_MANAGER.next() }.unwrap().into(),
+      id: unsafe { ID_MANAGER.next() }.unwrap(),
 
       watcher_id,
       children: vec![],
@@ -103,7 +103,7 @@ impl<T: ?Sized + Debug> Reactive<T> {
   }
 
   pub fn get_id(&self) -> usize {
-    *self.id
+    self.id
   }
 
   pub fn get_value(&self) -> &T {
