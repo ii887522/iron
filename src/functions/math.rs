@@ -1,4 +1,4 @@
-use crate::{Seq, Vec2, Vec3, Vec4};
+use crate::{F64Seq, F64Vec2, F64Vec3, F64Vec4};
 pub trait ApproxEq {
   type Rhs;
 
@@ -102,9 +102,9 @@ pub fn lerp(t: f64, a: f64, b: f64) -> f64 {
 /// `b`: The value when `t` = 1 .
 ///
 /// It returns a value at time `t`.
-pub fn lerp_vec2(t: f64, a: Vec2, b: Vec2) -> Vec2 {
+pub fn lerp_vec2(t: f64, a: F64Vec2, b: F64Vec2) -> F64Vec2 {
   debug_assert!(!t.is_nan(), "t must be a number!");
-  Vec2::new((lerp(t, a.get_x(), b.get_x()), lerp(t, a.get_y(), b.get_y())))
+  F64Vec2::new((lerp(t, a.get_x(), b.get_x()), lerp(t, a.get_y(), b.get_y())))
 }
 
 /// It performs a linear interpolation to find a value at time `t` when t = 0, value is `a`; t = 1, value is `b`.
@@ -116,9 +116,9 @@ pub fn lerp_vec2(t: f64, a: Vec2, b: Vec2) -> Vec2 {
 /// `b`: The value when `t` = 1 .
 ///
 /// It returns a value at time `t`.
-pub fn lerp_vec3(t: f64, a: Vec3, b: Vec3) -> Vec3 {
+pub fn lerp_vec3(t: f64, a: F64Vec3, b: F64Vec3) -> F64Vec3 {
   debug_assert!(!t.is_nan(), "t must be a number!");
-  Vec3::new((
+  F64Vec3::new((
     lerp(t, a.get_x(), b.get_x()),
     lerp(t, a.get_y(), b.get_y()),
     lerp(t, a.get_z(), b.get_z()),
@@ -134,9 +134,9 @@ pub fn lerp_vec3(t: f64, a: Vec3, b: Vec3) -> Vec3 {
 /// `b`: The value when `t` = 1 .
 ///
 /// It returns a value at time `t`.
-pub fn lerp_vec4(t: f64, a: Vec4, b: Vec4) -> Vec4 {
+pub fn lerp_vec4(t: f64, a: F64Vec4, b: F64Vec4) -> F64Vec4 {
   debug_assert!(!t.is_nan(), "t must be a number!");
-  Vec4::new((
+  F64Vec4::new((
     lerp(t, a.get_x(), b.get_x()),
     lerp(t, a.get_y(), b.get_y()),
     lerp(t, a.get_z(), b.get_z()),
@@ -241,7 +241,7 @@ impl ExtremumFinder for [f64] {
 /// `to`: The sequence that the `value` maps to.
 ///
 /// It returns a mapped value that belongs to the second sequence given.
-pub fn linear_map(value: f64, from: Seq, to: Seq) -> f64 {
+pub fn linear_map(value: f64, from: F64Seq, to: F64Seq) -> f64 {
   debug_assert!(!value.is_nan(), "value must be a number!");
   to.unnormalize(from.normalize(value))
 }
@@ -260,28 +260,28 @@ pub fn linear_map(value: f64, from: Seq, to: Seq) -> f64 {
 ///
 /// It returns a mapped value that belongs to the second region given.
 pub fn linear_map_vec2(
-  value: Vec2,
-  from_position: Vec2,
-  from_size: Vec2,
-  to_position: Vec2,
-  to_size: Vec2,
-) -> Vec2 {
-  Vec2::new((
+  value: F64Vec2,
+  from_position: F64Vec2,
+  from_size: F64Vec2,
+  to_position: F64Vec2,
+  to_size: F64Vec2,
+) -> F64Vec2 {
+  F64Vec2::new((
     linear_map(
       value.get_x(),
-      Seq::new((
+      F64Seq::new((
         from_position.get_x(),
         from_position.get_x() + from_size.get_x(),
       )),
-      Seq::new((to_position.get_x(), to_position.get_x() + to_size.get_x())),
+      F64Seq::new((to_position.get_x(), to_position.get_x() + to_size.get_x())),
     ),
     linear_map(
       value.get_y(),
-      Seq::new((
+      F64Seq::new((
         from_position.get_y(),
         from_position.get_y() + from_size.get_y(),
       )),
-      Seq::new((to_position.get_y(), to_position.get_y() + to_size.get_y())),
+      F64Seq::new((to_position.get_y(), to_position.get_y() + to_size.get_y())),
     ),
   ))
 }

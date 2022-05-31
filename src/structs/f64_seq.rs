@@ -1,4 +1,4 @@
-use crate::Bound;
+use crate::{F64Bound, I32Bound, I32Seq};
 
 #[derive(Copy, Clone, Debug)]
 pub struct Arg(f64, f64);
@@ -20,9 +20,9 @@ impl From<(f64, f64)> for Arg {
 
 /// It defines a sequence between two values.
 #[derive(Copy, Clone, Debug, PartialEq)]
-pub struct Seq(f64, f64);
+pub struct F64Seq(f64, f64);
 
-impl Seq {
+impl F64Seq {
   pub fn new(arg: impl Into<Arg>) -> Self {
     let Arg(a, b) = arg.into();
     Self(a, b)
@@ -57,13 +57,30 @@ impl Seq {
   }
 }
 
-impl From<Bound> for Seq {
-  fn from(bound: Bound) -> Self {
+impl From<F64Bound> for F64Seq {
+  fn from(bound: F64Bound) -> Self {
     debug_assert_ne!(
       bound.get_min(),
       bound.get_max(),
-      "bound min must not be equal to bound max!"
+      "f64 bound min must not be equal to f64 bound max!"
     );
     Self::new((bound.get_min(), bound.get_max()))
+  }
+}
+
+impl From<I32Seq> for F64Seq {
+  fn from(seq: I32Seq) -> Self {
+    Self::new((seq.get_a() as _, seq.get_b() as _))
+  }
+}
+
+impl From<I32Bound> for F64Seq {
+  fn from(bound: I32Bound) -> Self {
+    debug_assert_ne!(
+      bound.get_min(),
+      bound.get_max(),
+      "i32 bound min must not be equal to i32 bound max!"
+    );
+    Self::new((bound.get_min() as _, bound.get_max() as _))
   }
 }
