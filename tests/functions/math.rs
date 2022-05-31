@@ -1,4 +1,4 @@
-use iron_ingot::{math::*, Seq, Vec2, Vec3, Vec4};
+use iron_ingot::{math::*, F64Seq, F64Vec2, F64Vec3, F64Vec4};
 
 #[test]
 fn test_approx_eq() {
@@ -166,112 +166,172 @@ fn test_lerp() {
 #[test]
 fn test_lerp_vec2() {
   assert_eq!(
-    lerp_vec2(0.0, Vec2::new((0.0, 0.0)), Vec2::new((0.0, 0.0))),
-    Vec2::new((0.0, 0.0))
+    lerp_vec2(0.0, F64Vec2::new((0.0, 0.0)), F64Vec2::new((0.0, 0.0))),
+    F64Vec2::new((0.0, 0.0))
   );
   assert_eq!(
-    lerp_vec2(1.0, Vec2::new((0.0, 0.0)), Vec2::new((0.0, 0.0))),
-    Vec2::new((0.0, 0.0))
+    lerp_vec2(1.0, F64Vec2::new((0.0, 0.0)), F64Vec2::new((0.0, 0.0))),
+    F64Vec2::new((0.0, 0.0))
   );
   assert_eq!(
-    lerp_vec2(2.0, Vec2::new((0.0, 0.0)), Vec2::new((0.0, 0.0))),
-    Vec2::new((0.0, 0.0))
+    lerp_vec2(2.0, F64Vec2::new((0.0, 0.0)), F64Vec2::new((0.0, 0.0))),
+    F64Vec2::new((0.0, 0.0))
   );
   assert_eq!(
-    lerp_vec2(2.0, Vec2::new((1.0, 0.0)), Vec2::new((0.0, 0.0))),
-    Vec2::new((-1.0, 0.0))
+    lerp_vec2(2.0, F64Vec2::new((1.0, 0.0)), F64Vec2::new((0.0, 0.0))),
+    F64Vec2::new((-1.0, 0.0))
   );
   assert_eq!(
-    lerp_vec2(2.0, Vec2::new((2.0, 0.0)), Vec2::new((0.0, 0.0))),
-    Vec2::new((-2.0, 0.0))
+    lerp_vec2(2.0, F64Vec2::new((2.0, 0.0)), F64Vec2::new((0.0, 0.0))),
+    F64Vec2::new((-2.0, 0.0))
   );
   assert_eq!(
-    lerp_vec2(2.0, Vec2::new((2.0, 0.0)), Vec2::new((1.0, 0.0))),
-    Vec2::new((0.0, 0.0))
+    lerp_vec2(2.0, F64Vec2::new((2.0, 0.0)), F64Vec2::new((1.0, 0.0))),
+    F64Vec2::new((0.0, 0.0))
   );
   assert_eq!(
-    lerp_vec2(2.0, Vec2::new((2.0, 0.0)), Vec2::new((2.0, 0.0))),
-    Vec2::new((2.0, 0.0))
+    lerp_vec2(2.0, F64Vec2::new((2.0, 0.0)), F64Vec2::new((2.0, 0.0))),
+    F64Vec2::new((2.0, 0.0))
   );
   assert_eq!(
-    lerp_vec2(2.0, Vec2::new((2.0, 1.0)), Vec2::new((2.0, 0.0))),
-    Vec2::new((2.0, -1.0))
+    lerp_vec2(2.0, F64Vec2::new((2.0, 1.0)), F64Vec2::new((2.0, 0.0))),
+    F64Vec2::new((2.0, -1.0))
   );
   assert_eq!(
-    lerp_vec2(2.0, Vec2::new((2.0, 2.0)), Vec2::new((2.0, 0.0))),
-    Vec2::new((2.0, -2.0))
+    lerp_vec2(2.0, F64Vec2::new((2.0, 2.0)), F64Vec2::new((2.0, 0.0))),
+    F64Vec2::new((2.0, -2.0))
   );
   assert_eq!(
-    lerp_vec2(2.0, Vec2::new((2.0, 2.0)), Vec2::new((2.0, 1.0))),
-    Vec2::new((2.0, 0.0))
+    lerp_vec2(2.0, F64Vec2::new((2.0, 2.0)), F64Vec2::new((2.0, 1.0))),
+    F64Vec2::new((2.0, 0.0))
   );
   assert_eq!(
-    lerp_vec2(2.0, Vec2::new((2.0, 2.0)), Vec2::new((2.0, 2.0))),
-    Vec2::new((2.0, 2.0))
+    lerp_vec2(2.0, F64Vec2::new((2.0, 2.0)), F64Vec2::new((2.0, 2.0))),
+    F64Vec2::new((2.0, 2.0))
   );
 }
 
 #[test]
 fn test_lerp_vec3() {
   assert_eq!(
-    lerp_vec3(0.0, Vec3::new((0.0, 0.0, 0.0)), Vec3::new((0.0, 0.0, 0.0))),
-    Vec3::new((0.0, 0.0, 0.0))
+    lerp_vec3(
+      0.0,
+      F64Vec3::new((0.0, 0.0, 0.0)),
+      F64Vec3::new((0.0, 0.0, 0.0))
+    ),
+    F64Vec3::new((0.0, 0.0, 0.0))
   );
   assert_eq!(
-    lerp_vec3(1.0, Vec3::new((0.0, 0.0, 0.0)), Vec3::new((0.0, 0.0, 0.0))),
-    Vec3::new((0.0, 0.0, 0.0))
+    lerp_vec3(
+      1.0,
+      F64Vec3::new((0.0, 0.0, 0.0)),
+      F64Vec3::new((0.0, 0.0, 0.0))
+    ),
+    F64Vec3::new((0.0, 0.0, 0.0))
   );
   assert_eq!(
-    lerp_vec3(2.0, Vec3::new((0.0, 0.0, 0.0)), Vec3::new((0.0, 0.0, 0.0))),
-    Vec3::new((0.0, 0.0, 0.0))
+    lerp_vec3(
+      2.0,
+      F64Vec3::new((0.0, 0.0, 0.0)),
+      F64Vec3::new((0.0, 0.0, 0.0))
+    ),
+    F64Vec3::new((0.0, 0.0, 0.0))
   );
   assert_eq!(
-    lerp_vec3(2.0, Vec3::new((1.0, 0.0, 0.0)), Vec3::new((0.0, 0.0, 0.0))),
-    Vec3::new((-1.0, 0.0, 0.0))
+    lerp_vec3(
+      2.0,
+      F64Vec3::new((1.0, 0.0, 0.0)),
+      F64Vec3::new((0.0, 0.0, 0.0))
+    ),
+    F64Vec3::new((-1.0, 0.0, 0.0))
   );
   assert_eq!(
-    lerp_vec3(2.0, Vec3::new((2.0, 0.0, 0.0)), Vec3::new((0.0, 0.0, 0.0))),
-    Vec3::new((-2.0, 0.0, 0.0))
+    lerp_vec3(
+      2.0,
+      F64Vec3::new((2.0, 0.0, 0.0)),
+      F64Vec3::new((0.0, 0.0, 0.0))
+    ),
+    F64Vec3::new((-2.0, 0.0, 0.0))
   );
   assert_eq!(
-    lerp_vec3(2.0, Vec3::new((2.0, 0.0, 0.0)), Vec3::new((1.0, 0.0, 0.0))),
-    Vec3::new((0.0, 0.0, 0.0))
+    lerp_vec3(
+      2.0,
+      F64Vec3::new((2.0, 0.0, 0.0)),
+      F64Vec3::new((1.0, 0.0, 0.0))
+    ),
+    F64Vec3::new((0.0, 0.0, 0.0))
   );
   assert_eq!(
-    lerp_vec3(2.0, Vec3::new((2.0, 0.0, 0.0)), Vec3::new((2.0, 0.0, 0.0))),
-    Vec3::new((2.0, 0.0, 0.0))
+    lerp_vec3(
+      2.0,
+      F64Vec3::new((2.0, 0.0, 0.0)),
+      F64Vec3::new((2.0, 0.0, 0.0))
+    ),
+    F64Vec3::new((2.0, 0.0, 0.0))
   );
   assert_eq!(
-    lerp_vec3(2.0, Vec3::new((2.0, 1.0, 0.0)), Vec3::new((2.0, 0.0, 0.0))),
-    Vec3::new((2.0, -1.0, 0.0))
+    lerp_vec3(
+      2.0,
+      F64Vec3::new((2.0, 1.0, 0.0)),
+      F64Vec3::new((2.0, 0.0, 0.0))
+    ),
+    F64Vec3::new((2.0, -1.0, 0.0))
   );
   assert_eq!(
-    lerp_vec3(2.0, Vec3::new((2.0, 2.0, 0.0)), Vec3::new((2.0, 0.0, 0.0))),
-    Vec3::new((2.0, -2.0, 0.0))
+    lerp_vec3(
+      2.0,
+      F64Vec3::new((2.0, 2.0, 0.0)),
+      F64Vec3::new((2.0, 0.0, 0.0))
+    ),
+    F64Vec3::new((2.0, -2.0, 0.0))
   );
   assert_eq!(
-    lerp_vec3(2.0, Vec3::new((2.0, 2.0, 0.0)), Vec3::new((2.0, 1.0, 0.0))),
-    Vec3::new((2.0, 0.0, 0.0))
+    lerp_vec3(
+      2.0,
+      F64Vec3::new((2.0, 2.0, 0.0)),
+      F64Vec3::new((2.0, 1.0, 0.0))
+    ),
+    F64Vec3::new((2.0, 0.0, 0.0))
   );
   assert_eq!(
-    lerp_vec3(2.0, Vec3::new((2.0, 2.0, 0.0)), Vec3::new((2.0, 2.0, 0.0))),
-    Vec3::new((2.0, 2.0, 0.0))
+    lerp_vec3(
+      2.0,
+      F64Vec3::new((2.0, 2.0, 0.0)),
+      F64Vec3::new((2.0, 2.0, 0.0))
+    ),
+    F64Vec3::new((2.0, 2.0, 0.0))
   );
   assert_eq!(
-    lerp_vec3(2.0, Vec3::new((2.0, 2.0, 1.0)), Vec3::new((2.0, 2.0, 0.0))),
-    Vec3::new((2.0, 2.0, -1.0))
+    lerp_vec3(
+      2.0,
+      F64Vec3::new((2.0, 2.0, 1.0)),
+      F64Vec3::new((2.0, 2.0, 0.0))
+    ),
+    F64Vec3::new((2.0, 2.0, -1.0))
   );
   assert_eq!(
-    lerp_vec3(2.0, Vec3::new((2.0, 2.0, 2.0)), Vec3::new((2.0, 2.0, 0.0))),
-    Vec3::new((2.0, 2.0, -2.0))
+    lerp_vec3(
+      2.0,
+      F64Vec3::new((2.0, 2.0, 2.0)),
+      F64Vec3::new((2.0, 2.0, 0.0))
+    ),
+    F64Vec3::new((2.0, 2.0, -2.0))
   );
   assert_eq!(
-    lerp_vec3(2.0, Vec3::new((2.0, 2.0, 2.0)), Vec3::new((2.0, 2.0, 1.0))),
-    Vec3::new((2.0, 2.0, 0.0))
+    lerp_vec3(
+      2.0,
+      F64Vec3::new((2.0, 2.0, 2.0)),
+      F64Vec3::new((2.0, 2.0, 1.0))
+    ),
+    F64Vec3::new((2.0, 2.0, 0.0))
   );
   assert_eq!(
-    lerp_vec3(2.0, Vec3::new((2.0, 2.0, 2.0)), Vec3::new((2.0, 2.0, 2.0))),
-    Vec3::new((2.0, 2.0, 2.0))
+    lerp_vec3(
+      2.0,
+      F64Vec3::new((2.0, 2.0, 2.0)),
+      F64Vec3::new((2.0, 2.0, 2.0))
+    ),
+    F64Vec3::new((2.0, 2.0, 2.0))
   );
 }
 
@@ -280,201 +340,201 @@ fn test_lerp_vec4() {
   assert_eq!(
     lerp_vec4(
       0.0,
-      Vec4::new((0.0, 0.0, 0.0, 0.0)),
-      Vec4::new((0.0, 0.0, 0.0, 0.0))
+      F64Vec4::new((0.0, 0.0, 0.0, 0.0)),
+      F64Vec4::new((0.0, 0.0, 0.0, 0.0))
     ),
-    Vec4::new((0.0, 0.0, 0.0, 0.0))
+    F64Vec4::new((0.0, 0.0, 0.0, 0.0))
   );
   assert_eq!(
     lerp_vec4(
       1.0,
-      Vec4::new((0.0, 0.0, 0.0, 0.0)),
-      Vec4::new((0.0, 0.0, 0.0, 0.0))
+      F64Vec4::new((0.0, 0.0, 0.0, 0.0)),
+      F64Vec4::new((0.0, 0.0, 0.0, 0.0))
     ),
-    Vec4::new((0.0, 0.0, 0.0, 0.0))
+    F64Vec4::new((0.0, 0.0, 0.0, 0.0))
   );
   assert_eq!(
     lerp_vec4(
       2.0,
-      Vec4::new((0.0, 0.0, 0.0, 0.0)),
-      Vec4::new((0.0, 0.0, 0.0, 0.0))
+      F64Vec4::new((0.0, 0.0, 0.0, 0.0)),
+      F64Vec4::new((0.0, 0.0, 0.0, 0.0))
     ),
-    Vec4::new((0.0, 0.0, 0.0, 0.0))
+    F64Vec4::new((0.0, 0.0, 0.0, 0.0))
   );
   assert_eq!(
     lerp_vec4(
       2.0,
-      Vec4::new((1.0, 0.0, 0.0, 0.0)),
-      Vec4::new((0.0, 0.0, 0.0, 0.0))
+      F64Vec4::new((1.0, 0.0, 0.0, 0.0)),
+      F64Vec4::new((0.0, 0.0, 0.0, 0.0))
     ),
-    Vec4::new((-1.0, 0.0, 0.0, 0.0))
+    F64Vec4::new((-1.0, 0.0, 0.0, 0.0))
   );
   assert_eq!(
     lerp_vec4(
       2.0,
-      Vec4::new((2.0, 0.0, 0.0, 0.0)),
-      Vec4::new((0.0, 0.0, 0.0, 0.0))
+      F64Vec4::new((2.0, 0.0, 0.0, 0.0)),
+      F64Vec4::new((0.0, 0.0, 0.0, 0.0))
     ),
-    Vec4::new((-2.0, 0.0, 0.0, 0.0))
+    F64Vec4::new((-2.0, 0.0, 0.0, 0.0))
   );
   assert_eq!(
     lerp_vec4(
       2.0,
-      Vec4::new((2.0, 0.0, 0.0, 0.0)),
-      Vec4::new((1.0, 0.0, 0.0, 0.0))
+      F64Vec4::new((2.0, 0.0, 0.0, 0.0)),
+      F64Vec4::new((1.0, 0.0, 0.0, 0.0))
     ),
-    Vec4::new((0.0, 0.0, 0.0, 0.0))
+    F64Vec4::new((0.0, 0.0, 0.0, 0.0))
   );
   assert_eq!(
     lerp_vec4(
       2.0,
-      Vec4::new((2.0, 0.0, 0.0, 0.0)),
-      Vec4::new((2.0, 0.0, 0.0, 0.0))
+      F64Vec4::new((2.0, 0.0, 0.0, 0.0)),
+      F64Vec4::new((2.0, 0.0, 0.0, 0.0))
     ),
-    Vec4::new((2.0, 0.0, 0.0, 0.0))
+    F64Vec4::new((2.0, 0.0, 0.0, 0.0))
   );
   assert_eq!(
     lerp_vec4(
       2.0,
-      Vec4::new((2.0, 1.0, 0.0, 0.0)),
-      Vec4::new((2.0, 0.0, 0.0, 0.0))
+      F64Vec4::new((2.0, 1.0, 0.0, 0.0)),
+      F64Vec4::new((2.0, 0.0, 0.0, 0.0))
     ),
-    Vec4::new((2.0, -1.0, 0.0, 0.0))
+    F64Vec4::new((2.0, -1.0, 0.0, 0.0))
   );
   assert_eq!(
     lerp_vec4(
       2.0,
-      Vec4::new((2.0, 2.0, 0.0, 0.0)),
-      Vec4::new((2.0, 0.0, 0.0, 0.0))
+      F64Vec4::new((2.0, 2.0, 0.0, 0.0)),
+      F64Vec4::new((2.0, 0.0, 0.0, 0.0))
     ),
-    Vec4::new((2.0, -2.0, 0.0, 0.0))
+    F64Vec4::new((2.0, -2.0, 0.0, 0.0))
   );
   assert_eq!(
     lerp_vec4(
       2.0,
-      Vec4::new((2.0, 2.0, 0.0, 0.0)),
-      Vec4::new((2.0, 1.0, 0.0, 0.0))
+      F64Vec4::new((2.0, 2.0, 0.0, 0.0)),
+      F64Vec4::new((2.0, 1.0, 0.0, 0.0))
     ),
-    Vec4::new((2.0, 0.0, 0.0, 0.0))
+    F64Vec4::new((2.0, 0.0, 0.0, 0.0))
   );
   assert_eq!(
     lerp_vec4(
       2.0,
-      Vec4::new((2.0, 2.0, 0.0, 0.0)),
-      Vec4::new((2.0, 2.0, 0.0, 0.0))
+      F64Vec4::new((2.0, 2.0, 0.0, 0.0)),
+      F64Vec4::new((2.0, 2.0, 0.0, 0.0))
     ),
-    Vec4::new((2.0, 2.0, 0.0, 0.0))
+    F64Vec4::new((2.0, 2.0, 0.0, 0.0))
   );
   assert_eq!(
     lerp_vec4(
       2.0,
-      Vec4::new((2.0, 2.0, 1.0, 0.0)),
-      Vec4::new((2.0, 2.0, 0.0, 0.0))
+      F64Vec4::new((2.0, 2.0, 1.0, 0.0)),
+      F64Vec4::new((2.0, 2.0, 0.0, 0.0))
     ),
-    Vec4::new((2.0, 2.0, -1.0, 0.0))
+    F64Vec4::new((2.0, 2.0, -1.0, 0.0))
   );
   assert_eq!(
     lerp_vec4(
       2.0,
-      Vec4::new((2.0, 2.0, 2.0, 0.0)),
-      Vec4::new((2.0, 2.0, 0.0, 0.0))
+      F64Vec4::new((2.0, 2.0, 2.0, 0.0)),
+      F64Vec4::new((2.0, 2.0, 0.0, 0.0))
     ),
-    Vec4::new((2.0, 2.0, -2.0, 0.0))
+    F64Vec4::new((2.0, 2.0, -2.0, 0.0))
   );
   assert_eq!(
     lerp_vec4(
       2.0,
-      Vec4::new((2.0, 2.0, 2.0, 0.0)),
-      Vec4::new((2.0, 2.0, 1.0, 0.0))
+      F64Vec4::new((2.0, 2.0, 2.0, 0.0)),
+      F64Vec4::new((2.0, 2.0, 1.0, 0.0))
     ),
-    Vec4::new((2.0, 2.0, 0.0, 0.0))
+    F64Vec4::new((2.0, 2.0, 0.0, 0.0))
   );
   assert_eq!(
     lerp_vec4(
       2.0,
-      Vec4::new((2.0, 2.0, 2.0, 0.0)),
-      Vec4::new((2.0, 2.0, 2.0, 0.0))
+      F64Vec4::new((2.0, 2.0, 2.0, 0.0)),
+      F64Vec4::new((2.0, 2.0, 2.0, 0.0))
     ),
-    Vec4::new((2.0, 2.0, 2.0, 0.0))
+    F64Vec4::new((2.0, 2.0, 2.0, 0.0))
   );
   assert_eq!(
     lerp_vec4(
       2.0,
-      Vec4::new((2.0, 2.0, 2.0, 1.0)),
-      Vec4::new((2.0, 2.0, 2.0, 0.0))
+      F64Vec4::new((2.0, 2.0, 2.0, 1.0)),
+      F64Vec4::new((2.0, 2.0, 2.0, 0.0))
     ),
-    Vec4::new((2.0, 2.0, 2.0, -1.0))
+    F64Vec4::new((2.0, 2.0, 2.0, -1.0))
   );
   assert_eq!(
     lerp_vec4(
       2.0,
-      Vec4::new((2.0, 2.0, 2.0, 2.0)),
-      Vec4::new((2.0, 2.0, 2.0, 0.0))
+      F64Vec4::new((2.0, 2.0, 2.0, 2.0)),
+      F64Vec4::new((2.0, 2.0, 2.0, 0.0))
     ),
-    Vec4::new((2.0, 2.0, 2.0, -2.0))
+    F64Vec4::new((2.0, 2.0, 2.0, -2.0))
   );
   assert_eq!(
     lerp_vec4(
       2.0,
-      Vec4::new((2.0, 2.0, 2.0, 2.0)),
-      Vec4::new((2.0, 2.0, 2.0, 1.0))
+      F64Vec4::new((2.0, 2.0, 2.0, 2.0)),
+      F64Vec4::new((2.0, 2.0, 2.0, 1.0))
     ),
-    Vec4::new((2.0, 2.0, 2.0, 0.0))
+    F64Vec4::new((2.0, 2.0, 2.0, 0.0))
   );
   assert_eq!(
     lerp_vec4(
       2.0,
-      Vec4::new((2.0, 2.0, 2.0, 2.0)),
-      Vec4::new((2.0, 2.0, 2.0, 2.0))
+      F64Vec4::new((2.0, 2.0, 2.0, 2.0)),
+      F64Vec4::new((2.0, 2.0, 2.0, 2.0))
     ),
-    Vec4::new((2.0, 2.0, 2.0, 2.0))
+    F64Vec4::new((2.0, 2.0, 2.0, 2.0))
   );
 }
 
 #[test]
 fn test_linear_map() {
   assert_eq!(
-    linear_map(0.0, Seq::new((0.0, 1.0)), Seq::new((0.0, 1.0))),
+    linear_map(0.0, F64Seq::new((0.0, 1.0)), F64Seq::new((0.0, 1.0))),
     0.0
   );
   assert_eq!(
-    linear_map(1.0, Seq::new((0.0, 1.0)), Seq::new((0.0, 1.0))),
+    linear_map(1.0, F64Seq::new((0.0, 1.0)), F64Seq::new((0.0, 1.0))),
     1.0
   );
   assert_eq!(
-    linear_map(2.0, Seq::new((0.0, 1.0)), Seq::new((0.0, 1.0))),
+    linear_map(2.0, F64Seq::new((0.0, 1.0)), F64Seq::new((0.0, 1.0))),
     2.0
   );
   assert_eq!(
-    linear_map(2.0, Seq::new((0.0, 2.0)), Seq::new((0.0, 1.0))),
+    linear_map(2.0, F64Seq::new((0.0, 2.0)), F64Seq::new((0.0, 1.0))),
     1.0
   );
   assert_eq!(
-    linear_map(2.0, Seq::new((0.0, 4.0)), Seq::new((0.0, 1.0))),
+    linear_map(2.0, F64Seq::new((0.0, 4.0)), F64Seq::new((0.0, 1.0))),
     0.5
   );
   assert_eq!(
-    linear_map(2.0, Seq::new((2.0, 4.0)), Seq::new((0.0, 1.0))),
+    linear_map(2.0, F64Seq::new((2.0, 4.0)), F64Seq::new((0.0, 1.0))),
     0.0
   );
   assert_eq!(
-    linear_map(2.0, Seq::new((3.0, 4.0)), Seq::new((0.0, 1.0))),
+    linear_map(2.0, F64Seq::new((3.0, 4.0)), F64Seq::new((0.0, 1.0))),
     -1.0
   );
   assert_eq!(
-    linear_map(2.0, Seq::new((3.0, 4.0)), Seq::new((0.0, 2.0))),
+    linear_map(2.0, F64Seq::new((3.0, 4.0)), F64Seq::new((0.0, 2.0))),
     -2.0
   );
   assert_eq!(
-    linear_map(2.0, Seq::new((3.0, 4.0)), Seq::new((0.0, 3.0))),
+    linear_map(2.0, F64Seq::new((3.0, 4.0)), F64Seq::new((0.0, 3.0))),
     -3.0
   );
   assert_eq!(
-    linear_map(2.0, Seq::new((3.0, 4.0)), Seq::new((1.0, 3.0))),
+    linear_map(2.0, F64Seq::new((3.0, 4.0)), F64Seq::new((1.0, 3.0))),
     -1.0
   );
   assert_eq!(
-    linear_map(2.0, Seq::new((3.0, 4.0)), Seq::new((2.0, 3.0))),
+    linear_map(2.0, F64Seq::new((3.0, 4.0)), F64Seq::new((2.0, 3.0))),
     1.0
   );
 }
@@ -483,223 +543,223 @@ fn test_linear_map() {
 fn test_linear_map_vec2() {
   assert_eq!(
     linear_map_vec2(
-      Vec2::new((0.0, 0.0)),
-      Vec2::new((0.0, 0.0)),
-      Vec2::new((1.0, 1.0)),
-      Vec2::new((0.0, 0.0)),
-      Vec2::new((1.0, 1.0))
+      F64Vec2::new((0.0, 0.0)),
+      F64Vec2::new((0.0, 0.0)),
+      F64Vec2::new((1.0, 1.0)),
+      F64Vec2::new((0.0, 0.0)),
+      F64Vec2::new((1.0, 1.0))
     ),
-    Vec2::new((0.0, 0.0))
+    F64Vec2::new((0.0, 0.0))
   );
   assert_eq!(
     linear_map_vec2(
-      Vec2::new((1.0, 0.0)),
-      Vec2::new((0.0, 0.0)),
-      Vec2::new((1.0, 1.0)),
-      Vec2::new((0.0, 0.0)),
-      Vec2::new((1.0, 1.0))
+      F64Vec2::new((1.0, 0.0)),
+      F64Vec2::new((0.0, 0.0)),
+      F64Vec2::new((1.0, 1.0)),
+      F64Vec2::new((0.0, 0.0)),
+      F64Vec2::new((1.0, 1.0))
     ),
-    Vec2::new((1.0, 0.0))
+    F64Vec2::new((1.0, 0.0))
   );
   assert_eq!(
     linear_map_vec2(
-      Vec2::new((2.0, 0.0)),
-      Vec2::new((0.0, 0.0)),
-      Vec2::new((1.0, 1.0)),
-      Vec2::new((0.0, 0.0)),
-      Vec2::new((1.0, 1.0))
+      F64Vec2::new((2.0, 0.0)),
+      F64Vec2::new((0.0, 0.0)),
+      F64Vec2::new((1.0, 1.0)),
+      F64Vec2::new((0.0, 0.0)),
+      F64Vec2::new((1.0, 1.0))
     ),
-    Vec2::new((2.0, 0.0))
+    F64Vec2::new((2.0, 0.0))
   );
   assert_eq!(
     linear_map_vec2(
-      Vec2::new((2.0, 1.0)),
-      Vec2::new((0.0, 0.0)),
-      Vec2::new((1.0, 1.0)),
-      Vec2::new((0.0, 0.0)),
-      Vec2::new((1.0, 1.0))
+      F64Vec2::new((2.0, 1.0)),
+      F64Vec2::new((0.0, 0.0)),
+      F64Vec2::new((1.0, 1.0)),
+      F64Vec2::new((0.0, 0.0)),
+      F64Vec2::new((1.0, 1.0))
     ),
-    Vec2::new((2.0, 1.0))
+    F64Vec2::new((2.0, 1.0))
   );
   assert_eq!(
     linear_map_vec2(
-      Vec2::new((2.0, 2.0)),
-      Vec2::new((0.0, 0.0)),
-      Vec2::new((1.0, 1.0)),
-      Vec2::new((0.0, 0.0)),
-      Vec2::new((1.0, 1.0))
+      F64Vec2::new((2.0, 2.0)),
+      F64Vec2::new((0.0, 0.0)),
+      F64Vec2::new((1.0, 1.0)),
+      F64Vec2::new((0.0, 0.0)),
+      F64Vec2::new((1.0, 1.0))
     ),
-    Vec2::new((2.0, 2.0))
+    F64Vec2::new((2.0, 2.0))
   );
   assert_eq!(
     linear_map_vec2(
-      Vec2::new((2.0, 2.0)),
-      Vec2::new((1.0, 0.0)),
-      Vec2::new((1.0, 1.0)),
-      Vec2::new((0.0, 0.0)),
-      Vec2::new((1.0, 1.0))
+      F64Vec2::new((2.0, 2.0)),
+      F64Vec2::new((1.0, 0.0)),
+      F64Vec2::new((1.0, 1.0)),
+      F64Vec2::new((0.0, 0.0)),
+      F64Vec2::new((1.0, 1.0))
     ),
-    Vec2::new((1.0, 2.0))
+    F64Vec2::new((1.0, 2.0))
   );
   assert_eq!(
     linear_map_vec2(
-      Vec2::new((2.0, 2.0)),
-      Vec2::new((2.0, 0.0)),
-      Vec2::new((1.0, 1.0)),
-      Vec2::new((0.0, 0.0)),
-      Vec2::new((1.0, 1.0))
+      F64Vec2::new((2.0, 2.0)),
+      F64Vec2::new((2.0, 0.0)),
+      F64Vec2::new((1.0, 1.0)),
+      F64Vec2::new((0.0, 0.0)),
+      F64Vec2::new((1.0, 1.0))
     ),
-    Vec2::new((0.0, 2.0))
+    F64Vec2::new((0.0, 2.0))
   );
   assert_eq!(
     linear_map_vec2(
-      Vec2::new((2.0, 2.0)),
-      Vec2::new((2.0, 1.0)),
-      Vec2::new((1.0, 1.0)),
-      Vec2::new((0.0, 0.0)),
-      Vec2::new((1.0, 1.0))
+      F64Vec2::new((2.0, 2.0)),
+      F64Vec2::new((2.0, 1.0)),
+      F64Vec2::new((1.0, 1.0)),
+      F64Vec2::new((0.0, 0.0)),
+      F64Vec2::new((1.0, 1.0))
     ),
-    Vec2::new((0.0, 1.0))
+    F64Vec2::new((0.0, 1.0))
   );
   assert_eq!(
     linear_map_vec2(
-      Vec2::new((2.0, 2.0)),
-      Vec2::new((2.0, 2.0)),
-      Vec2::new((1.0, 1.0)),
-      Vec2::new((0.0, 0.0)),
-      Vec2::new((1.0, 1.0))
+      F64Vec2::new((2.0, 2.0)),
+      F64Vec2::new((2.0, 2.0)),
+      F64Vec2::new((1.0, 1.0)),
+      F64Vec2::new((0.0, 0.0)),
+      F64Vec2::new((1.0, 1.0))
     ),
-    Vec2::new((0.0, 0.0))
+    F64Vec2::new((0.0, 0.0))
   );
   assert_eq!(
     linear_map_vec2(
-      Vec2::new((2.0, 2.0)),
-      Vec2::new((2.0, 2.0)),
-      Vec2::new((1.0, 1.0)),
-      Vec2::new((1.0, 0.0)),
-      Vec2::new((1.0, 1.0))
+      F64Vec2::new((2.0, 2.0)),
+      F64Vec2::new((2.0, 2.0)),
+      F64Vec2::new((1.0, 1.0)),
+      F64Vec2::new((1.0, 0.0)),
+      F64Vec2::new((1.0, 1.0))
     ),
-    Vec2::new((1.0, 0.0))
+    F64Vec2::new((1.0, 0.0))
   );
   assert_eq!(
     linear_map_vec2(
-      Vec2::new((2.0, 2.0)),
-      Vec2::new((2.0, 2.0)),
-      Vec2::new((1.0, 1.0)),
-      Vec2::new((2.0, 0.0)),
-      Vec2::new((1.0, 1.0))
+      F64Vec2::new((2.0, 2.0)),
+      F64Vec2::new((2.0, 2.0)),
+      F64Vec2::new((1.0, 1.0)),
+      F64Vec2::new((2.0, 0.0)),
+      F64Vec2::new((1.0, 1.0))
     ),
-    Vec2::new((2.0, 0.0))
+    F64Vec2::new((2.0, 0.0))
   );
   assert_eq!(
     linear_map_vec2(
-      Vec2::new((2.0, 2.0)),
-      Vec2::new((2.0, 2.0)),
-      Vec2::new((1.0, 1.0)),
-      Vec2::new((2.0, 1.0)),
-      Vec2::new((1.0, 1.0))
+      F64Vec2::new((2.0, 2.0)),
+      F64Vec2::new((2.0, 2.0)),
+      F64Vec2::new((1.0, 1.0)),
+      F64Vec2::new((2.0, 1.0)),
+      F64Vec2::new((1.0, 1.0))
     ),
-    Vec2::new((2.0, 1.0))
+    F64Vec2::new((2.0, 1.0))
   );
   assert_eq!(
     linear_map_vec2(
-      Vec2::new((2.0, 2.0)),
-      Vec2::new((2.0, 2.0)),
-      Vec2::new((1.0, 1.0)),
-      Vec2::new((2.0, 2.0)),
-      Vec2::new((1.0, 1.0))
+      F64Vec2::new((2.0, 2.0)),
+      F64Vec2::new((2.0, 2.0)),
+      F64Vec2::new((1.0, 1.0)),
+      F64Vec2::new((2.0, 2.0)),
+      F64Vec2::new((1.0, 1.0))
     ),
-    Vec2::new((2.0, 2.0))
+    F64Vec2::new((2.0, 2.0))
   );
   assert_eq!(
     linear_map_vec2(
-      Vec2::new((3.0, 3.0)),
-      Vec2::new((2.0, 2.0)),
-      Vec2::new((1.0, 1.0)),
-      Vec2::new((2.0, 2.0)),
-      Vec2::new((1.0, 1.0))
+      F64Vec2::new((3.0, 3.0)),
+      F64Vec2::new((2.0, 2.0)),
+      F64Vec2::new((1.0, 1.0)),
+      F64Vec2::new((2.0, 2.0)),
+      F64Vec2::new((1.0, 1.0))
     ),
-    Vec2::new((3.0, 3.0))
+    F64Vec2::new((3.0, 3.0))
   );
   assert_eq!(
     linear_map_vec2(
-      Vec2::new((3.0, 3.0)),
-      Vec2::new((2.0, 2.0)),
-      Vec2::new((2.0, 1.0)),
-      Vec2::new((2.0, 2.0)),
-      Vec2::new((1.0, 1.0))
+      F64Vec2::new((3.0, 3.0)),
+      F64Vec2::new((2.0, 2.0)),
+      F64Vec2::new((2.0, 1.0)),
+      F64Vec2::new((2.0, 2.0)),
+      F64Vec2::new((1.0, 1.0))
     ),
-    Vec2::new((2.5, 3.0))
+    F64Vec2::new((2.5, 3.0))
   );
   assert_eq!(
     linear_map_vec2(
-      Vec2::new((3.0, 3.0)),
-      Vec2::new((2.0, 2.0)),
-      Vec2::new((4.0, 1.0)),
-      Vec2::new((2.0, 2.0)),
-      Vec2::new((1.0, 1.0))
+      F64Vec2::new((3.0, 3.0)),
+      F64Vec2::new((2.0, 2.0)),
+      F64Vec2::new((4.0, 1.0)),
+      F64Vec2::new((2.0, 2.0)),
+      F64Vec2::new((1.0, 1.0))
     ),
-    Vec2::new((2.25, 3.0))
+    F64Vec2::new((2.25, 3.0))
   );
   assert_eq!(
     linear_map_vec2(
-      Vec2::new((3.0, 3.0)),
-      Vec2::new((2.0, 2.0)),
-      Vec2::new((4.0, 2.0)),
-      Vec2::new((2.0, 2.0)),
-      Vec2::new((1.0, 1.0))
+      F64Vec2::new((3.0, 3.0)),
+      F64Vec2::new((2.0, 2.0)),
+      F64Vec2::new((4.0, 2.0)),
+      F64Vec2::new((2.0, 2.0)),
+      F64Vec2::new((1.0, 1.0))
     ),
-    Vec2::new((2.25, 2.5))
+    F64Vec2::new((2.25, 2.5))
   );
   assert_eq!(
     linear_map_vec2(
-      Vec2::new((3.0, 3.0)),
-      Vec2::new((2.0, 2.0)),
-      Vec2::new((4.0, 4.0)),
-      Vec2::new((2.0, 2.0)),
-      Vec2::new((1.0, 1.0))
+      F64Vec2::new((3.0, 3.0)),
+      F64Vec2::new((2.0, 2.0)),
+      F64Vec2::new((4.0, 4.0)),
+      F64Vec2::new((2.0, 2.0)),
+      F64Vec2::new((1.0, 1.0))
     ),
-    Vec2::new((2.25, 2.25))
+    F64Vec2::new((2.25, 2.25))
   );
   assert_eq!(
     linear_map_vec2(
-      Vec2::new((3.0, 3.0)),
-      Vec2::new((2.0, 2.0)),
-      Vec2::new((4.0, 4.0)),
-      Vec2::new((2.0, 2.0)),
-      Vec2::new((2.0, 1.0))
+      F64Vec2::new((3.0, 3.0)),
+      F64Vec2::new((2.0, 2.0)),
+      F64Vec2::new((4.0, 4.0)),
+      F64Vec2::new((2.0, 2.0)),
+      F64Vec2::new((2.0, 1.0))
     ),
-    Vec2::new((2.5, 2.25))
+    F64Vec2::new((2.5, 2.25))
   );
   assert_eq!(
     linear_map_vec2(
-      Vec2::new((3.0, 3.0)),
-      Vec2::new((2.0, 2.0)),
-      Vec2::new((4.0, 4.0)),
-      Vec2::new((2.0, 2.0)),
-      Vec2::new((4.0, 1.0))
+      F64Vec2::new((3.0, 3.0)),
+      F64Vec2::new((2.0, 2.0)),
+      F64Vec2::new((4.0, 4.0)),
+      F64Vec2::new((2.0, 2.0)),
+      F64Vec2::new((4.0, 1.0))
     ),
-    Vec2::new((3.0, 2.25))
+    F64Vec2::new((3.0, 2.25))
   );
   assert_eq!(
     linear_map_vec2(
-      Vec2::new((3.0, 3.0)),
-      Vec2::new((2.0, 2.0)),
-      Vec2::new((4.0, 4.0)),
-      Vec2::new((2.0, 2.0)),
-      Vec2::new((4.0, 2.0))
+      F64Vec2::new((3.0, 3.0)),
+      F64Vec2::new((2.0, 2.0)),
+      F64Vec2::new((4.0, 4.0)),
+      F64Vec2::new((2.0, 2.0)),
+      F64Vec2::new((4.0, 2.0))
     ),
-    Vec2::new((3.0, 2.5))
+    F64Vec2::new((3.0, 2.5))
   );
   assert_eq!(
     linear_map_vec2(
-      Vec2::new((3.0, 3.0)),
-      Vec2::new((2.0, 2.0)),
-      Vec2::new((4.0, 4.0)),
-      Vec2::new((2.0, 2.0)),
-      Vec2::new((4.0, 4.0))
+      F64Vec2::new((3.0, 3.0)),
+      F64Vec2::new((2.0, 2.0)),
+      F64Vec2::new((4.0, 4.0)),
+      F64Vec2::new((2.0, 2.0)),
+      F64Vec2::new((4.0, 4.0))
     ),
-    Vec2::new((3.0, 3.0))
+    F64Vec2::new((3.0, 3.0))
   );
 }
 
