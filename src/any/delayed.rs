@@ -4,8 +4,6 @@
 //! object through [Delayed::new](./struct.Delayed.html#method.new) function and assigned a new value through
 //! [Delayed::set_value](./struct.Delayed.html#method.set_value) method to simulate delayed assignment of new value.
 
-use crate::Readonly;
-
 /// An argument object to be passed to [Delayed::new](./struct.Delayed.html#method.new) to construct a new
 /// [Delayed](./struct.Delayed.html) object.
 ///
@@ -48,7 +46,7 @@ impl<'a, T: ?Sized> From<(&'a T, f64)> for Arg<'a, T> {
 #[derive(Copy, Clone, Debug)]
 pub struct Delayed<'a, T: ?Sized> {
   t: f64,
-  timeout: Readonly<f64>,
+  timeout: f64,
   pending_value: &'a T,
   value: &'a T,
 }
@@ -60,7 +58,7 @@ impl<'a, T: ?Sized> Delayed<'a, T> {
     let Arg { timeout, value } = arg.into();
     Self {
       t: 0.0,
-      timeout: timeout.into(),
+      timeout,
       pending_value: value,
       value,
     }
@@ -161,10 +159,10 @@ impl<'a, T: ?Sized> Delayed<'a, T> {
   pub fn step(&mut self, dt: f64) {
     debug_assert!(dt >= 0.0, "dt must be a positive number!");
     self.t += dt;
-    if self.t < *self.timeout {
+    if self.t < self.timeout {
       return;
     }
-    self.t %= *self.timeout;
+    self.t %= self.timeout;
     self.value = self.pending_value;
   }
 }

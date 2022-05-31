@@ -69,6 +69,36 @@ impl<T> Late<T> {
     }
   }
 
+  /// Retrieves the initialized value from this holder.
+  ///
+  /// This method will return a `NotInitYetError` if the user has not explicitly give this holder a value to initialze
+  /// this holder.
+  ///
+  /// # Examples
+  ///
+  /// ```
+  /// use iron_ingot::Late;
+  ///
+  /// let mut late_value = Late::new();
+  ///
+  /// // The late_value has not been initialized yet, so cannot get value from it.
+  /// assert!(late_value.get_value_mut().is_err());
+  ///
+  /// // Initialize the late_value with 0.
+  /// assert!(late_value.set_value(0).is_ok());
+  ///
+  /// // late_value has already been initialized, so can get value from it.
+  /// assert!(late_value.get_value_mut().is_ok());
+  /// assert_eq!(late_value.get_value_mut().unwrap_or(&mut -1), &mut 0);
+  /// ```
+  pub fn get_value_mut(&mut self) -> Result<&mut T, NotInitYetError> {
+    if let Some(value) = &mut self.0 {
+      Ok(value)
+    } else {
+      Err(NotInitYetError)
+    }
+  }
+
   /// Intialize this holder with the `value` given.
   ///
   /// This method will return an `AlreadyInitError` if `set_value` method for this holder has been called.
