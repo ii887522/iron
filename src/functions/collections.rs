@@ -91,11 +91,12 @@ pub fn into_slice<'a, K: Eq + Hash, V: crate::Hash<Part = &'a K>>(
   let mut is_exists = HashMap::with_capacity(map.len());
   for &anys in map.values() {
     for &any in anys {
-      if is_exists.get(&any.hash()).is_some() {
+      let hash = any.hash();
+      if is_exists.get(&hash).is_some() {
         continue;
       }
       result.push(any);
-      is_exists.entry(any.hash()).or_insert(true);
+      is_exists.entry(hash).or_insert(true);
     }
   }
   result.into()
@@ -139,16 +140,18 @@ pub fn add<'a, K: Eq + Hash, V: crate::Hash<Part = &'a K>>(
   let mut rm = HashMap::<_, Vec<_>>::with_capacity(am.len() + bm.len());
   let mut is_exists = HashMap::with_capacity(am.len());
   for &a in into_slice(am).iter() {
-    for &hash_part in a.hash().iter() {
+    let hash = a.hash();
+    for &hash_part in hash.iter() {
       rm.entry(hash_part).or_insert(Vec::new()).push(a);
     }
-    is_exists.entry(a.hash()).or_insert(true);
+    is_exists.entry(hash).or_insert(true);
   }
   for &b in into_slice(bm).iter() {
-    if is_exists.get(&b.hash()).is_some() {
+    let hash = b.hash();
+    if is_exists.get(&hash).is_some() {
       continue;
     }
-    for &hash_part in b.hash().iter() {
+    for &hash_part in hash.iter() {
       rm.entry(hash_part).or_insert(Vec::new()).push(b);
     }
   }
@@ -174,10 +177,11 @@ pub fn sub<'a, K: Eq + Hash, V: crate::Hash<Part = &'a K>>(
     is_exists.entry(b.hash()).or_insert(true);
   }
   for &a in into_slice(am).iter() {
-    if is_exists.get(&a.hash()).is_some() {
+    let hash = a.hash();
+    if is_exists.get(&hash).is_some() {
       continue;
     }
-    for &hash_part in a.hash().iter() {
+    for &hash_part in hash.iter() {
       rm.entry(hash_part).or_insert(Vec::new()).push(a);
     }
   }

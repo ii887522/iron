@@ -4,16 +4,16 @@
     {
       "type": "lldb",
       "request": "launch",
-      "name": "Debug unit tests in library 'iron'",
+      "name": "Debug unit tests in library 'iron-ingot'",
       "cargo": {
         "args": [
           "test",
           "--no-run",
           "--lib",
-          "--package=iron"
+          "--package=iron-ingot"
         ],
         "filter": {
-          "name": "iron",
+          "name": "iron-ingot",
           "kind": "lib"
         }
       },
@@ -29,7 +29,7 @@
           "test",
           "--no-run",
           "--test=any",
-          "--package=iron"
+          "--package=iron-ingot"
         ],
         "filter": {
           "name": "any",
@@ -48,7 +48,7 @@
           "test",
           "--no-run",
           "--test=functions",
-          "--package=iron"
+          "--package=iron-ingot"
         ],
         "filter": {
           "name": "functions",
@@ -67,7 +67,7 @@
           "test",
           "--no-run",
           "--test=reactive",
-          "--package=iron"
+          "--package=iron-ingot"
         ],
         "filter": {
           "name": "reactive",
@@ -80,16 +80,16 @@
     {
       "type": "lldb",
       "request": "launch",
-      "name": "Debug integration test 'struct'",
+      "name": "Debug integration test 'structs'",
       "cargo": {
         "args": [
           "test",
           "--no-run",
-          "--test=struct",
-          "--package=iron"
+          "--test=structs",
+          "--package=iron-ingot"
         ],
         "filter": {
-          "name": "struct",
+          "name": "structs",
           "kind": "test"
         }
       },
