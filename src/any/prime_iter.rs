@@ -38,7 +38,7 @@ impl Iterator for PrimeIter {
     while !result.is_prime() {
       result += 2;
     }
-    self.0 = result as u32;
+    self.0 = result as _;
     Some(self.0)
   }
 }
