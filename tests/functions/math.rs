@@ -197,15 +197,6 @@ fn test_is_prime() {
 }
 
 #[test]
-fn test_is_pow_of_2() {
-  assert!(1.is_pow_of_2());
-  assert!(2.is_pow_of_2());
-  assert!(!3.is_pow_of_2());
-  assert!(4.is_pow_of_2());
-  assert!(!5.is_pow_of_2());
-}
-
-#[test]
 fn test_lerp_f32() {
   assert_eq!(lerp_f32(0.0, 0.0, 0.0), 0.0);
   assert_eq!(lerp_f32(1.0, 0.0, 0.0), 0.0);

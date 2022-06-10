@@ -1,4 +1,4 @@
-use crate::{camel_case_str::ToCamelCase, ToWords};
+use crate::{camel_case_str::ToCamelCase, to_words::ToWords};
 use std::borrow::Cow;
 
 #[derive(Copy, Clone, Debug)]

@@ -10,10 +10,10 @@
 /// [Dynamic](./struct.Dynamic.html) object.
 ///
 /// An argument object can be constructed either from [a callback function](./struct.Arg.html#impl-From<F>) or
-/// [a callback function and a interval](./struct.Arg.html#impl-From<(F%2C%20f64)>).
+/// [a callback function and a interval](./struct.Arg.html#impl-From<(F%2C%20f32)>).
 #[derive(Copy, Clone, Debug)]
 pub struct Arg<T, F: FnMut() -> T> {
-  interval: f64,
+  interval: f32,
   next_value: F,
 }
 
@@ -28,7 +28,7 @@ impl<T, F: FnMut() -> T> From<F> for Arg<T, F> {
   }
 }
 
-impl<T, F: FnMut() -> T> From<(F, f64)> for Arg<T, F> {
+impl<T, F: FnMut() -> T> From<(F, f32)> for Arg<T, F> {
   /// Performs the conversion from the `next_value` callback function that gets called when an `interval` has elasped
   /// through [Dynamic::step](./struct.Dynamic.html#method.step) and a certain amount of time called `interval` to be
   /// elasped for the `next_value` callback function gets called and return a result to be assigned to this object.
@@ -36,7 +36,7 @@ impl<T, F: FnMut() -> T> From<(F, f64)> for Arg<T, F> {
   /// # Panics
   ///
   /// Panics if `interval` is not a number or less than or equal to 0.0 .
-  fn from((next_value, interval): (F, f64)) -> Self {
+  fn from((next_value, interval): (F, f32)) -> Self {
     debug_assert!(
       interval > 0.0,
       "interval must be a number that is greater than 0.0!"
@@ -51,8 +51,8 @@ impl<T, F: FnMut() -> T> From<(F, f64)> for Arg<T, F> {
 /// A value holder that keeps changing its value by the `interval` given.
 #[derive(Copy, Clone, Debug)]
 pub struct Dynamic<T, F: FnMut() -> T> {
-  t: f64,
-  interval: f64,
+  t: f32,
+  interval: f32,
   value: T,
   next_value: F,
 }
@@ -115,7 +115,7 @@ impl<T, F: FnMut() -> T> Dynamic<T, F> {
   /// dynamic_value.step(3.0);
   /// assert_eq!(dynamic_value.get_value(), &4);
   /// ```
-  pub fn step(&mut self, dt: f64) {
+  pub fn step(&mut self, dt: f32) {
     debug_assert!(dt >= 0.0, "dt must be a positive number!");
     self.t += dt;
     if self.t < self.interval {

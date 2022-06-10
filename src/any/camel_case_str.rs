@@ -1,4 +1,4 @@
-use crate::{snake_case_str::ToSnakeCase, ToWords};
+use crate::{snake_case_str::ToSnakeCase, to_words::ToWords};
 use std::borrow::Cow;
 
 #[derive(Copy, Clone, Debug)]
