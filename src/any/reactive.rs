@@ -87,7 +87,7 @@ pub struct Reactive<T: ?Sized> {
   value: Box<T>,
 }
 
-impl<T: ?Sized + Debug> Reactive<T> {
+impl<T: ?Sized> Reactive<T> {
   fn new(value: Box<T>, watcher_id: Option<usize>) -> Self {
     static mut ID_MANAGER: IDManager = IDManager::new();
     Self {
@@ -120,16 +120,6 @@ impl<T: ?Sized + Debug> Reactive<T> {
   /// It returns a mutable reference to the inner value of this object.
   pub(crate) unsafe fn get_value_mut(&mut self) -> &mut T {
     &mut self.value
-  }
-
-  fn set_boxed_value(&mut self, value: Box<T>) {
-    if format!("{:?}", &*self.value) == format!("{:?}", &*value) {
-      return;
-    }
-    self.value = value;
-
-    // SAFETY: The inner value has already changed.
-    unsafe { self.wake_children() };
   }
 
   /// Notifies all other reactive objects associated with their watchers about the new value given just now.
@@ -186,11 +176,25 @@ impl<T: ?Sized + Debug> Reactive<T> {
   }
 }
 
-impl<T: Debug> Reactive<T> {
+impl<T: ?Sized + Debug> Reactive<T> {
+  fn set_boxed_value(&mut self, value: Box<T>) {
+    if format!("{:?}", &*self.value) == format!("{:?}", &*value) {
+      return;
+    }
+    self.value = value;
+
+    // SAFETY: The inner value has already changed.
+    unsafe { self.wake_children() };
+  }
+}
+
+impl<T> Reactive<T> {
   pub fn into_value(self) -> T {
     *self.value
   }
+}
 
+impl<T: Debug> Reactive<T> {
   pub fn set_value(&mut self, value: T) {
     self.set_boxed_value(Box::new(value));
   }

@@ -29,13 +29,7 @@ pub struct ReactiveSlice<T> {
   proto: reactive::Handle<Vec<T>>,
 }
 
-impl<T: Debug + 'static> ReactiveSlice<T> {
-  pub fn new(value: impl Into<Arg<T>>) -> Self {
-    Self {
-      proto: reactive::Handle::from(value.into().0),
-    }
-  }
-
+impl<T> ReactiveSlice<T> {
   pub fn borrow(&self) -> Ref<Reactive<Vec<T>>> {
     self.proto.borrow()
   }
@@ -45,29 +39,37 @@ impl<T: Debug + 'static> ReactiveSlice<T> {
   }
 }
 
-impl<T: Debug> Reactive<Vec<T>> {
-  /// It replaces an old item located at the `index` with the new `item`.
+impl<T: Debug + 'static> ReactiveSlice<T> {
+  pub fn new(value: impl Into<Arg<T>>) -> Self {
+    Self {
+      proto: reactive::Handle::from(value.into().0),
+    }
+  }
+}
+
+impl<T> Reactive<Vec<T>> {
+  /// It replaces an old item located at the `id` with the new `item`.
   ///
-  /// `index`: The position for which the item needs to be replaced.
+  /// `id`: The position for which the item needs to be replaced.
   ///
-  /// `item`: The new item located at the `index`.
-  pub fn set(&mut self, index: usize, item: T) {
+  /// `item`: The new item located at the `id`.
+  pub fn set(&mut self, id: usize, item: T) {
     // SAFETY: Changing the inner value before waking up all the child watchers does not violate the invariants of the
     // called functions, therefore it is considered safe to execute the below code.
     unsafe {
-      self.get_value_mut()[index] = item;
+      self.get_value_mut()[id] = item;
       self.wake_children();
     }
   }
 
-  /// It retrieves the item located at `index`.
+  /// It retrieves the item located at `id`.
   ///
-  /// `index`: The position for which the item needs to be returned.
+  /// `id`: The position for which the item needs to be returned.
   ///
-  /// It returns the item located at `index` or `None` if `index` is out of bounds.
-  pub fn get(&self, index: usize) -> Option<&T> {
-    if index < self.get_value().len() {
-      Some(&self.get_value()[index])
+  /// It returns the item located at `id` or `None` if `id` is out of bounds.
+  pub fn get(&self, id: usize) -> Option<&T> {
+    if id < self.get_value().len() {
+      Some(&self.get_value()[id])
     } else {
       None
     }
@@ -100,7 +102,7 @@ impl<T: Debug> Reactive<Vec<T>> {
 
   pub fn iter(&self) -> Iter<T> {
     Iter {
-      index: 0,
+      id: 0,
       reactive: self,
     }
   }
@@ -112,7 +114,7 @@ impl<T: Debug> From<ReactiveSlice<T>> for Reactive<Vec<T>> {
   }
 }
 
-impl<T: Debug> IntoIterator for Reactive<Vec<T>> {
+impl<T> IntoIterator for Reactive<Vec<T>> {
   type Item = T;
   type IntoIter = vec::IntoIter<Self::Item>;
 
@@ -123,17 +125,17 @@ impl<T: Debug> IntoIterator for Reactive<Vec<T>> {
 
 #[derive(Copy, Clone, Debug)]
 pub struct Iter<'a, T> {
-  index: usize,
+  id: usize,
   reactive: &'a Reactive<Vec<T>>,
 }
 
-impl<'a, T: Debug> Iterator for Iter<'a, T> {
+impl<'a, T> Iterator for Iter<'a, T> {
   type Item = &'a T;
 
   fn next(&mut self) -> Option<Self::Item> {
-    if self.index != self.reactive.get_value().len() {
-      let value = &self.reactive.get_value()[self.index];
-      self.index += 1;
+    if self.id != self.reactive.get_value().len() {
+      let value = &self.reactive.get_value()[self.id];
+      self.id += 1;
       Some(value)
     } else {
       None
