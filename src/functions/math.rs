@@ -36,11 +36,6 @@ pub trait PropChecker {
   ///
   /// It returns true if this is a prime number, false otherwise.
   fn is_prime(&self) -> bool;
-
-  /// It checks whether this is equal to 2 to the power of n where n is an integer.
-  ///
-  /// It returns true if this is equal to 2 to the power of n where n is an integer, false otherwise.
-  fn is_pow_of_2(&self) -> bool;
 }
 
 impl PropChecker for i32 {
@@ -65,7 +60,7 @@ impl PropChecker for i32 {
     if *self < 9 {
       return true;
     }
-    let sqrt = (*self as f64).sqrt().floor() as i32;
+    let sqrt = (*self as f32).sqrt().floor() as i32;
     if sqrt * sqrt == *self {
       return false;
     }
@@ -73,15 +68,11 @@ impl PropChecker for i32 {
       return true;
     }
     for i in (3..=sqrt).step_by(2) {
-      if (*self as f64 / i as f64).floor() as i32 * i == *self {
+      if (*self as f32 / i as f32).floor() as i32 * i == *self {
         return false;
       }
     }
     true
-  }
-
-  fn is_pow_of_2(&self) -> bool {
-    *self & (*self - 1) == 0
   }
 }
 
@@ -228,16 +219,16 @@ pub fn lerp_dvec4(t: f64, a: DVec4, b: DVec4) -> DVec4 {
 pub trait ExtremumFinder {
   type Item;
 
-  /// It finds a minimum positive value and its associated index from this object.
+  /// It finds a minimum positive value and its associated id from this object.
   fn min_pos(&self) -> Option<(usize, Self::Item)>;
 
-  /// It finds a maximum positive value and its associated index from this object.
+  /// It finds a maximum positive value and its associated id from this object.
   fn max_pos(&self) -> Option<(usize, Self::Item)>;
 
-  /// It finds a minimum negative value and its associated index from this object.
+  /// It finds a minimum negative value and its associated id from this object.
   fn min_neg(&self) -> Option<(usize, Self::Item)>;
 
-  /// It finds a maximum negative value and its associated index from this object.
+  /// It finds a maximum negative value and its associated id from this object.
   fn max_neg(&self) -> Option<(usize, Self::Item)>;
 }
 
@@ -250,15 +241,15 @@ impl ExtremumFinder for [f32] {
       "This array must contains number only!"
     );
     let mut min_pos = f32::INFINITY;
-    let mut index = None;
+    let mut id = None;
     for (i, &value) in self.iter().enumerate() {
       if value < 0.0 || value >= min_pos {
         continue;
       }
       min_pos = value;
-      index = Some(i);
+      id = Some(i);
     }
-    index.map(|index| (index, min_pos))
+    id.map(|id| (id, min_pos))
   }
 
   fn max_pos(&self) -> Option<(usize, Self::Item)> {
@@ -267,15 +258,15 @@ impl ExtremumFinder for [f32] {
       "This array must contains number only!"
     );
     let mut max_pos = f32::NEG_INFINITY;
-    let mut index = None;
+    let mut id = None;
     for (i, &value) in self.iter().enumerate() {
       if value < 0.0 || value <= max_pos {
         continue;
       }
       max_pos = value;
-      index = Some(i);
+      id = Some(i);
     }
-    index.map(|index| (index, max_pos))
+    id.map(|id| (id, max_pos))
   }
 
   fn min_neg(&self) -> Option<(usize, Self::Item)> {
@@ -284,15 +275,15 @@ impl ExtremumFinder for [f32] {
       "This array must contains number only!"
     );
     let mut min_neg = f32::INFINITY;
-    let mut index = None;
+    let mut id = None;
     for (i, &value) in self.iter().enumerate() {
       if value >= 0.0 || value >= min_neg {
         continue;
       }
       min_neg = value;
-      index = Some(i);
+      id = Some(i);
     }
-    index.map(|index| (index, min_neg))
+    id.map(|id| (id, min_neg))
   }
 
   fn max_neg(&self) -> Option<(usize, Self::Item)> {
@@ -301,15 +292,15 @@ impl ExtremumFinder for [f32] {
       "This array must contains number only!"
     );
     let mut max_neg = f32::NEG_INFINITY;
-    let mut index = None;
+    let mut id = None;
     for (i, &value) in self.iter().enumerate() {
       if value >= 0.0 || value <= max_neg {
         continue;
       }
       max_neg = value;
-      index = Some(i);
+      id = Some(i);
     }
-    index.map(|index| (index, max_neg))
+    id.map(|id| (id, max_neg))
   }
 }
 
@@ -322,15 +313,15 @@ impl ExtremumFinder for [f64] {
       "This array must contains number only!"
     );
     let mut min_pos = f64::INFINITY;
-    let mut index = None;
+    let mut id = None;
     for (i, &value) in self.iter().enumerate() {
       if value < 0.0 || value >= min_pos {
         continue;
       }
       min_pos = value;
-      index = Some(i);
+      id = Some(i);
     }
-    index.map(|index| (index, min_pos))
+    id.map(|id| (id, min_pos))
   }
 
   fn max_pos(&self) -> Option<(usize, Self::Item)> {
@@ -339,15 +330,15 @@ impl ExtremumFinder for [f64] {
       "This array must contains number only!"
     );
     let mut max_pos = f64::NEG_INFINITY;
-    let mut index = None;
+    let mut id = None;
     for (i, &value) in self.iter().enumerate() {
       if value < 0.0 || value <= max_pos {
         continue;
       }
       max_pos = value;
-      index = Some(i);
+      id = Some(i);
     }
-    index.map(|index| (index, max_pos))
+    id.map(|id| (id, max_pos))
   }
 
   fn min_neg(&self) -> Option<(usize, Self::Item)> {
@@ -356,15 +347,15 @@ impl ExtremumFinder for [f64] {
       "This array must contains number only!"
     );
     let mut min_neg = f64::INFINITY;
-    let mut index = None;
+    let mut id = None;
     for (i, &value) in self.iter().enumerate() {
       if value >= 0.0 || value >= min_neg {
         continue;
       }
       min_neg = value;
-      index = Some(i);
+      id = Some(i);
     }
-    index.map(|index| (index, min_neg))
+    id.map(|id| (id, min_neg))
   }
 
   fn max_neg(&self) -> Option<(usize, Self::Item)> {
@@ -373,15 +364,15 @@ impl ExtremumFinder for [f64] {
       "This array must contains number only!"
     );
     let mut max_neg = f64::NEG_INFINITY;
-    let mut index = None;
+    let mut id = None;
     for (i, &value) in self.iter().enumerate() {
       if value >= 0.0 || value <= max_neg {
         continue;
       }
       max_neg = value;
-      index = Some(i);
+      id = Some(i);
     }
-    index.map(|index| (index, max_neg))
+    id.map(|id| (id, max_neg))
   }
 }
 
