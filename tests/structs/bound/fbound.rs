@@ -86,6 +86,23 @@ fn test_rand() {
 }
 
 #[test]
+fn test_clamp() {
+  assert_eq!(FBound::new((0.0, 0.0)).clamp(0.0), 0.0);
+  assert_eq!(FBound::new((0.0, 1.0)).clamp(0.0), 0.0);
+  assert_eq!(FBound::new((0.0, 2.0)).clamp(0.0), 0.0);
+  assert_eq!(FBound::new((1.0, 2.0)).clamp(0.0), 1.0);
+  assert_eq!(FBound::new((2.0, 2.0)).clamp(0.0), 2.0);
+  assert_eq!(FBound::new((2.0, 3.0)).clamp(0.0), 2.0);
+  assert_eq!(FBound::new((2.0, 4.0)).clamp(0.0), 2.0);
+  assert_eq!(FBound::new((2.0, 4.0)).clamp(1.0), 2.0);
+  assert_eq!(FBound::new((2.0, 4.0)).clamp(2.0), 2.0);
+  assert_eq!(FBound::new((2.0, 4.0)).clamp(3.0), 3.0);
+  assert_eq!(FBound::new((2.0, 4.0)).clamp(4.0), 4.0);
+  assert_eq!(FBound::new((2.0, 4.0)).clamp(5.0), 4.0);
+  assert_eq!(FBound::new((2.0, 4.0)).clamp(6.0), 4.0);
+}
+
+#[test]
 fn test_into_dbound() {
   assert_eq!(
     DBound::from(FBound::new((0.0, 1.0))),

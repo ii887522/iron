@@ -34,7 +34,7 @@ impl From<(u32, u32, u32)> for Arg {
   }
 }
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
 pub struct UVec3 {
   x: u32,
   y: u32,

@@ -50,29 +50,14 @@ impl<T, F: FnMut() -> T> From<(F, f32)> for Arg<T, F> {
 
 /// A value holder that keeps changing its value by the `interval` given.
 #[derive(Copy, Clone, Debug)]
-pub struct Dynamic<T, F: FnMut() -> T> {
+pub struct Dynamic<T, F> {
   t: f32,
   interval: f32,
   value: T,
   next_value: F,
 }
 
-impl<T, F: FnMut() -> T> Dynamic<T, F> {
-  /// Constructs a new [Dynamic](./struct.Dynamic.html) object from an `arg`. See [Arg](./struct.Arg.html) for more
-  /// information on how to create an argument object to be passed into here.
-  pub fn new(arg: impl Into<Arg<T, F>>) -> Self {
-    let Arg {
-      interval,
-      mut next_value,
-    } = arg.into();
-    Self {
-      t: 0.0,
-      interval,
-      value: next_value(),
-      next_value,
-    }
-  }
-
+impl<T, F> Dynamic<T, F> {
   /// Retrieves a value held by this object. The value retrieved is the result of calling the `next_value` function.
   ///
   /// # Examples
@@ -89,6 +74,23 @@ impl<T, F: FnMut() -> T> Dynamic<T, F> {
   /// ```
   pub fn get_value(&self) -> &T {
     &self.value
+  }
+}
+
+impl<T, F: FnMut() -> T> Dynamic<T, F> {
+  /// Constructs a new [Dynamic](./struct.Dynamic.html) object from an `arg`. See [Arg](./struct.Arg.html) for more
+  /// information on how to create an argument object to be passed into here.
+  pub fn new(arg: impl Into<Arg<T, F>>) -> Self {
+    let Arg {
+      interval,
+      mut next_value,
+    } = arg.into();
+    Self {
+      t: 0.0,
+      interval,
+      value: next_value(),
+      next_value,
+    }
   }
 
   /// Advances the time being tracked by a small amount of time called `dt` for simulating frequently changing value.
