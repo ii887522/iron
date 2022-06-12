@@ -17,7 +17,7 @@ impl From<(u32, u32)> for Arg {
 }
 
 /// It defines a boundary between the minimum and maximum value.
-#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
 pub struct UBound {
   min: u32,
   max: u32,
@@ -76,6 +76,16 @@ impl UBound {
   /// It returns a random value in this boundary.
   pub fn rand(&self) -> u32 {
     thread_rng().gen_range(self.min..=self.max)
+  }
+
+  pub fn clamp(&self, value: u32) -> u32 {
+    if value < self.min {
+      self.min
+    } else if value > self.max {
+      self.max
+    } else {
+      value
+    }
   }
 }
 
