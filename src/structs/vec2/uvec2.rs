@@ -29,7 +29,7 @@ impl From<(u32, u32)> for Arg {
   }
 }
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
 pub struct UVec2 {
   x: u32,
   y: u32,
