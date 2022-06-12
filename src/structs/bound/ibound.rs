@@ -17,7 +17,7 @@ impl From<(i32, i32)> for Arg {
 }
 
 /// It defines a boundary between the minimum and maximum value.
-#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
 pub struct IBound {
   min: i32,
   max: i32,
@@ -76,6 +76,16 @@ impl IBound {
   /// It returns a random value in this boundary.
   pub fn rand(&self) -> i32 {
     thread_rng().gen_range(self.min..=self.max)
+  }
+
+  pub fn clamp(&self, value: i32) -> i32 {
+    if value < self.min {
+      self.min
+    } else if value > self.max {
+      self.max
+    } else {
+      value
+    }
   }
 }
 

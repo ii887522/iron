@@ -75,6 +75,23 @@ fn test_rand() {
 }
 
 #[test]
+fn test_clamp() {
+  assert_eq!(IBound::new((0, 0)).clamp(0), 0);
+  assert_eq!(IBound::new((0, 1)).clamp(0), 0);
+  assert_eq!(IBound::new((0, 2)).clamp(0), 0);
+  assert_eq!(IBound::new((1, 2)).clamp(0), 1);
+  assert_eq!(IBound::new((2, 2)).clamp(0), 2);
+  assert_eq!(IBound::new((2, 3)).clamp(0), 2);
+  assert_eq!(IBound::new((2, 4)).clamp(0), 2);
+  assert_eq!(IBound::new((2, 4)).clamp(1), 2);
+  assert_eq!(IBound::new((2, 4)).clamp(2), 2);
+  assert_eq!(IBound::new((2, 4)).clamp(3), 3);
+  assert_eq!(IBound::new((2, 4)).clamp(4), 4);
+  assert_eq!(IBound::new((2, 4)).clamp(5), 4);
+  assert_eq!(IBound::new((2, 4)).clamp(6), 4);
+}
+
+#[test]
 fn test_into_dbound() {
   assert_eq!(DBound::from(IBound::new((0, 1))), DBound::new((0.0, 1.0)));
   assert_eq!(DBound::from(IBound::new((0, 2))), DBound::new((0.0, 2.0)));
