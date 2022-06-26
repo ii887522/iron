@@ -8,3 +8,4 @@ mod reactive;
 mod reactivity_manager;
 mod snake_case_str;
 mod tree_map;
+mod tree_set;
