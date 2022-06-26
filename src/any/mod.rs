@@ -12,6 +12,7 @@ pub mod reactivity_manager;
 pub mod snake_case_str;
 pub mod to_words;
 pub mod tree_map;
+pub mod tree_set;
 
 pub use camel_case_str::CamelCaseStr;
 pub use delayed::Delayed;
@@ -25,3 +26,4 @@ pub use reactivity_manager::ReactivityManager;
 pub use snake_case_str::SnakeCaseStr;
 pub use to_words::ToWords;
 pub use tree_map::TreeMap;
+pub use tree_set::TreeSet;
