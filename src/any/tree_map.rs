@@ -36,6 +36,17 @@ impl<K: Default + PartialOrd, V: Default, Iter: Iterator<Item = (K, V)>> From<It
 }
 
 impl<K, V> TreeMap<K, V> {
+  pub fn new(arg: impl Into<Arg>) -> Self {
+    let Arg(initial_capacity) = arg.into();
+    let mut nodes = Vec::with_capacity(initial_capacity + 1);
+    nodes.push(None);
+    Self {
+      nodes,
+      hole_ids: Vec::with_capacity(initial_capacity),
+      root: 0,
+    }
+  }
+
   pub fn is_empty(&self) -> bool {
     self.len() == 0
   }
@@ -111,13 +122,15 @@ impl<K, V> TreeMap<K, V> {
     let p = node.parent;
     let r = node.right;
     let rl = self.nodes[r].as_ref().unwrap().left;
-    let p_node = self.nodes[p].as_mut().unwrap();
     if p == 0 {
       self.root = r;
-    } else if p_node.left == id {
-      p_node.left = r;
     } else {
-      p_node.right = r;
+      let p_node = self.nodes[p].as_mut().unwrap();
+      if p_node.left == id {
+        p_node.left = r;
+      } else {
+        p_node.right = r;
+      }
     }
     let node = self.nodes[id].as_mut().unwrap();
     node.right = rl;
@@ -125,7 +138,9 @@ impl<K, V> TreeMap<K, V> {
     let r_node = self.nodes[r].as_mut().unwrap();
     r_node.left = id;
     r_node.parent = p;
-    self.nodes[rl].as_mut().unwrap().parent = id;
+    if let Some(node) = self.nodes[rl].as_mut() {
+      node.parent = id;
+    }
     self.update_right_height(id);
   }
 
@@ -137,13 +152,15 @@ impl<K, V> TreeMap<K, V> {
     let rl_node = self.nodes[rl].as_ref().unwrap();
     let rll = rl_node.left;
     let rlr = rl_node.right;
-    let p_node = self.nodes[p].as_mut().unwrap();
     if p == 0 {
       self.root = rl;
-    } else if p_node.left == id {
-      p_node.left = rl;
     } else {
-      p_node.right = rl;
+      let p_node = self.nodes[p].as_mut().unwrap();
+      if p_node.left == id {
+        p_node.left = rl;
+      } else {
+        p_node.right = rl;
+      }
     }
     let r_node = self.nodes[r].as_mut().unwrap();
     r_node.parent = rl;
@@ -155,8 +172,12 @@ impl<K, V> TreeMap<K, V> {
     let node = self.nodes[id].as_mut().unwrap();
     node.parent = rl;
     node.right = rll;
-    self.nodes[rll].as_mut().unwrap().parent = id;
-    self.nodes[rlr].as_mut().unwrap().parent = r;
+    if let Some(node) = self.nodes[rll].as_mut() {
+      node.parent = id;
+    }
+    if let Some(node) = self.nodes[rlr].as_mut() {
+      node.parent = r;
+    }
     self.update_right_height(id);
     self.update_left_height(r);
   }
@@ -166,13 +187,15 @@ impl<K, V> TreeMap<K, V> {
     let p = node.parent;
     let l = node.left;
     let lr = self.nodes[l].as_ref().unwrap().right;
-    let p_node = self.nodes[p].as_mut().unwrap();
     if p == 0 {
       self.root = l;
-    } else if p_node.left == id {
-      p_node.left = l;
     } else {
-      p_node.right = l;
+      let p_node = self.nodes[p].as_mut().unwrap();
+      if p_node.left == id {
+        p_node.left = l;
+      } else {
+        p_node.right = l;
+      }
     }
     let node = self.nodes[id].as_mut().unwrap();
     node.parent = l;
@@ -180,7 +203,9 @@ impl<K, V> TreeMap<K, V> {
     let l_node = self.nodes[l].as_mut().unwrap();
     l_node.right = id;
     l_node.parent = p;
-    self.nodes[lr].as_mut().unwrap().parent = id;
+    if let Some(node) = self.nodes[lr].as_mut() {
+      node.parent = id;
+    }
     self.update_left_height(id);
   }
 
@@ -216,27 +241,6 @@ impl<K, V> TreeMap<K, V> {
     self.update_right_height(l);
   }
 
-  pub fn to_slice_preorder(&self) -> Cow<[(&K, &V)]> {
-    if self.root != 0 {
-      self.to_slice_preorder_from(self.root)
-    } else {
-      Cow::Borrowed(&[])
-    }
-  }
-
-  fn to_slice_preorder_from(&self, id: usize) -> Cow<[(&K, &V)]> {
-    let mut result = vec![];
-    let node = self.nodes[id].as_ref().unwrap();
-    result.push((&node.key, &node.value));
-    if node.left != 0 {
-      result.extend_from_slice(&self.to_slice_preorder_from(node.left));
-    }
-    if node.right != 0 {
-      result.extend_from_slice(&self.to_slice_preorder_from(node.right));
-    }
-    result.into()
-  }
-
   pub fn to_slice(&self) -> Cow<[(&K, &V)]> {
     if self.root != 0 {
       self.to_slice_from(self.root)
@@ -258,40 +262,15 @@ impl<K, V> TreeMap<K, V> {
     result.into()
   }
 
-  pub fn to_slice_postorder(&self) -> Cow<[(&K, &V)]> {
-    if self.root != 0 {
-      self.to_slice_postorder_from(self.root)
-    } else {
-      Cow::Borrowed(&[])
-    }
-  }
-
-  fn to_slice_postorder_from(&self, id: usize) -> Cow<[(&K, &V)]> {
-    let mut result = vec![];
-    let node = self.nodes[id].as_ref().unwrap();
-    if node.left != 0 {
-      result.extend_from_slice(&self.to_slice_postorder_from(node.left));
-    }
-    if node.right != 0 {
-      result.extend_from_slice(&self.to_slice_postorder_from(node.right));
-    }
-    result.push((&node.key, &node.value));
-    result.into()
+  pub fn clear(&mut self) {
+    self.nodes.clear();
+    self.nodes.push(None);
+    self.hole_ids.clear();
+    self.root = 0;
   }
 }
 
 impl<K: Default, V: Default> TreeMap<K, V> {
-  pub fn new(arg: impl Into<Arg>) -> Self {
-    let Arg(initial_capacity) = arg.into();
-    let mut nodes = Vec::with_capacity(initial_capacity + 1);
-    nodes.push(Some(Node::default()));
-    Self {
-      nodes,
-      hole_ids: Vec::with_capacity(initial_capacity),
-      root: 0,
-    }
-  }
-
   fn insert_root(&mut self, key: K, value: V) {
     if let Some(hole_id) = self.hole_ids.pop() {
       self.fill_hole_with_root(hole_id, key, value);
@@ -316,13 +295,6 @@ impl<K: Default, V: Default> TreeMap<K, V> {
       ..Default::default()
     }));
     self.root = 1;
-  }
-
-  pub fn clear(&mut self) {
-    self.nodes.clear();
-    self.nodes.push(Some(Node::default()));
-    self.hole_ids.clear();
-    self.root = 0;
   }
 }
 

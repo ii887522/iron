@@ -1198,6 +1198,7 @@ fn test_len() {
 #[test]
 fn test_min() {
   let mut tree_map = TreeMap::<i32, &str>::new(());
+  assert_eq!(tree_map.min(), None);
   tree_map.put(0, "a");
   assert_eq!(tree_map.min(), Some((&0, &"a")));
   tree_map.put(0, "b");
@@ -1303,6 +1304,7 @@ fn test_min() {
 #[test]
 fn test_max() {
   let mut tree_map = TreeMap::<i32, &str>::new(());
+  assert_eq!(tree_map.min(), None);
   tree_map.put(0, "a");
   assert_eq!(tree_map.max(), Some((&0, &"a")));
   tree_map.put(0, "b");
@@ -1406,188 +1408,7 @@ fn test_max() {
 }
 
 #[test]
-fn test_to_slice_preorder() {
-  assert_eq!(
-    TreeMap::<i32, &str>::from([].into_iter()).to_slice_preorder(),
-    Cow::Borrowed(&[])
-  );
-  assert_eq!(
-    TreeMap::from([(1, "a")].into_iter()).to_slice_preorder(),
-    Cow::Borrowed(&[(&1, &"a")])
-  );
-  assert_eq!(
-    TreeMap::from([(1, "a"), (2, "b")].into_iter()).to_slice_preorder(),
-    Cow::Borrowed(&[(&1, &"a"), (&2, &"b")])
-  );
-  assert_eq!(
-    TreeMap::from([(1, "a"), (2, "b"), (3, "c")].into_iter()).to_slice_preorder(),
-    Cow::Borrowed(&[(&2, &"b"), (&1, &"a"), (&3, &"c")])
-  );
-  assert_eq!(
-    TreeMap::from([(1, "a"), (2, "b"), (3, "c"), (4, "d")].into_iter()).to_slice_preorder(),
-    Cow::Borrowed(&[(&2, &"b"), (&1, &"a"), (&3, &"c"), (&4, &"d")])
-  );
-  assert_eq!(
-    TreeMap::from([(1, "a"), (2, "b"), (3, "c"), (4, "d"), (5, "e")].into_iter())
-      .to_slice_preorder(),
-    Cow::Borrowed(&[(&2, &"b"), (&1, &"a"), (&4, &"d"), (&3, &"c"), (&5, &"e")])
-  );
-  assert_eq!(
-    TreeMap::from([(1, "a"), (2, "b"), (3, "c"), (4, "d"), (5, "e"), (6, "f")].into_iter())
-      .to_slice_preorder(),
-    Cow::Borrowed(&[
-      (&4, &"d"),
-      (&2, &"b"),
-      (&1, &"a"),
-      (&3, &"c"),
-      (&5, &"e"),
-      (&6, &"f")
-    ])
-  );
-  assert_eq!(
-    TreeMap::from(
-      [
-        (1, "a"),
-        (2, "b"),
-        (3, "c"),
-        (4, "d"),
-        (5, "e"),
-        (6, "f"),
-        (7, "g")
-      ]
-      .into_iter()
-    )
-    .to_slice_preorder(),
-    Cow::Borrowed(&[
-      (&4, &"d"),
-      (&2, &"b"),
-      (&1, &"a"),
-      (&3, &"c"),
-      (&6, &"f"),
-      (&5, &"e"),
-      (&7, &"g"),
-    ])
-  );
-  assert_eq!(
-    TreeMap::from(
-      [
-        (1, "a"),
-        (2, "b"),
-        (3, "c"),
-        (4, "d"),
-        (5, "e"),
-        (6, "f"),
-        (7, "g"),
-        (8, "h"),
-      ]
-      .into_iter()
-    )
-    .to_slice_preorder(),
-    Cow::Borrowed(&[
-      (&4, &"d"),
-      (&2, &"b"),
-      (&1, &"a"),
-      (&3, &"c"),
-      (&6, &"f"),
-      (&5, &"e"),
-      (&7, &"g"),
-      (&8, &"h"),
-    ])
-  );
-}
-
-#[test]
 fn test_to_slice() {
-  assert_eq!(
-    TreeMap::<i32, &str>::from([].into_iter()).to_slice(),
-    Cow::Borrowed(&[])
-  );
-  assert_eq!(
-    TreeMap::from([(1, "a")].into_iter()).to_slice(),
-    Cow::Borrowed(&[(&1, &"a")])
-  );
-  assert_eq!(
-    TreeMap::from([(1, "a"), (2, "b")].into_iter()).to_slice(),
-    Cow::Borrowed(&[(&1, &"a"), (&2, &"b")])
-  );
-  assert_eq!(
-    TreeMap::from([(1, "a"), (2, "b"), (3, "c")].into_iter()).to_slice(),
-    Cow::Borrowed(&[(&1, &"a"), (&2, &"b"), (&3, &"c")])
-  );
-  assert_eq!(
-    TreeMap::from([(1, "a"), (2, "b"), (3, "c"), (4, "d")].into_iter()).to_slice(),
-    Cow::Borrowed(&[(&1, &"a"), (&2, &"b"), (&3, &"c"), (&4, &"d")])
-  );
-  assert_eq!(
-    TreeMap::from([(1, "a"), (2, "b"), (3, "c"), (4, "d"), (5, "e")].into_iter()).to_slice(),
-    Cow::Borrowed(&[(&1, &"a"), (&2, &"b"), (&3, &"c"), (&4, &"d"), (&5, &"e")])
-  );
-  assert_eq!(
-    TreeMap::from([(1, "a"), (2, "b"), (3, "c"), (4, "d"), (5, "e"), (6, "f")].into_iter())
-      .to_slice(),
-    Cow::Borrowed(&[
-      (&1, &"a"),
-      (&2, &"b"),
-      (&3, &"c"),
-      (&4, &"d"),
-      (&5, &"e"),
-      (&6, &"f"),
-    ])
-  );
-  assert_eq!(
-    TreeMap::from(
-      [
-        (1, "a"),
-        (2, "b"),
-        (3, "c"),
-        (4, "d"),
-        (5, "e"),
-        (6, "f"),
-        (7, "g")
-      ]
-      .into_iter()
-    )
-    .to_slice(),
-    Cow::Borrowed(&[
-      (&1, &"a"),
-      (&2, &"b"),
-      (&3, &"c"),
-      (&4, &"d"),
-      (&5, &"e"),
-      (&6, &"f"),
-      (&7, &"g"),
-    ])
-  );
-  assert_eq!(
-    TreeMap::from(
-      [
-        (1, "a"),
-        (2, "b"),
-        (3, "c"),
-        (4, "d"),
-        (5, "e"),
-        (6, "f"),
-        (7, "g"),
-        (8, "h"),
-      ]
-      .into_iter()
-    )
-    .to_slice(),
-    Cow::Borrowed(&[
-      (&1, &"a"),
-      (&2, &"b"),
-      (&3, &"c"),
-      (&4, &"d"),
-      (&5, &"e"),
-      (&6, &"f"),
-      (&7, &"g"),
-      (&8, &"h"),
-    ])
-  );
-}
-
-#[test]
-fn test_to_slice_postorder() {
   assert_eq!(
     TreeMap::<i32, &str>::from([].into_iter()).to_slice(),
     Cow::Borrowed(&[])

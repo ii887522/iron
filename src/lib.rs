@@ -5,8 +5,10 @@
 pub mod any;
 pub mod functions;
 pub mod reactive;
+pub mod str;
 pub mod structs;
 
+pub use crate::str::*;
 pub use any::*;
 pub use functions::*;
 pub use reactive::*;
