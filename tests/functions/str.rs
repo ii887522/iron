@@ -1,4 +1,4 @@
-use iron_ingot::str::Substr;
+use iron_ingot::functions::str::Substr;
 
 #[test]
 fn test_substr() {

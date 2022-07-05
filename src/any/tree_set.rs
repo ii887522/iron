@@ -39,26 +39,8 @@ impl<T> TreeSet<T> {
     self.0.len()
   }
 
-  pub fn to_slice_preorder(&self) -> Cow<[&T]> {
-    self
-      .0
-      .to_slice_preorder()
-      .iter()
-      .map(|&(key, _)| key)
-      .collect()
-  }
-
   pub fn to_slice(&self) -> Cow<[&T]> {
     self.0.to_slice().iter().map(|&(key, _)| key).collect()
-  }
-
-  pub fn to_slice_postorder(&self) -> Cow<[&T]> {
-    self
-      .0
-      .to_slice_postorder()
-      .iter()
-      .map(|&(key, _)| key)
-      .collect()
   }
 
   pub fn clear(&mut self) {

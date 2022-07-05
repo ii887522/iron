@@ -241,27 +241,6 @@ impl<K, V> TreeMap<K, V> {
     self.update_right_height(l);
   }
 
-  pub fn to_slice_preorder(&self) -> Cow<[(&K, &V)]> {
-    if self.root != 0 {
-      self.to_slice_preorder_from(self.root)
-    } else {
-      Cow::Borrowed(&[])
-    }
-  }
-
-  fn to_slice_preorder_from(&self, id: usize) -> Cow<[(&K, &V)]> {
-    let mut result = vec![];
-    let node = self.nodes[id].as_ref().unwrap();
-    result.push((&node.key, &node.value));
-    if node.left != 0 {
-      result.extend_from_slice(&self.to_slice_preorder_from(node.left));
-    }
-    if node.right != 0 {
-      result.extend_from_slice(&self.to_slice_preorder_from(node.right));
-    }
-    result.into()
-  }
-
   pub fn to_slice(&self) -> Cow<[(&K, &V)]> {
     if self.root != 0 {
       self.to_slice_from(self.root)
@@ -280,27 +259,6 @@ impl<K, V> TreeMap<K, V> {
     if node.right != 0 {
       result.extend_from_slice(&self.to_slice_from(node.right));
     }
-    result.into()
-  }
-
-  pub fn to_slice_postorder(&self) -> Cow<[(&K, &V)]> {
-    if self.root != 0 {
-      self.to_slice_postorder_from(self.root)
-    } else {
-      Cow::Borrowed(&[])
-    }
-  }
-
-  fn to_slice_postorder_from(&self, id: usize) -> Cow<[(&K, &V)]> {
-    let mut result = vec![];
-    let node = self.nodes[id].as_ref().unwrap();
-    if node.left != 0 {
-      result.extend_from_slice(&self.to_slice_postorder_from(node.left));
-    }
-    if node.right != 0 {
-      result.extend_from_slice(&self.to_slice_postorder_from(node.right));
-    }
-    result.push((&node.key, &node.value));
     result.into()
   }
 
