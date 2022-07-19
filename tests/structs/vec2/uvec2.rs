@@ -145,6 +145,156 @@ fn test_div_assign() {
 }
 
 #[test]
+fn test_bitand_u32() {
+  assert_eq!(UVec2::new((0, 0)) & 0, UVec2::new((0, 0)));
+  assert_eq!(UVec2::new((1, 0)) & 0, UVec2::new((0, 0)));
+  assert_eq!(UVec2::new((2, 0)) & 0, UVec2::new((0, 0)));
+  assert_eq!(UVec2::new((2, 1)) & 0, UVec2::new((0, 0)));
+  assert_eq!(UVec2::new((2, 2)) & 0, UVec2::new((0, 0)));
+  assert_eq!(UVec2::new((2, 2)) & 1, UVec2::new((0, 0)));
+  assert_eq!(UVec2::new((2, 2)) & 3, UVec2::new((2, 2)));
+}
+
+#[test]
+fn test_bitand_assign_u32() {
+  let mut vec = UVec2::new((3, 3));
+  vec &= 3;
+  assert_eq!(vec, UVec2::new((3, 3)));
+  vec &= 1;
+  assert_eq!(vec, UVec2::new((1, 1)));
+  vec &= 0;
+  assert_eq!(vec, UVec2::new((0, 0)));
+}
+
+#[test]
+fn test_bitand_uvec2() {
+  assert_eq!(UVec2::new((0, 0)) & UVec2::new((0, 0)), UVec2::new((0, 0)));
+  assert_eq!(UVec2::new((1, 0)) & UVec2::new((0, 0)), UVec2::new((0, 0)));
+  assert_eq!(UVec2::new((2, 0)) & UVec2::new((0, 0)), UVec2::new((0, 0)));
+  assert_eq!(UVec2::new((2, 1)) & UVec2::new((0, 0)), UVec2::new((0, 0)));
+  assert_eq!(UVec2::new((2, 2)) & UVec2::new((0, 0)), UVec2::new((0, 0)));
+  assert_eq!(UVec2::new((2, 2)) & UVec2::new((1, 0)), UVec2::new((0, 0)));
+  assert_eq!(UVec2::new((2, 2)) & UVec2::new((3, 0)), UVec2::new((2, 0)));
+  assert_eq!(UVec2::new((2, 2)) & UVec2::new((3, 1)), UVec2::new((2, 0)));
+  assert_eq!(UVec2::new((2, 2)) & UVec2::new((3, 3)), UVec2::new((2, 2)));
+}
+
+#[test]
+fn test_bitand_assign_uvec2() {
+  let mut vec = UVec2::new((3, 3));
+  vec &= UVec2::new((3, 3));
+  assert_eq!(vec, UVec2::new((3, 3)));
+  vec &= UVec2::new((3, 1));
+  assert_eq!(vec, UVec2::new((3, 1)));
+  vec &= UVec2::new((3, 0));
+  assert_eq!(vec, UVec2::new((3, 0)));
+  vec &= UVec2::new((1, 0));
+  assert_eq!(vec, UVec2::new((1, 0)));
+  vec &= UVec2::new((0, 0));
+  assert_eq!(vec, UVec2::new((0, 0)));
+}
+
+#[test]
+fn test_shl_u32() {
+  assert_eq!(UVec2::new((0, 0)) << 0, UVec2::new((0, 0)));
+  assert_eq!(UVec2::new((1, 0)) << 0, UVec2::new((1, 0)));
+  assert_eq!(UVec2::new((2, 0)) << 0, UVec2::new((2, 0)));
+  assert_eq!(UVec2::new((2, 1)) << 0, UVec2::new((2, 1)));
+  assert_eq!(UVec2::new((2, 2)) << 0, UVec2::new((2, 2)));
+  assert_eq!(UVec2::new((2, 2)) << 1, UVec2::new((4, 4)));
+  assert_eq!(UVec2::new((2, 2)) << 2, UVec2::new((8, 8)));
+}
+
+#[test]
+fn test_shl_assign_u32() {
+  let mut vec = UVec2::new((1, 1));
+  vec <<= 0;
+  assert_eq!(vec, UVec2::new((1, 1)));
+  vec <<= 1;
+  assert_eq!(vec, UVec2::new((2, 2)));
+  vec <<= 2;
+  assert_eq!(vec, UVec2::new((8, 8)));
+}
+
+#[test]
+fn test_shl_uvec2() {
+  assert_eq!(UVec2::new((0, 0)) << UVec2::new((0, 0)), UVec2::new((0, 0)));
+  assert_eq!(UVec2::new((1, 0)) << UVec2::new((0, 0)), UVec2::new((1, 0)));
+  assert_eq!(UVec2::new((2, 0)) << UVec2::new((0, 0)), UVec2::new((2, 0)));
+  assert_eq!(UVec2::new((2, 1)) << UVec2::new((0, 0)), UVec2::new((2, 1)));
+  assert_eq!(UVec2::new((2, 2)) << UVec2::new((0, 0)), UVec2::new((2, 2)));
+  assert_eq!(UVec2::new((2, 2)) << UVec2::new((1, 0)), UVec2::new((4, 2)));
+  assert_eq!(UVec2::new((2, 2)) << UVec2::new((2, 0)), UVec2::new((8, 2)));
+  assert_eq!(UVec2::new((2, 2)) << UVec2::new((2, 1)), UVec2::new((8, 4)));
+  assert_eq!(UVec2::new((2, 2)) << UVec2::new((2, 2)), UVec2::new((8, 8)));
+}
+
+#[test]
+fn test_shl_assign_uvec2() {
+  let mut vec = UVec2::new((1, 1));
+  vec <<= UVec2::new((0, 0));
+  assert_eq!(vec, UVec2::new((1, 1)));
+  vec <<= UVec2::new((1, 0));
+  assert_eq!(vec, UVec2::new((2, 1)));
+  vec <<= UVec2::new((2, 0));
+  assert_eq!(vec, UVec2::new((8, 1)));
+  vec <<= UVec2::new((2, 1));
+  assert_eq!(vec, UVec2::new((32, 2)));
+  vec <<= UVec2::new((2, 2));
+  assert_eq!(vec, UVec2::new((128, 8)));
+}
+
+#[test]
+fn test_shr_u32() {
+  assert_eq!(UVec2::new((0, 0)) >> 0, UVec2::new((0, 0)));
+  assert_eq!(UVec2::new((1, 0)) >> 0, UVec2::new((1, 0)));
+  assert_eq!(UVec2::new((2, 0)) >> 0, UVec2::new((2, 0)));
+  assert_eq!(UVec2::new((2, 1)) >> 0, UVec2::new((2, 1)));
+  assert_eq!(UVec2::new((2, 2)) >> 0, UVec2::new((2, 2)));
+  assert_eq!(UVec2::new((4, 4)) >> 1, UVec2::new((2, 2)));
+  assert_eq!(UVec2::new((8, 8)) >> 2, UVec2::new((2, 2)));
+}
+
+#[test]
+fn test_shr_assign_u32() {
+  let mut vec = UVec2::new((8, 8));
+  vec >>= 0;
+  assert_eq!(vec, UVec2::new((8, 8)));
+  vec >>= 1;
+  assert_eq!(vec, UVec2::new((4, 4)));
+  vec >>= 2;
+  assert_eq!(vec, UVec2::new((1, 1)));
+}
+
+#[test]
+fn test_shr_uvec2() {
+  assert_eq!(UVec2::new((0, 0)) >> UVec2::new((0, 0)), UVec2::new((0, 0)));
+  assert_eq!(UVec2::new((1, 0)) >> UVec2::new((0, 0)), UVec2::new((1, 0)));
+  assert_eq!(UVec2::new((2, 0)) >> UVec2::new((0, 0)), UVec2::new((2, 0)));
+  assert_eq!(UVec2::new((2, 1)) >> UVec2::new((0, 0)), UVec2::new((2, 1)));
+  assert_eq!(UVec2::new((2, 2)) >> UVec2::new((0, 0)), UVec2::new((2, 2)));
+  assert_eq!(UVec2::new((4, 2)) >> UVec2::new((1, 0)), UVec2::new((2, 2)));
+  assert_eq!(UVec2::new((8, 2)) >> UVec2::new((2, 0)), UVec2::new((2, 2)));
+  assert_eq!(UVec2::new((8, 4)) >> UVec2::new((2, 1)), UVec2::new((2, 2)));
+  assert_eq!(UVec2::new((8, 8)) >> UVec2::new((2, 2)), UVec2::new((2, 2)));
+}
+
+#[test]
+fn test_shr_assign_uvec2() {
+  let mut vec = UVec2::new((128, 8));
+  vec >>= UVec2::new((0, 0));
+  assert_eq!(vec, UVec2::new((128, 8)));
+  vec >>= UVec2::new((1, 0));
+  assert_eq!(vec, UVec2::new((64, 8)));
+  vec >>= UVec2::new((2, 0));
+  assert_eq!(vec, UVec2::new((16, 8)));
+  vec >>= UVec2::new((2, 1));
+  assert_eq!(vec, UVec2::new((4, 4)));
+  vec >>= UVec2::new((2, 2));
+  assert_eq!(vec, UVec2::new((1, 1)));
+}
+
+#[test]
 fn test_display() {
   assert_eq!(format!("{}", UVec2::new((0, 0))), "0,0");
   assert_eq!(format!("{}", UVec2::new((1, 0))), "1,0");

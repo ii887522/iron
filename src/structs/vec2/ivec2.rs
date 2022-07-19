@@ -2,7 +2,10 @@ use crate::{DVec2, FVec2, UVec2};
 
 use std::{
   fmt::{self, Display, Formatter},
-  ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Sub, SubAssign},
+  ops::{
+    Add, AddAssign, BitAnd, BitAndAssign, Div, DivAssign, Mul, MulAssign, Shl, ShlAssign, Shr,
+    ShrAssign, Sub, SubAssign,
+  },
 };
 
 #[derive(Copy, Clone, Debug)]
@@ -148,6 +151,96 @@ impl DivAssign<i32> for IVec2 {
     );
     self.x /= value;
     self.y /= value;
+  }
+}
+
+impl BitAnd<i32> for IVec2 {
+  type Output = IVec2;
+
+  fn bitand(self, value: i32) -> Self::Output {
+    Self::new((self.x & value, self.y & value))
+  }
+}
+
+impl BitAndAssign<i32> for IVec2 {
+  fn bitand_assign(&mut self, value: i32) {
+    self.x &= value;
+    self.y &= value;
+  }
+}
+
+impl BitAnd for IVec2 {
+  type Output = IVec2;
+
+  fn bitand(self, other: Self) -> Self::Output {
+    Self::new((self.x & other.x, self.y & other.y))
+  }
+}
+
+impl BitAndAssign for IVec2 {
+  fn bitand_assign(&mut self, other: Self) {
+    self.x &= other.x;
+    self.y &= other.y;
+  }
+}
+
+impl Shl<i32> for IVec2 {
+  type Output = IVec2;
+
+  fn shl(self, value: i32) -> Self::Output {
+    Self::new((self.x << value, self.y << value))
+  }
+}
+
+impl ShlAssign<i32> for IVec2 {
+  fn shl_assign(&mut self, value: i32) {
+    self.x <<= value;
+    self.y <<= value;
+  }
+}
+
+impl Shl for IVec2 {
+  type Output = IVec2;
+
+  fn shl(self, other: Self) -> Self::Output {
+    Self::new((self.x << other.x, self.y << other.y))
+  }
+}
+
+impl ShlAssign for IVec2 {
+  fn shl_assign(&mut self, other: Self) {
+    self.x <<= other.x;
+    self.y <<= other.y;
+  }
+}
+
+impl Shr<i32> for IVec2 {
+  type Output = IVec2;
+
+  fn shr(self, value: i32) -> Self::Output {
+    Self::new((self.x >> value, self.y >> value))
+  }
+}
+
+impl ShrAssign<i32> for IVec2 {
+  fn shr_assign(&mut self, value: i32) {
+    self.x >>= value;
+    self.y >>= value;
+  }
+}
+
+impl Shr for IVec2 {
+  type Output = IVec2;
+
+  fn shr(self, other: Self) -> Self::Output {
+    Self::new((self.x >> other.x, self.y >> other.y))
+  }
+}
+
+impl ShrAssign for IVec2 {
+  fn shr_assign(&mut self, other: Self) {
+    self.x >>= other.x;
+    self.y >>= other.y;
   }
 }
 

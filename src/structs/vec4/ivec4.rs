@@ -1,6 +1,9 @@
 use std::{
   fmt::{self, Display, Formatter},
-  ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Sub, SubAssign},
+  ops::{
+    Add, AddAssign, BitAnd, BitAndAssign, Div, DivAssign, Mul, MulAssign, Shl, ShlAssign, Shr,
+    ShrAssign, Sub, SubAssign,
+  },
 };
 
 use crate::{DVec4, FVec4, UVec4};
@@ -224,6 +227,138 @@ impl DivAssign<i32> for IVec4 {
     self.y /= value;
     self.z /= value;
     self.w /= value;
+  }
+}
+
+impl BitAnd<i32> for IVec4 {
+  type Output = IVec4;
+
+  fn bitand(self, value: i32) -> Self::Output {
+    Self::new((
+      self.x & value,
+      self.y & value,
+      self.z & value,
+      self.w & value,
+    ))
+  }
+}
+
+impl BitAndAssign<i32> for IVec4 {
+  fn bitand_assign(&mut self, value: i32) {
+    self.x &= value;
+    self.y &= value;
+    self.z &= value;
+    self.w &= value;
+  }
+}
+
+impl BitAnd for IVec4 {
+  type Output = IVec4;
+
+  fn bitand(self, other: Self) -> Self::Output {
+    Self::new((
+      self.x & other.x,
+      self.y & other.y,
+      self.z & other.z,
+      self.w & other.w,
+    ))
+  }
+}
+
+impl BitAndAssign for IVec4 {
+  fn bitand_assign(&mut self, other: Self) {
+    self.x &= other.x;
+    self.y &= other.y;
+    self.z &= other.z;
+    self.w &= other.w;
+  }
+}
+
+impl Shl<i32> for IVec4 {
+  type Output = IVec4;
+
+  fn shl(self, value: i32) -> Self::Output {
+    Self::new((
+      self.x << value,
+      self.y << value,
+      self.z << value,
+      self.w << value,
+    ))
+  }
+}
+
+impl ShlAssign<i32> for IVec4 {
+  fn shl_assign(&mut self, value: i32) {
+    self.x <<= value;
+    self.y <<= value;
+    self.z <<= value;
+    self.w <<= value;
+  }
+}
+
+impl Shl for IVec4 {
+  type Output = IVec4;
+
+  fn shl(self, other: Self) -> Self::Output {
+    Self::new((
+      self.x << other.x,
+      self.y << other.y,
+      self.z << other.z,
+      self.w << other.w,
+    ))
+  }
+}
+
+impl ShlAssign for IVec4 {
+  fn shl_assign(&mut self, other: Self) {
+    self.x <<= other.x;
+    self.y <<= other.y;
+    self.z <<= other.z;
+    self.w <<= other.w;
+  }
+}
+
+impl Shr<i32> for IVec4 {
+  type Output = IVec4;
+
+  fn shr(self, value: i32) -> Self::Output {
+    Self::new((
+      self.x >> value,
+      self.y >> value,
+      self.z >> value,
+      self.w >> value,
+    ))
+  }
+}
+
+impl ShrAssign<i32> for IVec4 {
+  fn shr_assign(&mut self, value: i32) {
+    self.x >>= value;
+    self.y >>= value;
+    self.z >>= value;
+    self.w >>= value;
+  }
+}
+
+impl Shr for IVec4 {
+  type Output = IVec4;
+
+  fn shr(self, other: Self) -> Self::Output {
+    Self::new((
+      self.x >> other.x,
+      self.y >> other.y,
+      self.z >> other.z,
+      self.w >> other.w,
+    ))
+  }
+}
+
+impl ShrAssign for IVec4 {
+  fn shr_assign(&mut self, other: Self) {
+    self.x >>= other.x;
+    self.y >>= other.y;
+    self.z >>= other.z;
+    self.w >>= other.w;
   }
 }
 
