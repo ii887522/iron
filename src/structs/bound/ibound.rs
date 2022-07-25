@@ -17,7 +17,7 @@ impl From<(i32, i32)> for Arg {
 }
 
 /// It defines a boundary between the minimum and maximum value.
-#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub struct IBound {
   min: i32,
   max: i32,

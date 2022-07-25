@@ -19,7 +19,7 @@ impl From<(f64, f64)> for Arg {
 }
 
 /// It defines a boundary between the minimum and maximum value.
-#[derive(Copy, Clone, Debug, PartialEq)]
+#[derive(Copy, Clone, Debug, PartialEq, PartialOrd)]
 pub struct DBound {
   min: f64,
   max: f64,

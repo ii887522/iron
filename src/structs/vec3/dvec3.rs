@@ -42,7 +42,7 @@ impl From<(f64, f64, f64)> for Arg {
   }
 }
 
-#[derive(Copy, Clone, Debug, PartialEq)]
+#[derive(Copy, Clone, Debug, PartialEq, PartialOrd)]
 pub struct DVec3 {
   x: f64,
   y: f64,

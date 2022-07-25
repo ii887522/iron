@@ -37,7 +37,7 @@ impl From<(i32, i32, i32)> for Arg {
   }
 }
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub struct IVec3 {
   x: i32,
   y: i32,
