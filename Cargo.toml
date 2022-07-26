@@ -1,6 +1,6 @@
 [package]
 name = "iron-ingot"
-version = "0.6.0"
+version = "0.7.0"
 edition = "2021"
 description = "A general-purpose library for rust that can help developers create various kinds of applications in a shorter amount of time."
 repository = "https://github.com/ii887522/iron-ingot"
