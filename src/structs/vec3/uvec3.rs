@@ -1,6 +1,9 @@
 use std::{
   fmt::{self, Display, Formatter},
-  ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Sub, SubAssign},
+  ops::{
+    Add, AddAssign, BitAnd, BitAndAssign, Div, DivAssign, Mul, MulAssign, Shl, ShlAssign, Shr,
+    ShrAssign, Sub, SubAssign,
+  },
 };
 
 use crate::{DVec3, FVec3, IVec3};
@@ -34,7 +37,7 @@ impl From<(u32, u32, u32)> for Arg {
   }
 }
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub struct UVec3 {
   x: u32,
   y: u32,
@@ -138,6 +141,22 @@ impl MulAssign<u32> for UVec3 {
   }
 }
 
+impl Mul for UVec3 {
+  type Output = Self;
+
+  fn mul(self, other: Self) -> Self::Output {
+    Self::new((self.x * other.x, self.y * other.y, self.z * other.z))
+  }
+}
+
+impl MulAssign for UVec3 {
+  fn mul_assign(&mut self, other: Self) {
+    self.x *= other.x;
+    self.y *= other.y;
+    self.z *= other.z;
+  }
+}
+
 impl Div<u32> for UVec3 {
   type Output = Self;
 
@@ -159,6 +178,142 @@ impl DivAssign<u32> for UVec3 {
     self.x /= value;
     self.y /= value;
     self.z /= value;
+  }
+}
+
+impl Div for UVec3 {
+  type Output = Self;
+
+  fn div(self, other: Self) -> Self::Output {
+    debug_assert_ne!(
+      other.x, 0,
+      "other.x must not be equal to 0 to avoid causing division by zero error!"
+    );
+    debug_assert_ne!(
+      other.y, 0,
+      "other.y must not be equal to 0 to avoid causing division by zero error!"
+    );
+    debug_assert_ne!(
+      other.z, 0,
+      "other.z must not be equal to 0 to avoid causing division by zero error!"
+    );
+    Self::new((self.x / other.x, self.y / other.y, self.z / other.z))
+  }
+}
+
+impl DivAssign for UVec3 {
+  fn div_assign(&mut self, other: Self) {
+    debug_assert_ne!(
+      other.x, 0,
+      "other.x must not be equal to 0 to avoid causing division by zero error!"
+    );
+    debug_assert_ne!(
+      other.y, 0,
+      "other.y must not be equal to 0 to avoid causing division by zero error!"
+    );
+    debug_assert_ne!(
+      other.z, 0,
+      "other.z must not be equal to 0 to avoid causing division by zero error!"
+    );
+    self.x /= other.x;
+    self.y /= other.y;
+    self.z /= other.z;
+  }
+}
+
+impl BitAnd<u32> for UVec3 {
+  type Output = UVec3;
+
+  fn bitand(self, value: u32) -> Self::Output {
+    Self::new((self.x & value, self.y & value, self.z & value))
+  }
+}
+
+impl BitAndAssign<u32> for UVec3 {
+  fn bitand_assign(&mut self, value: u32) {
+    self.x &= value;
+    self.y &= value;
+    self.z &= value;
+  }
+}
+
+impl BitAnd for UVec3 {
+  type Output = UVec3;
+
+  fn bitand(self, other: Self) -> Self::Output {
+    Self::new((self.x & other.x, self.y & other.y, self.z & other.z))
+  }
+}
+
+impl BitAndAssign for UVec3 {
+  fn bitand_assign(&mut self, other: Self) {
+    self.x &= other.x;
+    self.y &= other.y;
+    self.z &= other.z;
+  }
+}
+
+impl Shl<u32> for UVec3 {
+  type Output = UVec3;
+
+  fn shl(self, value: u32) -> Self::Output {
+    Self::new((self.x << value, self.y << value, self.z << value))
+  }
+}
+
+impl ShlAssign<u32> for UVec3 {
+  fn shl_assign(&mut self, value: u32) {
+    self.x <<= value;
+    self.y <<= value;
+    self.z <<= value;
+  }
+}
+
+impl Shl for UVec3 {
+  type Output = UVec3;
+
+  fn shl(self, other: Self) -> Self::Output {
+    Self::new((self.x << other.x, self.y << other.y, self.z << other.z))
+  }
+}
+
+impl ShlAssign for UVec3 {
+  fn shl_assign(&mut self, other: Self) {
+    self.x <<= other.x;
+    self.y <<= other.y;
+    self.z <<= other.z;
+  }
+}
+
+impl Shr<u32> for UVec3 {
+  type Output = UVec3;
+
+  fn shr(self, value: u32) -> Self::Output {
+    Self::new((self.x >> value, self.y >> value, self.z >> value))
+  }
+}
+
+impl ShrAssign<u32> for UVec3 {
+  fn shr_assign(&mut self, value: u32) {
+    self.x >>= value;
+    self.y >>= value;
+    self.z >>= value;
+  }
+}
+
+impl Shr for UVec3 {
+  type Output = UVec3;
+
+  fn shr(self, other: Self) -> Self::Output {
+    Self::new((self.x >> other.x, self.y >> other.y, self.z >> other.z))
+  }
+}
+
+impl ShrAssign for UVec3 {
+  fn shr_assign(&mut self, other: Self) {
+    self.x >>= other.x;
+    self.y >>= other.y;
+    self.z >>= other.z;
   }
 }
 

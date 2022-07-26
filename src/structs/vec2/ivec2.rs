@@ -2,7 +2,10 @@ use crate::{DVec2, FVec2, UVec2};
 
 use std::{
   fmt::{self, Display, Formatter},
-  ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Sub, SubAssign},
+  ops::{
+    Add, AddAssign, BitAnd, BitAndAssign, Div, DivAssign, Mul, MulAssign, Shl, ShlAssign, Shr,
+    ShrAssign, Sub, SubAssign,
+  },
 };
 
 #[derive(Copy, Clone, Debug)]
@@ -29,7 +32,7 @@ impl From<(i32, i32)> for Arg {
   }
 }
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub struct IVec2 {
   x: i32,
   y: i32,
@@ -128,6 +131,21 @@ impl MulAssign<i32> for IVec2 {
   }
 }
 
+impl Mul for IVec2 {
+  type Output = Self;
+
+  fn mul(self, other: Self) -> Self::Output {
+    Self::new((self.x * other.x, self.y * other.y))
+  }
+}
+
+impl MulAssign for IVec2 {
+  fn mul_assign(&mut self, other: Self) {
+    self.x *= other.x;
+    self.y *= other.y;
+  }
+}
+
 impl Div<i32> for IVec2 {
   type Output = Self;
 
@@ -148,6 +166,127 @@ impl DivAssign<i32> for IVec2 {
     );
     self.x /= value;
     self.y /= value;
+  }
+}
+
+impl Div for IVec2 {
+  type Output = Self;
+
+  fn div(self, other: Self) -> Self::Output {
+    debug_assert_ne!(
+      other.x, 0,
+      "other.x must not be equal to 0 to avoid causing division by zero error!"
+    );
+    debug_assert_ne!(
+      other.y, 0,
+      "other.y must not be equal to 0 to avoid causing division by zero error!"
+    );
+    Self::new((self.x / other.x, self.y / other.y))
+  }
+}
+
+impl DivAssign for IVec2 {
+  fn div_assign(&mut self, other: Self) {
+    debug_assert_ne!(
+      other.x, 0,
+      "other.x must not be equal to 0 to avoid causing division by zero error!"
+    );
+    debug_assert_ne!(
+      other.y, 0,
+      "other.y must not be equal to 0 to avoid causing division by zero error!"
+    );
+    self.x /= other.x;
+    self.y /= other.y;
+  }
+}
+
+impl BitAnd<i32> for IVec2 {
+  type Output = IVec2;
+
+  fn bitand(self, value: i32) -> Self::Output {
+    Self::new((self.x & value, self.y & value))
+  }
+}
+
+impl BitAndAssign<i32> for IVec2 {
+  fn bitand_assign(&mut self, value: i32) {
+    self.x &= value;
+    self.y &= value;
+  }
+}
+
+impl BitAnd for IVec2 {
+  type Output = IVec2;
+
+  fn bitand(self, other: Self) -> Self::Output {
+    Self::new((self.x & other.x, self.y & other.y))
+  }
+}
+
+impl BitAndAssign for IVec2 {
+  fn bitand_assign(&mut self, other: Self) {
+    self.x &= other.x;
+    self.y &= other.y;
+  }
+}
+
+impl Shl<i32> for IVec2 {
+  type Output = IVec2;
+
+  fn shl(self, value: i32) -> Self::Output {
+    Self::new((self.x << value, self.y << value))
+  }
+}
+
+impl ShlAssign<i32> for IVec2 {
+  fn shl_assign(&mut self, value: i32) {
+    self.x <<= value;
+    self.y <<= value;
+  }
+}
+
+impl Shl for IVec2 {
+  type Output = IVec2;
+
+  fn shl(self, other: Self) -> Self::Output {
+    Self::new((self.x << other.x, self.y << other.y))
+  }
+}
+
+impl ShlAssign for IVec2 {
+  fn shl_assign(&mut self, other: Self) {
+    self.x <<= other.x;
+    self.y <<= other.y;
+  }
+}
+
+impl Shr<i32> for IVec2 {
+  type Output = IVec2;
+
+  fn shr(self, value: i32) -> Self::Output {
+    Self::new((self.x >> value, self.y >> value))
+  }
+}
+
+impl ShrAssign<i32> for IVec2 {
+  fn shr_assign(&mut self, value: i32) {
+    self.x >>= value;
+    self.y >>= value;
+  }
+}
+
+impl Shr for IVec2 {
+  type Output = IVec2;
+
+  fn shr(self, other: Self) -> Self::Output {
+    Self::new((self.x >> other.x, self.y >> other.y))
+  }
+}
+
+impl ShrAssign for IVec2 {
+  fn shr_assign(&mut self, other: Self) {
+    self.x >>= other.x;
+    self.y >>= other.y;
   }
 }
 

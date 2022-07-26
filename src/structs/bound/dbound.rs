@@ -19,7 +19,7 @@ impl From<(f64, f64)> for Arg {
 }
 
 /// It defines a boundary between the minimum and maximum value.
-#[derive(Copy, Clone, Debug, PartialEq)]
+#[derive(Copy, Clone, Debug, PartialEq, PartialOrd)]
 pub struct DBound {
   min: f64,
   max: f64,
@@ -78,16 +78,6 @@ impl DBound {
   /// It returns a random value in this boundary.
   pub fn rand(&self) -> f64 {
     thread_rng().gen_range(self.min..=self.max)
-  }
-
-  pub fn clamp(&self, value: f64) -> f64 {
-    if value < self.min {
-      self.min
-    } else if value > self.max {
-      self.max
-    } else {
-      value
-    }
   }
 }
 
