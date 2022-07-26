@@ -1,7 +1,7 @@
 use crate::{DBound, FBound, FSeq, IBound, UBound};
 
 /// It defines a sequence between two values.
-#[derive(Copy, Clone, Debug, PartialEq)]
+#[derive(Copy, Clone, Debug, PartialEq, PartialOrd)]
 pub struct DSeq(f64, f64);
 
 impl DSeq {

@@ -1,4 +1,4 @@
-use iron_ingot::{DVec4, FVec4, IVec4, UVec4};
+use iron_ingot::{DVec4, FVec4, UVec4};
 
 #[test]
 fn test_from_u32() {
@@ -140,6 +140,29 @@ fn test_add() {
 }
 
 #[test]
+fn test_add_assign() {
+  let mut vec = UVec4::new(());
+  vec += UVec4::new((0, 0, 0, 0));
+  assert_eq!(vec, UVec4::new((0, 0, 0, 0)));
+  vec += UVec4::new((1, 0, 0, 0));
+  assert_eq!(vec, UVec4::new((1, 0, 0, 0)));
+  vec += UVec4::new((2, 0, 0, 0));
+  assert_eq!(vec, UVec4::new((3, 0, 0, 0)));
+  vec += UVec4::new((2, 1, 0, 0));
+  assert_eq!(vec, UVec4::new((5, 1, 0, 0)));
+  vec += UVec4::new((2, 2, 0, 0));
+  assert_eq!(vec, UVec4::new((7, 3, 0, 0)));
+  vec += UVec4::new((2, 2, 1, 0));
+  assert_eq!(vec, UVec4::new((9, 5, 1, 0)));
+  vec += UVec4::new((2, 2, 2, 0));
+  assert_eq!(vec, UVec4::new((11, 7, 3, 0)));
+  vec += UVec4::new((2, 2, 2, 1));
+  assert_eq!(vec, UVec4::new((13, 9, 5, 1)));
+  vec += UVec4::new((2, 2, 2, 2));
+  assert_eq!(vec, UVec4::new((15, 11, 7, 3)));
+}
+
+#[test]
 fn test_sub() {
   assert_eq!(
     UVec4::new((0, 0, 0, 0)) - UVec4::new((0, 0, 0, 0)),
@@ -212,7 +235,30 @@ fn test_sub() {
 }
 
 #[test]
-fn test_mul() {
+fn test_sub_assign() {
+  let mut vec = UVec4::new((20, 20, 20, 20));
+  vec -= UVec4::new((0, 0, 0, 0));
+  assert_eq!(vec, UVec4::new((20, 20, 20, 20)));
+  vec -= UVec4::new((1, 0, 0, 0));
+  assert_eq!(vec, UVec4::new((19, 20, 20, 20)));
+  vec -= UVec4::new((2, 0, 0, 0));
+  assert_eq!(vec, UVec4::new((17, 20, 20, 20)));
+  vec -= UVec4::new((2, 1, 0, 0));
+  assert_eq!(vec, UVec4::new((15, 19, 20, 20)));
+  vec -= UVec4::new((2, 2, 0, 0));
+  assert_eq!(vec, UVec4::new((13, 17, 20, 20)));
+  vec -= UVec4::new((2, 2, 1, 0));
+  assert_eq!(vec, UVec4::new((11, 15, 19, 20)));
+  vec -= UVec4::new((2, 2, 2, 0));
+  assert_eq!(vec, UVec4::new((9, 13, 17, 20)));
+  vec -= UVec4::new((2, 2, 2, 1));
+  assert_eq!(vec, UVec4::new((7, 11, 15, 19)));
+  vec -= UVec4::new((2, 2, 2, 2));
+  assert_eq!(vec, UVec4::new((5, 9, 13, 17)));
+}
+
+#[test]
+fn test_mul_u32() {
   assert_eq!(UVec4::new((0, 0, 0, 0)) * 0, UVec4::new((0, 0, 0, 0)));
   assert_eq!(UVec4::new((1, 0, 0, 0)) * 0, UVec4::new((0, 0, 0, 0)));
   assert_eq!(UVec4::new((2, 0, 0, 0)) * 0, UVec4::new((0, 0, 0, 0)));
@@ -227,7 +273,113 @@ fn test_mul() {
 }
 
 #[test]
-fn test_div() {
+fn test_mul_u32_assign() {
+  let mut vec = UVec4::new((1, 1, 1, 1));
+  vec *= 1;
+  assert_eq!(vec, UVec4::new((1, 1, 1, 1)));
+  vec *= 2;
+  assert_eq!(vec, UVec4::new((2, 2, 2, 2)));
+  vec *= 3;
+  assert_eq!(vec, UVec4::new((6, 6, 6, 6)));
+}
+
+#[test]
+fn test_mul() {
+  assert_eq!(
+    UVec4::new((0, 0, 0, 0)) * UVec4::new((0, 0, 0, 0)),
+    UVec4::new((0, 0, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((1, 0, 0, 0)) * UVec4::new((0, 0, 0, 0)),
+    UVec4::new((0, 0, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 0, 0, 0)) * UVec4::new((0, 0, 0, 0)),
+    UVec4::new((0, 0, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 1, 0, 0)) * UVec4::new((0, 0, 0, 0)),
+    UVec4::new((0, 0, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 0, 0)) * UVec4::new((0, 0, 0, 0)),
+    UVec4::new((0, 0, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 1, 0)) * UVec4::new((0, 0, 0, 0)),
+    UVec4::new((0, 0, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 0)) * UVec4::new((0, 0, 0, 0)),
+    UVec4::new((0, 0, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 1)) * UVec4::new((0, 0, 0, 0)),
+    UVec4::new((0, 0, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 2)) * UVec4::new((0, 0, 0, 0)),
+    UVec4::new((0, 0, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 2)) * UVec4::new((1, 0, 0, 0)),
+    UVec4::new((2, 0, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 2)) * UVec4::new((2, 0, 0, 0)),
+    UVec4::new((4, 0, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 2)) * UVec4::new((2, 1, 0, 0)),
+    UVec4::new((4, 2, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 2)) * UVec4::new((2, 2, 0, 0)),
+    UVec4::new((4, 4, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 2)) * UVec4::new((2, 2, 1, 0)),
+    UVec4::new((4, 4, 2, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 2)) * UVec4::new((2, 2, 2, 0)),
+    UVec4::new((4, 4, 4, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 2)) * UVec4::new((2, 2, 2, 1)),
+    UVec4::new((4, 4, 4, 2))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 2)) * UVec4::new((2, 2, 2, 2)),
+    UVec4::new((4, 4, 4, 4))
+  );
+}
+
+#[test]
+fn test_mul_assign() {
+  let mut vec = UVec4::new((1, 1, 1, 1));
+  vec *= UVec4::new((1, 1, 1, 1));
+  assert_eq!(vec, UVec4::new((1, 1, 1, 1)));
+  vec *= UVec4::new((2, 1, 1, 1));
+  assert_eq!(vec, UVec4::new((2, 1, 1, 1)));
+  vec *= UVec4::new((3, 1, 1, 1));
+  assert_eq!(vec, UVec4::new((6, 1, 1, 1)));
+  vec *= UVec4::new((3, 2, 1, 1));
+  assert_eq!(vec, UVec4::new((18, 2, 1, 1)));
+  vec *= UVec4::new((3, 3, 1, 1));
+  assert_eq!(vec, UVec4::new((54, 6, 1, 1)));
+  vec *= UVec4::new((3, 3, 2, 1));
+  assert_eq!(vec, UVec4::new((162, 18, 2, 1)));
+  vec *= UVec4::new((3, 3, 3, 1));
+  assert_eq!(vec, UVec4::new((486, 54, 6, 1)));
+  vec *= UVec4::new((3, 3, 3, 2));
+  assert_eq!(vec, UVec4::new((1458, 162, 18, 2)));
+  vec *= UVec4::new((3, 3, 3, 3));
+  assert_eq!(vec, UVec4::new((4374, 486, 54, 6)));
+}
+
+#[test]
+fn test_div_u32() {
   assert_eq!(UVec4::new((0, 0, 0, 0)) / 1, UVec4::new((0, 0, 0, 0)));
   assert_eq!(UVec4::new((1, 0, 0, 0)) / 1, UVec4::new((1, 0, 0, 0)));
   assert_eq!(UVec4::new((2, 0, 0, 0)) / 1, UVec4::new((2, 0, 0, 0)));
@@ -239,6 +391,116 @@ fn test_div() {
   assert_eq!(UVec4::new((2, 2, 2, 0)) / 4, UVec4::new((0, 0, 0, 0)));
   assert_eq!(UVec4::new((2, 2, 2, 1)) / 4, UVec4::new((0, 0, 0, 0)));
   assert_eq!(UVec4::new((2, 2, 2, 2)) / 4, UVec4::new((0, 0, 0, 0)));
+}
+
+#[test]
+fn test_div_u32_assign() {
+  let mut vec = UVec4::new((1, 1, 1, 1));
+  vec /= 1;
+  assert_eq!(vec, UVec4::new((1, 1, 1, 1)));
+  vec /= 2;
+  assert_eq!(vec, UVec4::new((0, 0, 0, 0)));
+  vec /= 5;
+  assert_eq!(vec, UVec4::new((0, 0, 0, 0)));
+}
+
+#[test]
+fn test_div() {
+  assert_eq!(
+    UVec4::new((0, 0, 0, 0)) / UVec4::new((1, 1, 1, 1)),
+    UVec4::new((0, 0, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((1, 0, 0, 0)) / UVec4::new((1, 1, 1, 1)),
+    UVec4::new((1, 0, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 0, 0, 0)) / UVec4::new((1, 1, 1, 1)),
+    UVec4::new((2, 0, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 1, 0, 0)) / UVec4::new((1, 1, 1, 1)),
+    UVec4::new((2, 1, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 0, 0)) / UVec4::new((1, 1, 1, 1)),
+    UVec4::new((2, 2, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 1, 0)) / UVec4::new((1, 1, 1, 1)),
+    UVec4::new((2, 2, 1, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 0)) / UVec4::new((1, 1, 1, 1)),
+    UVec4::new((2, 2, 2, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 0)) / UVec4::new((1, 1, 1, 1)),
+    UVec4::new((2, 2, 2, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 1)) / UVec4::new((1, 1, 1, 1)),
+    UVec4::new((2, 2, 2, 1))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 2)) / UVec4::new((1, 1, 1, 1)),
+    UVec4::new((2, 2, 2, 2))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 2)) / UVec4::new((2, 1, 1, 1)),
+    UVec4::new((1, 2, 2, 2))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 2)) / UVec4::new((4, 1, 1, 1)),
+    UVec4::new((0, 2, 2, 2))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 2)) / UVec4::new((4, 2, 1, 1)),
+    UVec4::new((0, 1, 2, 2))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 2)) / UVec4::new((4, 4, 1, 1)),
+    UVec4::new((0, 0, 2, 2))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 2)) / UVec4::new((4, 4, 2, 1)),
+    UVec4::new((0, 0, 1, 2))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 2)) / UVec4::new((4, 4, 4, 1)),
+    UVec4::new((0, 0, 0, 2))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 2)) / UVec4::new((4, 4, 4, 2)),
+    UVec4::new((0, 0, 0, 1))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 2)) / UVec4::new((4, 4, 4, 4)),
+    UVec4::new((0, 0, 0, 0))
+  );
+}
+
+#[test]
+fn test_div_assign() {
+  let mut vec = UVec4::new((1, 1, 1, 1));
+  vec /= UVec4::new((1, 1, 1, 1));
+  assert_eq!(vec, UVec4::new((1, 1, 1, 1)));
+  vec /= UVec4::new((2, 1, 1, 1));
+  assert_eq!(vec, UVec4::new((0, 1, 1, 1)));
+  vec /= UVec4::new((5, 1, 1, 1));
+  assert_eq!(vec, UVec4::new((0, 1, 1, 1)));
+  vec /= UVec4::new((5, 2, 1, 1));
+  assert_eq!(vec, UVec4::new((0, 0, 1, 1)));
+  vec /= UVec4::new((5, 5, 1, 1));
+  assert_eq!(vec, UVec4::new((0, 0, 1, 1)));
+  vec /= UVec4::new((5, 5, 2, 1));
+  assert_eq!(vec, UVec4::new((0, 0, 0, 1)));
+  vec /= UVec4::new((5, 5, 5, 1));
+  assert_eq!(vec, UVec4::new((0, 0, 0, 1)));
+  vec /= UVec4::new((5, 5, 5, 2));
+  assert_eq!(vec, UVec4::new((0, 0, 0, 0)));
+  vec /= UVec4::new((5, 5, 5, 5));
+  assert_eq!(vec, UVec4::new((0, 0, 0, 0)));
 }
 
 #[test]
@@ -265,71 +527,350 @@ fn test_set() {
 }
 
 #[test]
-fn test_add_assign() {
-  let mut vec = UVec4::new(());
-  vec += UVec4::new((0, 0, 0, 0));
-  assert_eq!(vec, UVec4::new((0, 0, 0, 0)));
-  vec += UVec4::new((1, 0, 0, 0));
-  assert_eq!(vec, UVec4::new((1, 0, 0, 0)));
-  vec += UVec4::new((2, 0, 0, 0));
-  assert_eq!(vec, UVec4::new((3, 0, 0, 0)));
-  vec += UVec4::new((2, 1, 0, 0));
-  assert_eq!(vec, UVec4::new((5, 1, 0, 0)));
-  vec += UVec4::new((2, 2, 0, 0));
-  assert_eq!(vec, UVec4::new((7, 3, 0, 0)));
-  vec += UVec4::new((2, 2, 1, 0));
-  assert_eq!(vec, UVec4::new((9, 5, 1, 0)));
-  vec += UVec4::new((2, 2, 2, 0));
-  assert_eq!(vec, UVec4::new((11, 7, 3, 0)));
-  vec += UVec4::new((2, 2, 2, 1));
-  assert_eq!(vec, UVec4::new((13, 9, 5, 1)));
-  vec += UVec4::new((2, 2, 2, 2));
-  assert_eq!(vec, UVec4::new((15, 11, 7, 3)));
+fn test_bitand_i32() {
+  assert_eq!(UVec4::new((0, 0, 0, 0)) & 0, UVec4::new((0, 0, 0, 0)));
+  assert_eq!(UVec4::new((1, 0, 0, 0)) & 0, UVec4::new((0, 0, 0, 0)));
+  assert_eq!(UVec4::new((2, 0, 0, 0)) & 0, UVec4::new((0, 0, 0, 0)));
+  assert_eq!(UVec4::new((2, 1, 0, 0)) & 0, UVec4::new((0, 0, 0, 0)));
+  assert_eq!(UVec4::new((2, 2, 0, 0)) & 0, UVec4::new((0, 0, 0, 0)));
+  assert_eq!(UVec4::new((2, 2, 1, 0)) & 0, UVec4::new((0, 0, 0, 0)));
+  assert_eq!(UVec4::new((2, 2, 2, 0)) & 0, UVec4::new((0, 0, 0, 0)));
+  assert_eq!(UVec4::new((2, 2, 2, 1)) & 0, UVec4::new((0, 0, 0, 0)));
+  assert_eq!(UVec4::new((2, 2, 2, 2)) & 0, UVec4::new((0, 0, 0, 0)));
+  assert_eq!(UVec4::new((2, 2, 2, 2)) & 1, UVec4::new((0, 0, 0, 0)));
+  assert_eq!(UVec4::new((2, 2, 2, 2)) & 3, UVec4::new((2, 2, 2, 2)));
 }
 
 #[test]
-fn test_sub_assign() {
-  let mut vec = UVec4::new((20, 20, 20, 20));
-  vec -= UVec4::new((0, 0, 0, 0));
-  assert_eq!(vec, UVec4::new((20, 20, 20, 20)));
-  vec -= UVec4::new((1, 0, 0, 0));
-  assert_eq!(vec, UVec4::new((19, 20, 20, 20)));
-  vec -= UVec4::new((2, 0, 0, 0));
-  assert_eq!(vec, UVec4::new((17, 20, 20, 20)));
-  vec -= UVec4::new((2, 1, 0, 0));
-  assert_eq!(vec, UVec4::new((15, 19, 20, 20)));
-  vec -= UVec4::new((2, 2, 0, 0));
-  assert_eq!(vec, UVec4::new((13, 17, 20, 20)));
-  vec -= UVec4::new((2, 2, 1, 0));
-  assert_eq!(vec, UVec4::new((11, 15, 19, 20)));
-  vec -= UVec4::new((2, 2, 2, 0));
-  assert_eq!(vec, UVec4::new((9, 13, 17, 20)));
-  vec -= UVec4::new((2, 2, 2, 1));
-  assert_eq!(vec, UVec4::new((7, 11, 15, 19)));
-  vec -= UVec4::new((2, 2, 2, 2));
-  assert_eq!(vec, UVec4::new((5, 9, 13, 17)));
-}
-
-#[test]
-fn test_mul_assign() {
-  let mut vec = UVec4::new((1, 1, 1, 1));
-  vec *= 1;
+fn test_bitand_assign_i32() {
+  let mut vec = UVec4::new((3, 3, 3, 3));
+  vec &= 3;
+  assert_eq!(vec, UVec4::new((3, 3, 3, 3)));
+  vec &= 1;
   assert_eq!(vec, UVec4::new((1, 1, 1, 1)));
-  vec *= 2;
+  vec &= 0;
+  assert_eq!(vec, UVec4::new((0, 0, 0, 0)));
+}
+
+#[test]
+fn test_bitand_uvec4() {
+  assert_eq!(
+    UVec4::new((0, 0, 0, 0)) & UVec4::new((0, 0, 0, 0)),
+    UVec4::new((0, 0, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((1, 0, 0, 0)) & UVec4::new((0, 0, 0, 0)),
+    UVec4::new((0, 0, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 0, 0, 0)) & UVec4::new((0, 0, 0, 0)),
+    UVec4::new((0, 0, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 1, 0, 0)) & UVec4::new((0, 0, 0, 0)),
+    UVec4::new((0, 0, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 0, 0)) & UVec4::new((0, 0, 0, 0)),
+    UVec4::new((0, 0, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 0, 0)) & UVec4::new((1, 0, 0, 0)),
+    UVec4::new((0, 0, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 0, 0)) & UVec4::new((3, 0, 0, 0)),
+    UVec4::new((2, 0, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 0, 0)) & UVec4::new((3, 1, 0, 0)),
+    UVec4::new((2, 0, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 0, 0)) & UVec4::new((3, 3, 0, 0)),
+    UVec4::new((2, 2, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 1, 0)) & UVec4::new((3, 3, 0, 0)),
+    UVec4::new((2, 2, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 0)) & UVec4::new((3, 3, 0, 0)),
+    UVec4::new((2, 2, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 0)) & UVec4::new((3, 3, 1, 0)),
+    UVec4::new((2, 2, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 0)) & UVec4::new((3, 3, 3, 0)),
+    UVec4::new((2, 2, 2, 0))
+  );
+}
+
+#[test]
+fn test_bitand_assign_uvec4() {
+  let mut vec = UVec4::new((3, 3, 3, 3));
+  vec &= UVec4::new((3, 3, 3, 3));
+  assert_eq!(vec, UVec4::new((3, 3, 3, 3)));
+  vec &= UVec4::new((3, 1, 3, 3));
+  assert_eq!(vec, UVec4::new((3, 1, 3, 3)));
+  vec &= UVec4::new((3, 0, 3, 3));
+  assert_eq!(vec, UVec4::new((3, 0, 3, 3)));
+  vec &= UVec4::new((1, 0, 3, 3));
+  assert_eq!(vec, UVec4::new((1, 0, 3, 3)));
+  vec &= UVec4::new((0, 0, 3, 3));
+  assert_eq!(vec, UVec4::new((0, 0, 3, 3)));
+  vec &= UVec4::new((0, 0, 1, 3));
+  assert_eq!(vec, UVec4::new((0, 0, 1, 3)));
+  vec &= UVec4::new((0, 0, 0, 3));
+  assert_eq!(vec, UVec4::new((0, 0, 0, 3)));
+  vec &= UVec4::new((0, 0, 0, 1));
+  assert_eq!(vec, UVec4::new((0, 0, 0, 1)));
+  vec &= UVec4::new((0, 0, 0, 0));
+  assert_eq!(vec, UVec4::new((0, 0, 0, 0)));
+}
+
+#[test]
+fn test_shl_i32() {
+  assert_eq!(UVec4::new((0, 0, 0, 0)) << 0, UVec4::new((0, 0, 0, 0)));
+  assert_eq!(UVec4::new((1, 0, 0, 0)) << 0, UVec4::new((1, 0, 0, 0)));
+  assert_eq!(UVec4::new((2, 0, 0, 0)) << 0, UVec4::new((2, 0, 0, 0)));
+  assert_eq!(UVec4::new((2, 1, 0, 0)) << 0, UVec4::new((2, 1, 0, 0)));
+  assert_eq!(UVec4::new((2, 2, 0, 0)) << 0, UVec4::new((2, 2, 0, 0)));
+  assert_eq!(UVec4::new((2, 2, 1, 0)) << 0, UVec4::new((2, 2, 1, 0)));
+  assert_eq!(UVec4::new((2, 2, 2, 0)) << 0, UVec4::new((2, 2, 2, 0)));
+  assert_eq!(UVec4::new((2, 2, 2, 1)) << 0, UVec4::new((2, 2, 2, 1)));
+  assert_eq!(UVec4::new((2, 2, 2, 2)) << 0, UVec4::new((2, 2, 2, 2)));
+  assert_eq!(UVec4::new((2, 2, 2, 2)) << 1, UVec4::new((4, 4, 4, 4)));
+  assert_eq!(UVec4::new((2, 2, 2, 2)) << 2, UVec4::new((8, 8, 8, 8)));
+}
+
+#[test]
+fn test_shl_assign_i32() {
+  let mut vec = UVec4::new((1, 1, 1, 1));
+  vec <<= 0;
+  assert_eq!(vec, UVec4::new((1, 1, 1, 1)));
+  vec <<= 1;
   assert_eq!(vec, UVec4::new((2, 2, 2, 2)));
-  vec *= 3;
-  assert_eq!(vec, UVec4::new((6, 6, 6, 6)));
+  vec <<= 2;
+  assert_eq!(vec, UVec4::new((8, 8, 8, 8)));
 }
 
 #[test]
-fn test_div_assign() {
+fn test_shl_uvec4() {
+  assert_eq!(
+    UVec4::new((0, 0, 0, 0)) << UVec4::new((0, 0, 0, 0)),
+    UVec4::new((0, 0, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((1, 0, 0, 0)) << UVec4::new((0, 0, 0, 0)),
+    UVec4::new((1, 0, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 0, 0, 0)) << UVec4::new((0, 0, 0, 0)),
+    UVec4::new((2, 0, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 1, 0, 0)) << UVec4::new((0, 0, 0, 0)),
+    UVec4::new((2, 1, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 0, 0)) << UVec4::new((0, 0, 0, 0)),
+    UVec4::new((2, 2, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 1, 0)) << UVec4::new((0, 0, 0, 0)),
+    UVec4::new((2, 2, 1, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 0)) << UVec4::new((0, 0, 0, 0)),
+    UVec4::new((2, 2, 2, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 1)) << UVec4::new((0, 0, 0, 0)),
+    UVec4::new((2, 2, 2, 1))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 2)) << UVec4::new((0, 0, 0, 0)),
+    UVec4::new((2, 2, 2, 2))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 2)) << UVec4::new((1, 0, 0, 0)),
+    UVec4::new((4, 2, 2, 2))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 2)) << UVec4::new((2, 0, 0, 0)),
+    UVec4::new((8, 2, 2, 2))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 2)) << UVec4::new((2, 1, 0, 0)),
+    UVec4::new((8, 4, 2, 2))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 2)) << UVec4::new((2, 2, 0, 0)),
+    UVec4::new((8, 8, 2, 2))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 2)) << UVec4::new((2, 2, 1, 0)),
+    UVec4::new((8, 8, 4, 2))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 2)) << UVec4::new((2, 2, 2, 0)),
+    UVec4::new((8, 8, 8, 2))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 2)) << UVec4::new((2, 2, 2, 1)),
+    UVec4::new((8, 8, 8, 4))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 2)) << UVec4::new((2, 2, 2, 2)),
+    UVec4::new((8, 8, 8, 8))
+  );
+}
+
+#[test]
+fn test_shl_assign_uvec4() {
   let mut vec = UVec4::new((1, 1, 1, 1));
-  vec /= 1;
+  vec <<= UVec4::new((0, 0, 0, 0));
   assert_eq!(vec, UVec4::new((1, 1, 1, 1)));
-  vec /= 2;
-  assert_eq!(vec, UVec4::new((0, 0, 0, 0)));
-  vec /= 5;
-  assert_eq!(vec, UVec4::new((0, 0, 0, 0)));
+  vec <<= UVec4::new((1, 0, 0, 0));
+  assert_eq!(vec, UVec4::new((2, 1, 1, 1)));
+  vec <<= UVec4::new((2, 0, 0, 0));
+  assert_eq!(vec, UVec4::new((8, 1, 1, 1)));
+  vec <<= UVec4::new((2, 1, 0, 0));
+  assert_eq!(vec, UVec4::new((32, 2, 1, 1)));
+  vec <<= UVec4::new((2, 2, 0, 0));
+  assert_eq!(vec, UVec4::new((128, 8, 1, 1)));
+  vec <<= UVec4::new((2, 2, 1, 0));
+  assert_eq!(vec, UVec4::new((512, 32, 2, 1)));
+  vec <<= UVec4::new((2, 2, 2, 0));
+  assert_eq!(vec, UVec4::new((2048, 128, 8, 1)));
+  vec <<= UVec4::new((2, 2, 2, 1));
+  assert_eq!(vec, UVec4::new((8192, 512, 32, 2)));
+  vec <<= UVec4::new((2, 2, 2, 2));
+  assert_eq!(vec, UVec4::new((32768, 2048, 128, 8)));
+}
+
+#[test]
+fn test_shr_i32() {
+  assert_eq!(UVec4::new((0, 0, 0, 0)) >> 0, UVec4::new((0, 0, 0, 0)));
+  assert_eq!(UVec4::new((1, 0, 0, 0)) >> 0, UVec4::new((1, 0, 0, 0)));
+  assert_eq!(UVec4::new((2, 0, 0, 0)) >> 0, UVec4::new((2, 0, 0, 0)));
+  assert_eq!(UVec4::new((2, 1, 0, 0)) >> 0, UVec4::new((2, 1, 0, 0)));
+  assert_eq!(UVec4::new((2, 2, 0, 0)) >> 0, UVec4::new((2, 2, 0, 0)));
+  assert_eq!(UVec4::new((2, 2, 1, 0)) >> 0, UVec4::new((2, 2, 1, 0)));
+  assert_eq!(UVec4::new((2, 2, 2, 0)) >> 0, UVec4::new((2, 2, 2, 0)));
+  assert_eq!(UVec4::new((2, 2, 2, 1)) >> 0, UVec4::new((2, 2, 2, 1)));
+  assert_eq!(UVec4::new((2, 2, 2, 2)) >> 0, UVec4::new((2, 2, 2, 2)));
+  assert_eq!(UVec4::new((4, 4, 4, 4)) >> 1, UVec4::new((2, 2, 2, 2)));
+  assert_eq!(UVec4::new((8, 8, 8, 8)) >> 2, UVec4::new((2, 2, 2, 2)));
+}
+
+#[test]
+fn test_shr_assign_i32() {
+  let mut vec = UVec4::new((8, 8, 8, 8));
+  vec >>= 0;
+  assert_eq!(vec, UVec4::new((8, 8, 8, 8)));
+  vec >>= 1;
+  assert_eq!(vec, UVec4::new((4, 4, 4, 4)));
+  vec >>= 2;
+  assert_eq!(vec, UVec4::new((1, 1, 1, 1)));
+}
+
+#[test]
+fn test_shr_uvec4() {
+  assert_eq!(
+    UVec4::new((0, 0, 0, 0)) >> UVec4::new((0, 0, 0, 0)),
+    UVec4::new((0, 0, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((1, 0, 0, 0)) >> UVec4::new((0, 0, 0, 0)),
+    UVec4::new((1, 0, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 0, 0, 0)) >> UVec4::new((0, 0, 0, 0)),
+    UVec4::new((2, 0, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 1, 0, 0)) >> UVec4::new((0, 0, 0, 0)),
+    UVec4::new((2, 1, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 0, 0)) >> UVec4::new((0, 0, 0, 0)),
+    UVec4::new((2, 2, 0, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 1, 0)) >> UVec4::new((0, 0, 0, 0)),
+    UVec4::new((2, 2, 1, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 0)) >> UVec4::new((0, 0, 0, 0)),
+    UVec4::new((2, 2, 2, 0))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 1)) >> UVec4::new((0, 0, 0, 0)),
+    UVec4::new((2, 2, 2, 1))
+  );
+  assert_eq!(
+    UVec4::new((2, 2, 2, 2)) >> UVec4::new((0, 0, 0, 0)),
+    UVec4::new((2, 2, 2, 2))
+  );
+  assert_eq!(
+    UVec4::new((4, 2, 2, 2)) >> UVec4::new((1, 0, 0, 0)),
+    UVec4::new((2, 2, 2, 2))
+  );
+  assert_eq!(
+    UVec4::new((8, 2, 2, 2)) >> UVec4::new((2, 0, 0, 0)),
+    UVec4::new((2, 2, 2, 2))
+  );
+  assert_eq!(
+    UVec4::new((8, 4, 2, 2)) >> UVec4::new((2, 1, 0, 0)),
+    UVec4::new((2, 2, 2, 2))
+  );
+  assert_eq!(
+    UVec4::new((8, 8, 2, 2)) >> UVec4::new((2, 2, 0, 0)),
+    UVec4::new((2, 2, 2, 2))
+  );
+  assert_eq!(
+    UVec4::new((8, 8, 4, 2)) >> UVec4::new((2, 2, 1, 0)),
+    UVec4::new((2, 2, 2, 2))
+  );
+  assert_eq!(
+    UVec4::new((8, 8, 8, 2)) >> UVec4::new((2, 2, 2, 0)),
+    UVec4::new((2, 2, 2, 2))
+  );
+  assert_eq!(
+    UVec4::new((8, 8, 8, 4)) >> UVec4::new((2, 2, 2, 1)),
+    UVec4::new((2, 2, 2, 2))
+  );
+  assert_eq!(
+    UVec4::new((8, 8, 8, 8)) >> UVec4::new((2, 2, 2, 2)),
+    UVec4::new((2, 2, 2, 2))
+  );
+}
+
+#[test]
+fn test_shr_assign_uvec4() {
+  let mut vec = UVec4::new((32768, 2048, 128, 8));
+  vec >>= UVec4::new((0, 0, 0, 0));
+  assert_eq!(vec, UVec4::new((32768, 2048, 128, 8)));
+  vec >>= UVec4::new((1, 0, 0, 0));
+  assert_eq!(vec, UVec4::new((16384, 2048, 128, 8)));
+  vec >>= UVec4::new((2, 0, 0, 0));
+  assert_eq!(vec, UVec4::new((4096, 2048, 128, 8)));
+  vec >>= UVec4::new((2, 1, 0, 0));
+  assert_eq!(vec, UVec4::new((1024, 1024, 128, 8)));
+  vec >>= UVec4::new((2, 2, 0, 0));
+  assert_eq!(vec, UVec4::new((256, 256, 128, 8)));
+  vec >>= UVec4::new((2, 2, 1, 0));
+  assert_eq!(vec, UVec4::new((64, 64, 64, 8)));
+  vec >>= UVec4::new((2, 2, 2, 0));
+  assert_eq!(vec, UVec4::new((16, 16, 16, 8)));
+  vec >>= UVec4::new((2, 2, 2, 1));
+  assert_eq!(vec, UVec4::new((4, 4, 4, 4)));
+  vec >>= UVec4::new((2, 2, 2, 2));
+  assert_eq!(vec, UVec4::new((1, 1, 1, 1)));
 }
 
 #[test]
@@ -410,33 +951,33 @@ fn test_into_fvec4() {
 }
 
 #[test]
-fn test_into_ivec4() {
+fn test_into_uvec4() {
   assert_eq!(
-    IVec4::from(UVec4::new((0, 0, 0, 0))),
-    IVec4::new((0, 0, 0, 0))
+    UVec4::from(UVec4::new((0, 0, 0, 0))),
+    UVec4::new((0, 0, 0, 0))
   );
   assert_eq!(
-    IVec4::from(UVec4::new((1, 0, 0, 0))),
-    IVec4::new((1, 0, 0, 0))
+    UVec4::from(UVec4::new((1, 0, 0, 0))),
+    UVec4::new((1, 0, 0, 0))
   );
   assert_eq!(
-    IVec4::from(UVec4::new((2, 0, 0, 0))),
-    IVec4::new((2, 0, 0, 0))
+    UVec4::from(UVec4::new((2, 0, 0, 0))),
+    UVec4::new((2, 0, 0, 0))
   );
   assert_eq!(
-    IVec4::from(UVec4::new((2, 1, 0, 0))),
-    IVec4::new((2, 1, 0, 0))
+    UVec4::from(UVec4::new((2, 1, 0, 0))),
+    UVec4::new((2, 1, 0, 0))
   );
   assert_eq!(
-    IVec4::from(UVec4::new((2, 2, 0, 0))),
-    IVec4::new((2, 2, 0, 0))
+    UVec4::from(UVec4::new((2, 2, 0, 0))),
+    UVec4::new((2, 2, 0, 0))
   );
   assert_eq!(
-    IVec4::from(UVec4::new((2, 2, 1, 0))),
-    IVec4::new((2, 2, 1, 0))
+    UVec4::from(UVec4::new((2, 2, 1, 0))),
+    UVec4::new((2, 2, 1, 0))
   );
   assert_eq!(
-    IVec4::from(UVec4::new((2, 2, 2, 0))),
-    IVec4::new((2, 2, 2, 0))
+    UVec4::from(UVec4::new((2, 2, 2, 0))),
+    UVec4::new((2, 2, 2, 0))
   );
 }

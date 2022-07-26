@@ -46,7 +46,7 @@ impl From<(f64, f64, f64, f64)> for Arg {
   }
 }
 
-#[derive(Copy, Clone, Debug, PartialEq)]
+#[derive(Copy, Clone, Debug, PartialEq, PartialOrd)]
 pub struct DVec4 {
   x: f64,
   y: f64,
@@ -203,6 +203,10 @@ impl Add for DVec4 {
   type Output = Self;
 
   fn add(self, other: Self) -> Self::Output {
+    debug_assert!(!other.x.is_nan(), "other.x must be a number!");
+    debug_assert!(!other.y.is_nan(), "other.y must be a number!");
+    debug_assert!(!other.z.is_nan(), "other.z must be a number!");
+    debug_assert!(!other.w.is_nan(), "other.w must be a number!");
     Self::new((
       self.x + other.x,
       self.y + other.y,
@@ -214,6 +218,10 @@ impl Add for DVec4 {
 
 impl AddAssign for DVec4 {
   fn add_assign(&mut self, other: Self) {
+    debug_assert!(!other.x.is_nan(), "other.x must be a number!");
+    debug_assert!(!other.y.is_nan(), "other.y must be a number!");
+    debug_assert!(!other.z.is_nan(), "other.z must be a number!");
+    debug_assert!(!other.w.is_nan(), "other.w must be a number!");
     if other == Self::new(()) {
       return;
     }
@@ -229,6 +237,10 @@ impl Sub for DVec4 {
   type Output = Self;
 
   fn sub(self, other: Self) -> Self::Output {
+    debug_assert!(!other.x.is_nan(), "other.x must be a number!");
+    debug_assert!(!other.y.is_nan(), "other.y must be a number!");
+    debug_assert!(!other.z.is_nan(), "other.z must be a number!");
+    debug_assert!(!other.w.is_nan(), "other.w must be a number!");
     Self::new((
       self.x - other.x,
       self.y - other.y,
@@ -240,6 +252,10 @@ impl Sub for DVec4 {
 
 impl SubAssign for DVec4 {
   fn sub_assign(&mut self, other: Self) {
+    debug_assert!(!other.x.is_nan(), "other.x must be a number!");
+    debug_assert!(!other.y.is_nan(), "other.y must be a number!");
+    debug_assert!(!other.z.is_nan(), "other.z must be a number!");
+    debug_assert!(!other.w.is_nan(), "other.w must be a number!");
     if other == Self::new(()) {
       return;
     }
@@ -279,6 +295,40 @@ impl MulAssign<f64> for DVec4 {
   }
 }
 
+impl Mul for DVec4 {
+  type Output = Self;
+
+  fn mul(self, other: Self) -> Self::Output {
+    debug_assert!(!other.x.is_nan(), "other.x must be a number!");
+    debug_assert!(!other.y.is_nan(), "other.y must be a number!");
+    debug_assert!(!other.z.is_nan(), "other.z must be a number!");
+    debug_assert!(!other.w.is_nan(), "other.w must be a number!");
+    Self::new((
+      self.x * other.x,
+      self.y * other.y,
+      self.z * other.z,
+      self.w * other.w,
+    ))
+  }
+}
+
+impl MulAssign for DVec4 {
+  fn mul_assign(&mut self, other: Self) {
+    debug_assert!(!other.x.is_nan(), "other.x must be a number!");
+    debug_assert!(!other.y.is_nan(), "other.y must be a number!");
+    debug_assert!(!other.z.is_nan(), "other.z must be a number!");
+    debug_assert!(!other.w.is_nan(), "other.w must be a number!");
+    if other == Self::new(1.0) {
+      return;
+    }
+    self.x *= other.x;
+    self.y *= other.y;
+    self.z *= other.z;
+    self.w *= other.w;
+    self.is_len_valid = false;
+  }
+}
+
 impl Div<f64> for DVec4 {
   type Output = Self;
 
@@ -311,6 +361,72 @@ impl DivAssign<f64> for DVec4 {
     self.y /= value;
     self.z /= value;
     self.w /= value;
+    self.is_len_valid = false;
+  }
+}
+
+impl Div for DVec4 {
+  type Output = Self;
+
+  fn div(self, other: Self) -> Self::Output {
+    debug_assert!(!other.x.is_nan(), "other.x must be a number!");
+    debug_assert!(!other.y.is_nan(), "other.y must be a number!");
+    debug_assert!(!other.z.is_nan(), "other.z must be a number!");
+    debug_assert!(!other.w.is_nan(), "other.w must be a number!");
+    debug_assert_ne!(
+      other.x, 0.0,
+      "other.x must not be equal to 0.0 to avoid causing division by zero error!"
+    );
+    debug_assert_ne!(
+      other.y, 0.0,
+      "other.y must not be equal to 0.0 to avoid causing division by zero error!"
+    );
+    debug_assert_ne!(
+      other.z, 0.0,
+      "other.z must not be equal to 0.0 to avoid causing division by zero error!"
+    );
+    debug_assert_ne!(
+      other.w, 0.0,
+      "other.w must not be equal to 0.0 to avoid causing division by zero error!"
+    );
+    Self::new((
+      self.x / other.x,
+      self.y / other.y,
+      self.z / other.z,
+      self.w / other.w,
+    ))
+  }
+}
+
+impl DivAssign for DVec4 {
+  fn div_assign(&mut self, other: Self) {
+    debug_assert!(!other.x.is_nan(), "other.x must be a number!");
+    debug_assert!(!other.y.is_nan(), "other.y must be a number!");
+    debug_assert!(!other.z.is_nan(), "other.z must be a number!");
+    debug_assert!(!other.w.is_nan(), "other.w must be a number!");
+    debug_assert_ne!(
+      other.x, 0.0,
+      "other.x must not be equal to 0.0 to avoid causing division by zero error!"
+    );
+    debug_assert_ne!(
+      other.y, 0.0,
+      "other.y must not be equal to 0.0 to avoid causing division by zero error!"
+    );
+    debug_assert_ne!(
+      other.z, 0.0,
+      "other.z must not be equal to 0.0 to avoid causing division by zero error!"
+    );
+    debug_assert_ne!(
+      other.w, 0.0,
+      "other.w must not be equal to 0.0 to avoid causing division by zero error!"
+    );
+    if other == Self::new(1.0) {
+      return;
+    }
+    self.x /= other.x;
+    self.y /= other.y;
+    self.z /= other.z;
+    self.w /= other.w;
     self.is_len_valid = false;
   }
 }

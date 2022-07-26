@@ -42,7 +42,7 @@ impl From<(f32, f32, f32)> for Arg {
   }
 }
 
-#[derive(Copy, Clone, Debug, PartialEq)]
+#[derive(Copy, Clone, Debug, PartialEq, PartialOrd)]
 pub struct FVec3 {
   x: f32,
   y: f32,
@@ -170,12 +170,18 @@ impl Add for FVec3 {
   type Output = Self;
 
   fn add(self, other: Self) -> Self::Output {
+    debug_assert!(!other.x.is_nan(), "other.x must be a number!");
+    debug_assert!(!other.y.is_nan(), "other.y must be a number!");
+    debug_assert!(!other.z.is_nan(), "other.z must be a number!");
     Self::new((self.x + other.x, self.y + other.y, self.z + other.z))
   }
 }
 
 impl AddAssign for FVec3 {
   fn add_assign(&mut self, other: Self) {
+    debug_assert!(!other.x.is_nan(), "other.x must be a number!");
+    debug_assert!(!other.y.is_nan(), "other.y must be a number!");
+    debug_assert!(!other.z.is_nan(), "other.z must be a number!");
     if other == Self::new(()) {
       return;
     }
@@ -190,12 +196,18 @@ impl Sub for FVec3 {
   type Output = Self;
 
   fn sub(self, other: Self) -> Self::Output {
+    debug_assert!(!other.x.is_nan(), "other.x must be a number!");
+    debug_assert!(!other.y.is_nan(), "other.y must be a number!");
+    debug_assert!(!other.z.is_nan(), "other.z must be a number!");
     Self::new((self.x - other.x, self.y - other.y, self.z - other.z))
   }
 }
 
 impl SubAssign for FVec3 {
   fn sub_assign(&mut self, other: Self) {
+    debug_assert!(!other.x.is_nan(), "other.x must be a number!");
+    debug_assert!(!other.y.is_nan(), "other.y must be a number!");
+    debug_assert!(!other.z.is_nan(), "other.z must be a number!");
     if other == Self::new(()) {
       return;
     }
@@ -228,6 +240,32 @@ impl MulAssign<f32> for FVec3 {
   }
 }
 
+impl Mul for FVec3 {
+  type Output = Self;
+
+  fn mul(self, other: Self) -> Self::Output {
+    debug_assert!(!other.x.is_nan(), "other.x must be a number!");
+    debug_assert!(!other.y.is_nan(), "other.y must be a number!");
+    debug_assert!(!other.z.is_nan(), "other.z must be a number!");
+    Self::new((self.x * other.x, self.y * other.y, self.z * other.z))
+  }
+}
+
+impl MulAssign for FVec3 {
+  fn mul_assign(&mut self, other: Self) {
+    debug_assert!(!other.x.is_nan(), "other.x must be a number!");
+    debug_assert!(!other.y.is_nan(), "other.y must be a number!");
+    debug_assert!(!other.z.is_nan(), "other.z must be a number!");
+    if other == Self::new(1.0) {
+      return;
+    }
+    self.x *= other.x;
+    self.y *= other.y;
+    self.z *= other.z;
+    self.is_len_valid = false;
+  }
+}
+
 impl Div<f32> for FVec3 {
   type Output = Self;
 
@@ -254,6 +292,56 @@ impl DivAssign<f32> for FVec3 {
     self.x /= value;
     self.y /= value;
     self.z /= value;
+    self.is_len_valid = false;
+  }
+}
+
+impl Div for FVec3 {
+  type Output = Self;
+
+  fn div(self, other: Self) -> Self::Output {
+    debug_assert!(!other.x.is_nan(), "other.x must be a number!");
+    debug_assert!(!other.y.is_nan(), "other.y must be a number!");
+    debug_assert!(!other.z.is_nan(), "other.z must be a number!");
+    debug_assert_ne!(
+      other.x, 0.0,
+      "other.x must not be equal to 0.0 to avoid causing division by zero error!"
+    );
+    debug_assert_ne!(
+      other.y, 0.0,
+      "other.y must not be equal to 0.0 to avoid causing division by zero error!"
+    );
+    debug_assert_ne!(
+      other.z, 0.0,
+      "other.z must not be equal to 0.0 to avoid causing division by zero error!"
+    );
+    Self::new((self.x / other.x, self.y / other.y, self.z / other.z))
+  }
+}
+
+impl DivAssign for FVec3 {
+  fn div_assign(&mut self, other: Self) {
+    debug_assert!(!other.x.is_nan(), "other.x must be a number!");
+    debug_assert!(!other.y.is_nan(), "other.y must be a number!");
+    debug_assert!(!other.z.is_nan(), "other.z must be a number!");
+    debug_assert_ne!(
+      other.x, 0.0,
+      "other.x must not be equal to 0.0 to avoid causing division by zero error!"
+    );
+    debug_assert_ne!(
+      other.y, 0.0,
+      "other.y must not be equal to 0.0 to avoid causing division by zero error!"
+    );
+    debug_assert_ne!(
+      other.z, 0.0,
+      "other.z must not be equal to 0.0 to avoid causing division by zero error!"
+    );
+    if other == Self::new(1.0) {
+      return;
+    }
+    self.x /= other.x;
+    self.y /= other.y;
+    self.z /= other.z;
     self.is_len_valid = false;
   }
 }

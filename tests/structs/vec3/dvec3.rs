@@ -184,6 +184,25 @@ fn test_add() {
 }
 
 #[test]
+fn test_add_assign() {
+  let mut vec = DVec3::new(());
+  vec += DVec3::new((0.0, 0.0, 0.0));
+  assert_eq!(vec, DVec3::new((0.0, 0.0, 0.0)));
+  vec += DVec3::new((1.0, 0.0, 0.0));
+  assert_eq!(vec, DVec3::new((1.0, 0.0, 0.0)));
+  vec += DVec3::new((2.0, 0.0, 0.0));
+  assert_eq!(vec, DVec3::new((3.0, 0.0, 0.0)));
+  vec += DVec3::new((2.0, 1.0, 0.0));
+  assert_eq!(vec, DVec3::new((5.0, 1.0, 0.0)));
+  vec += DVec3::new((2.0, 2.0, 0.0));
+  assert_eq!(vec, DVec3::new((7.0, 3.0, 0.0)));
+  vec += DVec3::new((2.0, 2.0, 1.0));
+  assert_eq!(vec, DVec3::new((9.0, 5.0, 1.0)));
+  vec += DVec3::new((2.0, 2.0, 2.0));
+  assert_eq!(vec, DVec3::new((11.0, 7.0, 3.0)));
+}
+
+#[test]
 fn test_sub() {
   assert_eq!(
     DVec3::new((0.0, 0.0, 0.0)) - DVec3::new((0.0, 0.0, 0.0)),
@@ -240,7 +259,26 @@ fn test_sub() {
 }
 
 #[test]
-fn test_mul() {
+fn test_sub_assign() {
+  let mut vec = DVec3::new(());
+  vec -= DVec3::new((0.0, 0.0, 0.0));
+  assert_eq!(vec, DVec3::new((0.0, 0.0, 0.0)));
+  vec -= DVec3::new((1.0, 0.0, 0.0));
+  assert_eq!(vec, DVec3::new((-1.0, 0.0, 0.0)));
+  vec -= DVec3::new((2.0, 0.0, 0.0));
+  assert_eq!(vec, DVec3::new((-3.0, 0.0, 0.0)));
+  vec -= DVec3::new((2.0, 1.0, 0.0));
+  assert_eq!(vec, DVec3::new((-5.0, -1.0, 0.0)));
+  vec -= DVec3::new((2.0, 2.0, 0.0));
+  assert_eq!(vec, DVec3::new((-7.0, -3.0, 0.0)));
+  vec -= DVec3::new((2.0, 2.0, 1.0));
+  assert_eq!(vec, DVec3::new((-9.0, -5.0, -1.0)));
+  vec -= DVec3::new((2.0, 2.0, 2.0));
+  assert_eq!(vec, DVec3::new((-11.0, -7.0, -3.0)));
+}
+
+#[test]
+fn test_mul_f64() {
   assert_eq!(
     DVec3::new((0.0, 0.0, 0.0)) * 0.0,
     DVec3::new((0.0, 0.0, 0.0))
@@ -280,7 +318,93 @@ fn test_mul() {
 }
 
 #[test]
-fn test_div() {
+fn test_mul_f64_assign() {
+  let mut vec = DVec3::new((1.0, 1.0, 1.0));
+  vec *= 1.0;
+  assert_eq!(vec, DVec3::new((1.0, 1.0, 1.0)));
+  vec *= 2.0;
+  assert_eq!(vec, DVec3::new((2.0, 2.0, 2.0)));
+  vec *= 3.0;
+  assert_eq!(vec, DVec3::new((6.0, 6.0, 6.0)));
+}
+
+#[test]
+fn test_mul() {
+  assert_eq!(
+    DVec3::new((0.0, 0.0, 0.0)) * DVec3::new((0.0, 0.0, 0.0)),
+    DVec3::new((0.0, 0.0, 0.0))
+  );
+  assert_eq!(
+    DVec3::new((1.0, 0.0, 0.0)) * DVec3::new((0.0, 0.0, 0.0)),
+    DVec3::new((0.0, 0.0, 0.0))
+  );
+  assert_eq!(
+    DVec3::new((2.0, 0.0, 0.0)) * DVec3::new((0.0, 0.0, 0.0)),
+    DVec3::new((0.0, 0.0, 0.0))
+  );
+  assert_eq!(
+    DVec3::new((2.0, 1.0, 0.0)) * DVec3::new((0.0, 0.0, 0.0)),
+    DVec3::new((0.0, 0.0, 0.0))
+  );
+  assert_eq!(
+    DVec3::new((2.0, 2.0, 0.0)) * DVec3::new((0.0, 0.0, 0.0)),
+    DVec3::new((0.0, 0.0, 0.0))
+  );
+  assert_eq!(
+    DVec3::new((2.0, 2.0, 1.0)) * DVec3::new((0.0, 0.0, 0.0)),
+    DVec3::new((0.0, 0.0, 0.0))
+  );
+  assert_eq!(
+    DVec3::new((2.0, 2.0, 2.0)) * DVec3::new((0.0, 0.0, 0.0)),
+    DVec3::new((0.0, 0.0, 0.0))
+  );
+  assert_eq!(
+    DVec3::new((2.0, 2.0, 2.0)) * DVec3::new((1.0, 0.0, 0.0)),
+    DVec3::new((2.0, 0.0, 0.0))
+  );
+  assert_eq!(
+    DVec3::new((2.0, 2.0, 2.0)) * DVec3::new((2.0, 0.0, 0.0)),
+    DVec3::new((4.0, 0.0, 0.0))
+  );
+  assert_eq!(
+    DVec3::new((2.0, 2.0, 2.0)) * DVec3::new((2.0, 1.0, 0.0)),
+    DVec3::new((4.0, 2.0, 0.0))
+  );
+  assert_eq!(
+    DVec3::new((2.0, 2.0, 2.0)) * DVec3::new((2.0, 2.0, 0.0)),
+    DVec3::new((4.0, 4.0, 0.0))
+  );
+  assert_eq!(
+    DVec3::new((2.0, 2.0, 2.0)) * DVec3::new((2.0, 2.0, 1.0)),
+    DVec3::new((4.0, 4.0, 2.0))
+  );
+  assert_eq!(
+    DVec3::new((2.0, 2.0, 2.0)) * DVec3::new((2.0, 2.0, 2.0)),
+    DVec3::new((4.0, 4.0, 4.0))
+  );
+}
+
+#[test]
+fn test_mul_assign() {
+  let mut vec = DVec3::new((1.0, 1.0, 1.0));
+  vec *= DVec3::new((1.0, 1.0, 1.0));
+  assert_eq!(vec, DVec3::new((1.0, 1.0, 1.0)));
+  vec *= DVec3::new((2.0, 1.0, 1.0));
+  assert_eq!(vec, DVec3::new((2.0, 1.0, 1.0)));
+  vec *= DVec3::new((3.0, 1.0, 1.0));
+  assert_eq!(vec, DVec3::new((6.0, 1.0, 1.0)));
+  vec *= DVec3::new((3.0, 2.0, 1.0));
+  assert_eq!(vec, DVec3::new((18.0, 2.0, 1.0)));
+  vec *= DVec3::new((3.0, 3.0, 1.0));
+  assert_eq!(vec, DVec3::new((54.0, 6.0, 1.0)));
+  vec *= DVec3::new((3.0, 3.0, 2.0));
+  assert_eq!(vec, DVec3::new((162.0, 18.0, 2.0)));
+  vec *= DVec3::new((3.0, 3.0, 3.0));
+  assert_eq!(vec, DVec3::new((486.0, 54.0, 6.0)));
+}
+
+#[test]
+fn test_div_f64() {
   assert_eq!(
     DVec3::new((0.0, 0.0, 0.0)) / 1.0,
     DVec3::new((0.0, 0.0, 0.0))
@@ -320,6 +444,92 @@ fn test_div() {
 }
 
 #[test]
+fn test_div_f64_assign() {
+  let mut vec = DVec3::new((1.0, 1.0, 1.0));
+  vec /= 1.0;
+  assert_eq!(vec, DVec3::new((1.0, 1.0, 1.0)));
+  vec /= 2.0;
+  assert_eq!(vec, DVec3::new((0.5, 0.5, 0.5)));
+  vec /= 5.0;
+  assert_eq!(vec, DVec3::new((0.1, 0.1, 0.1)));
+}
+
+#[test]
+fn test_div() {
+  assert_eq!(
+    DVec3::new((0.0, 0.0, 0.0)) / DVec3::new((1.0, 1.0, 1.0)),
+    DVec3::new((0.0, 0.0, 0.0))
+  );
+  assert_eq!(
+    DVec3::new((1.0, 0.0, 0.0)) / DVec3::new((1.0, 1.0, 1.0)),
+    DVec3::new((1.0, 0.0, 0.0))
+  );
+  assert_eq!(
+    DVec3::new((2.0, 0.0, 0.0)) / DVec3::new((1.0, 1.0, 1.0)),
+    DVec3::new((2.0, 0.0, 0.0))
+  );
+  assert_eq!(
+    DVec3::new((2.0, 1.0, 0.0)) / DVec3::new((1.0, 1.0, 1.0)),
+    DVec3::new((2.0, 1.0, 0.0))
+  );
+  assert_eq!(
+    DVec3::new((2.0, 2.0, 0.0)) / DVec3::new((1.0, 1.0, 1.0)),
+    DVec3::new((2.0, 2.0, 0.0))
+  );
+  assert_eq!(
+    DVec3::new((2.0, 2.0, 1.0)) / DVec3::new((1.0, 1.0, 1.0)),
+    DVec3::new((2.0, 2.0, 1.0))
+  );
+  assert_eq!(
+    DVec3::new((2.0, 2.0, 2.0)) / DVec3::new((1.0, 1.0, 1.0)),
+    DVec3::new((2.0, 2.0, 2.0))
+  );
+  assert_eq!(
+    DVec3::new((2.0, 2.0, 2.0)) / DVec3::new((2.0, 1.0, 1.0)),
+    DVec3::new((1.0, 2.0, 2.0))
+  );
+  assert_eq!(
+    DVec3::new((2.0, 2.0, 2.0)) / DVec3::new((4.0, 1.0, 1.0)),
+    DVec3::new((0.5, 2.0, 2.0))
+  );
+  assert_eq!(
+    DVec3::new((2.0, 2.0, 2.0)) / DVec3::new((4.0, 2.0, 1.0)),
+    DVec3::new((0.5, 1.0, 2.0))
+  );
+  assert_eq!(
+    DVec3::new((2.0, 2.0, 2.0)) / DVec3::new((4.0, 4.0, 1.0)),
+    DVec3::new((0.5, 0.5, 2.0))
+  );
+  assert_eq!(
+    DVec3::new((2.0, 2.0, 2.0)) / DVec3::new((4.0, 4.0, 2.0)),
+    DVec3::new((0.5, 0.5, 1.0))
+  );
+  assert_eq!(
+    DVec3::new((2.0, 2.0, 2.0)) / DVec3::new((4.0, 4.0, 4.0)),
+    DVec3::new((0.5, 0.5, 0.5))
+  );
+}
+
+#[test]
+fn test_div_assign() {
+  let mut vec = DVec3::new((1.0, 1.0, 1.0));
+  vec /= DVec3::new((1.0, 1.0, 1.0));
+  assert_eq!(vec, DVec3::new((1.0, 1.0, 1.0)));
+  vec /= DVec3::new((2.0, 1.0, 1.0));
+  assert_eq!(vec, DVec3::new((0.5, 1.0, 1.0)));
+  vec /= DVec3::new((5.0, 1.0, 1.0));
+  assert_eq!(vec, DVec3::new((0.1, 1.0, 1.0)));
+  vec /= DVec3::new((5.0, 2.0, 1.0));
+  assert_eq!(vec, DVec3::new((0.02, 0.5, 1.0)));
+  vec /= DVec3::new((5.0, 5.0, 1.0));
+  assert_eq!(vec, DVec3::new((0.004, 0.1, 1.0)));
+  vec /= DVec3::new((5.0, 5.0, 2.0));
+  assert_eq!(vec, DVec3::new((0.0008, 0.02, 0.5)));
+  vec /= DVec3::new((5.0, 5.0, 5.0));
+  assert_eq!(vec, DVec3::new((0.00016, 0.004, 0.1)));
+}
+
+#[test]
 fn test_set() {
   let mut vec = DVec3::new(());
   vec.set(DVec3::new((0.0, 0.0, 0.0)));
@@ -336,66 +546,6 @@ fn test_set() {
   assert_eq!(vec, DVec3::new((2.0, 2.0, 1.0)));
   vec.set(DVec3::new((2.0, 2.0, 2.0)));
   assert_eq!(vec, DVec3::new((2.0, 2.0, 2.0)));
-}
-
-#[test]
-fn test_add_assign() {
-  let mut vec = DVec3::new(());
-  vec += DVec3::new((0.0, 0.0, 0.0));
-  assert_eq!(vec, DVec3::new((0.0, 0.0, 0.0)));
-  vec += DVec3::new((1.0, 0.0, 0.0));
-  assert_eq!(vec, DVec3::new((1.0, 0.0, 0.0)));
-  vec += DVec3::new((2.0, 0.0, 0.0));
-  assert_eq!(vec, DVec3::new((3.0, 0.0, 0.0)));
-  vec += DVec3::new((2.0, 1.0, 0.0));
-  assert_eq!(vec, DVec3::new((5.0, 1.0, 0.0)));
-  vec += DVec3::new((2.0, 2.0, 0.0));
-  assert_eq!(vec, DVec3::new((7.0, 3.0, 0.0)));
-  vec += DVec3::new((2.0, 2.0, 1.0));
-  assert_eq!(vec, DVec3::new((9.0, 5.0, 1.0)));
-  vec += DVec3::new((2.0, 2.0, 2.0));
-  assert_eq!(vec, DVec3::new((11.0, 7.0, 3.0)));
-}
-
-#[test]
-fn test_sub_assign() {
-  let mut vec = DVec3::new(());
-  vec -= DVec3::new((0.0, 0.0, 0.0));
-  assert_eq!(vec, DVec3::new((0.0, 0.0, 0.0)));
-  vec -= DVec3::new((1.0, 0.0, 0.0));
-  assert_eq!(vec, DVec3::new((-1.0, 0.0, 0.0)));
-  vec -= DVec3::new((2.0, 0.0, 0.0));
-  assert_eq!(vec, DVec3::new((-3.0, 0.0, 0.0)));
-  vec -= DVec3::new((2.0, 1.0, 0.0));
-  assert_eq!(vec, DVec3::new((-5.0, -1.0, 0.0)));
-  vec -= DVec3::new((2.0, 2.0, 0.0));
-  assert_eq!(vec, DVec3::new((-7.0, -3.0, 0.0)));
-  vec -= DVec3::new((2.0, 2.0, 1.0));
-  assert_eq!(vec, DVec3::new((-9.0, -5.0, -1.0)));
-  vec -= DVec3::new((2.0, 2.0, 2.0));
-  assert_eq!(vec, DVec3::new((-11.0, -7.0, -3.0)));
-}
-
-#[test]
-fn test_mul_assign() {
-  let mut vec = DVec3::new((1.0, 1.0, 1.0));
-  vec *= 1.0;
-  assert_eq!(vec, DVec3::new((1.0, 1.0, 1.0)));
-  vec *= 2.0;
-  assert_eq!(vec, DVec3::new((2.0, 2.0, 2.0)));
-  vec *= 3.0;
-  assert_eq!(vec, DVec3::new((6.0, 6.0, 6.0)));
-}
-
-#[test]
-fn test_div_assign() {
-  let mut vec = DVec3::new((1.0, 1.0, 1.0));
-  vec /= 1.0;
-  assert_eq!(vec, DVec3::new((1.0, 1.0, 1.0)));
-  vec /= 2.0;
-  assert_eq!(vec, DVec3::new((0.5, 0.5, 0.5)));
-  vec /= 5.0;
-  assert_eq!(vec, DVec3::new((0.1, 0.1, 0.1)));
 }
 
 #[test]

@@ -19,7 +19,7 @@ impl From<(f32, f32)> for Arg {
 }
 
 /// It defines a boundary between the minimum and maximum value.
-#[derive(Copy, Clone, Debug, PartialEq)]
+#[derive(Copy, Clone, Debug, PartialEq, PartialOrd)]
 pub struct FBound {
   min: f32,
   max: f32,
@@ -78,16 +78,6 @@ impl FBound {
   /// It returns a random value in this boundary.
   pub fn rand(&self) -> f32 {
     thread_rng().gen_range(self.min..=self.max)
-  }
-
-  pub fn clamp(&self, value: f32) -> f32 {
-    if value < self.min {
-      self.min
-    } else if value > self.max {
-      self.max
-    } else {
-      value
-    }
   }
 }
 
