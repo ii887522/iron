@@ -131,6 +131,21 @@ impl MulAssign<i32> for IVec2 {
   }
 }
 
+impl Mul for IVec2 {
+  type Output = Self;
+
+  fn mul(self, other: Self) -> Self::Output {
+    Self::new((self.x * other.x, self.y * other.y))
+  }
+}
+
+impl MulAssign for IVec2 {
+  fn mul_assign(&mut self, other: Self) {
+    self.x *= other.x;
+    self.y *= other.y;
+  }
+}
+
 impl Div<i32> for IVec2 {
   type Output = Self;
 
@@ -151,6 +166,37 @@ impl DivAssign<i32> for IVec2 {
     );
     self.x /= value;
     self.y /= value;
+  }
+}
+
+impl Div for IVec2 {
+  type Output = Self;
+
+  fn div(self, other: Self) -> Self::Output {
+    debug_assert_ne!(
+      other.x, 0,
+      "other.x must not be equal to 0 to avoid causing division by zero error!"
+    );
+    debug_assert_ne!(
+      other.y, 0,
+      "other.y must not be equal to 0 to avoid causing division by zero error!"
+    );
+    Self::new((self.x / other.x, self.y / other.y))
+  }
+}
+
+impl DivAssign for IVec2 {
+  fn div_assign(&mut self, other: Self) {
+    debug_assert_ne!(
+      other.x, 0,
+      "other.x must not be equal to 0 to avoid causing division by zero error!"
+    );
+    debug_assert_ne!(
+      other.y, 0,
+      "other.y must not be equal to 0 to avoid causing division by zero error!"
+    );
+    self.x /= other.x;
+    self.y /= other.y;
   }
 }
 

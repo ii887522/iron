@@ -101,7 +101,7 @@ fn test_sub_assign() {
 }
 
 #[test]
-fn test_mul() {
+fn test_mul_i32() {
   assert_eq!(IVec2::new((0, 0)) * 0, IVec2::new((0, 0)));
   assert_eq!(IVec2::new((1, 0)) * 0, IVec2::new((0, 0)));
   assert_eq!(IVec2::new((2, 0)) * 0, IVec2::new((0, 0)));
@@ -112,7 +112,7 @@ fn test_mul() {
 }
 
 #[test]
-fn test_mul_assign() {
+fn test_mul_i32_assign() {
   let mut vec = IVec2::new((1, 1));
   vec *= 1;
   assert_eq!(vec, IVec2::new((1, 1)));
@@ -123,7 +123,36 @@ fn test_mul_assign() {
 }
 
 #[test]
-fn test_div() {
+fn test_mul() {
+  assert_eq!(IVec2::new((0, 0)) * IVec2::new((0, 0)), IVec2::new((0, 0)));
+  assert_eq!(IVec2::new((1, 0)) * IVec2::new((0, 0)), IVec2::new((0, 0)));
+  assert_eq!(IVec2::new((2, 0)) * IVec2::new((0, 0)), IVec2::new((0, 0)));
+  assert_eq!(IVec2::new((2, 1)) * IVec2::new((0, 0)), IVec2::new((0, 0)));
+  assert_eq!(IVec2::new((2, 2)) * IVec2::new((0, 0)), IVec2::new((0, 0)));
+  assert_eq!(IVec2::new((2, 2)) * IVec2::new((1, 0)), IVec2::new((2, 0)));
+  assert_eq!(IVec2::new((2, 2)) * IVec2::new((2, 0)), IVec2::new((4, 0)));
+  assert_eq!(IVec2::new((2, 2)) * IVec2::new((2, 1)), IVec2::new((4, 2)));
+  assert_eq!(IVec2::new((2, 2)) * IVec2::new((2, 2)), IVec2::new((4, 4)));
+  assert_eq!(IVec2::new((2, 2)) * IVec2::new((2, 2)), IVec2::new((4, 4)));
+}
+
+#[test]
+fn test_mul_assign() {
+  let mut vec = IVec2::new((1, 1));
+  vec *= IVec2::new((1, 1));
+  assert_eq!(vec, IVec2::new((1, 1)));
+  vec *= IVec2::new((2, 1));
+  assert_eq!(vec, IVec2::new((2, 1)));
+  vec *= IVec2::new((3, 1));
+  assert_eq!(vec, IVec2::new((6, 1)));
+  vec *= IVec2::new((3, 2));
+  assert_eq!(vec, IVec2::new((18, 2)));
+  vec *= IVec2::new((3, 3));
+  assert_eq!(vec, IVec2::new((54, 6)));
+}
+
+#[test]
+fn test_div_i32() {
   assert_eq!(IVec2::new((0, 0)) / 1, IVec2::new((0, 0)));
   assert_eq!(IVec2::new((1, 0)) / 1, IVec2::new((1, 0)));
   assert_eq!(IVec2::new((2, 0)) / 1, IVec2::new((2, 0)));
@@ -134,13 +163,41 @@ fn test_div() {
 }
 
 #[test]
-fn test_div_assign() {
+fn test_div_assign_i32() {
   let mut vec = IVec2::new((1, 1));
   vec /= 1;
   assert_eq!(vec, IVec2::new((1, 1)));
   vec /= 2;
   assert_eq!(vec, IVec2::new((0, 0)));
   vec /= 5;
+  assert_eq!(vec, IVec2::new((0, 0)));
+}
+
+#[test]
+fn test_div() {
+  assert_eq!(IVec2::new((0, 0)) / IVec2::new((1, 1)), IVec2::new((0, 0)));
+  assert_eq!(IVec2::new((1, 0)) / IVec2::new((1, 1)), IVec2::new((1, 0)));
+  assert_eq!(IVec2::new((2, 0)) / IVec2::new((1, 1)), IVec2::new((2, 0)));
+  assert_eq!(IVec2::new((2, 1)) / IVec2::new((1, 1)), IVec2::new((2, 1)));
+  assert_eq!(IVec2::new((2, 2)) / IVec2::new((1, 1)), IVec2::new((2, 2)));
+  assert_eq!(IVec2::new((2, 2)) / IVec2::new((2, 1)), IVec2::new((1, 2)));
+  assert_eq!(IVec2::new((2, 2)) / IVec2::new((4, 1)), IVec2::new((0, 2)));
+  assert_eq!(IVec2::new((2, 2)) / IVec2::new((4, 2)), IVec2::new((0, 1)));
+  assert_eq!(IVec2::new((2, 2)) / IVec2::new((4, 4)), IVec2::new((0, 0)));
+}
+
+#[test]
+fn test_div_assign() {
+  let mut vec = IVec2::new((1, 1));
+  vec /= IVec2::new((1, 1));
+  assert_eq!(vec, IVec2::new((1, 1)));
+  vec /= IVec2::new((2, 1));
+  assert_eq!(vec, IVec2::new((0, 1)));
+  vec /= IVec2::new((5, 1));
+  assert_eq!(vec, IVec2::new((0, 1)));
+  vec /= IVec2::new((5, 2));
+  assert_eq!(vec, IVec2::new((0, 0)));
+  vec /= IVec2::new((5, 5));
   assert_eq!(vec, IVec2::new((0, 0)));
 }
 

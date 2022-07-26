@@ -77,16 +77,6 @@ impl IBound {
   pub fn rand(&self) -> i32 {
     thread_rng().gen_range(self.min..=self.max)
   }
-
-  pub fn clamp(&self, value: i32) -> i32 {
-    if value < self.min {
-      self.min
-    } else if value > self.max {
-      self.max
-    } else {
-      value
-    }
-  }
 }
 
 impl From<DBound> for IBound {

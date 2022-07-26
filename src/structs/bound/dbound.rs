@@ -79,16 +79,6 @@ impl DBound {
   pub fn rand(&self) -> f64 {
     thread_rng().gen_range(self.min..=self.max)
   }
-
-  pub fn clamp(&self, value: f64) -> f64 {
-    if value < self.min {
-      self.min
-    } else if value > self.max {
-      self.max
-    } else {
-      value
-    }
-  }
 }
 
 impl From<FBound> for DBound {

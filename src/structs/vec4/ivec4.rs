@@ -200,6 +200,28 @@ impl MulAssign<i32> for IVec4 {
   }
 }
 
+impl Mul for IVec4 {
+  type Output = Self;
+
+  fn mul(self, other: Self) -> Self::Output {
+    Self::new((
+      self.x * other.x,
+      self.y * other.y,
+      self.z * other.z,
+      self.w * other.w,
+    ))
+  }
+}
+
+impl MulAssign for IVec4 {
+  fn mul_assign(&mut self, other: Self) {
+    self.x *= other.x;
+    self.y *= other.y;
+    self.z *= other.z;
+    self.w *= other.w;
+  }
+}
+
 impl Div<i32> for IVec4 {
   type Output = Self;
 
@@ -227,6 +249,60 @@ impl DivAssign<i32> for IVec4 {
     self.y /= value;
     self.z /= value;
     self.w /= value;
+  }
+}
+
+impl Div for IVec4 {
+  type Output = Self;
+
+  fn div(self, other: Self) -> Self::Output {
+    debug_assert_ne!(
+      other.x, 0,
+      "other.x must not be equal to 0 to avoid causing division by zero error!"
+    );
+    debug_assert_ne!(
+      other.y, 0,
+      "other.y must not be equal to 0 to avoid causing division by zero error!"
+    );
+    debug_assert_ne!(
+      other.z, 0,
+      "other.z must not be equal to 0 to avoid causing division by zero error!"
+    );
+    debug_assert_ne!(
+      other.w, 0,
+      "other.w must not be equal to 0 to avoid causing division by zero error!"
+    );
+    Self::new((
+      self.x / other.x,
+      self.y / other.y,
+      self.z / other.z,
+      self.w / other.w,
+    ))
+  }
+}
+
+impl DivAssign for IVec4 {
+  fn div_assign(&mut self, other: Self) {
+    debug_assert_ne!(
+      other.x, 0,
+      "other.x must not be equal to 0 to avoid causing division by zero error!"
+    );
+    debug_assert_ne!(
+      other.y, 0,
+      "other.y must not be equal to 0 to avoid causing division by zero error!"
+    );
+    debug_assert_ne!(
+      other.z, 0,
+      "other.z must not be equal to 0 to avoid causing division by zero error!"
+    );
+    debug_assert_ne!(
+      other.w, 0,
+      "other.w must not be equal to 0 to avoid causing division by zero error!"
+    );
+    self.x /= other.x;
+    self.y /= other.y;
+    self.z /= other.z;
+    self.w /= other.w;
   }
 }
 

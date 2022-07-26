@@ -131,12 +131,16 @@ impl Add for DVec2 {
   type Output = Self;
 
   fn add(self, other: Self) -> Self::Output {
+    debug_assert!(!other.x.is_nan(), "other.x must be a number!");
+    debug_assert!(!other.y.is_nan(), "other.y must be a number!");
     Self::new((self.x + other.x, self.y + other.y))
   }
 }
 
 impl AddAssign for DVec2 {
   fn add_assign(&mut self, other: Self) {
+    debug_assert!(!other.x.is_nan(), "other.x must be a number!");
+    debug_assert!(!other.y.is_nan(), "other.y must be a number!");
     if other == Self::new(()) {
       return;
     }
@@ -150,12 +154,16 @@ impl Sub for DVec2 {
   type Output = Self;
 
   fn sub(self, other: Self) -> Self::Output {
+    debug_assert!(!other.x.is_nan(), "other.x must be a number!");
+    debug_assert!(!other.y.is_nan(), "other.y must be a number!");
     Self::new((self.x - other.x, self.y - other.y))
   }
 }
 
 impl SubAssign for DVec2 {
   fn sub_assign(&mut self, other: Self) {
+    debug_assert!(!other.x.is_nan(), "other.x must be a number!");
+    debug_assert!(!other.y.is_nan(), "other.y must be a number!");
     if other == Self::new(()) {
       return;
     }
@@ -176,11 +184,35 @@ impl Mul<f64> for DVec2 {
 
 impl MulAssign<f64> for DVec2 {
   fn mul_assign(&mut self, value: f64) {
+    debug_assert!(!value.is_nan(), "value must be a number!");
     if value == 1.0 {
       return;
     }
     self.x *= value;
     self.y *= value;
+    self.is_len_valid = false;
+  }
+}
+
+impl Mul for DVec2 {
+  type Output = Self;
+
+  fn mul(self, other: Self) -> Self::Output {
+    debug_assert!(!other.x.is_nan(), "other.x must be a number!");
+    debug_assert!(!other.y.is_nan(), "other.y must be a number!");
+    Self::new((self.x * other.x, self.y * other.y))
+  }
+}
+
+impl MulAssign for DVec2 {
+  fn mul_assign(&mut self, other: Self) {
+    debug_assert!(!other.x.is_nan(), "other.x must be a number!");
+    debug_assert!(!other.y.is_nan(), "other.y must be a number!");
+    if other == Self::new(1.0) {
+      return;
+    }
+    self.x *= other.x;
+    self.y *= other.y;
     self.is_len_valid = false;
   }
 }
@@ -210,6 +242,45 @@ impl DivAssign<f64> for DVec2 {
     }
     self.x /= value;
     self.y /= value;
+    self.is_len_valid = false;
+  }
+}
+
+impl Div for DVec2 {
+  type Output = Self;
+
+  fn div(self, other: Self) -> Self::Output {
+    debug_assert!(!other.x.is_nan(), "other.x must be a number!");
+    debug_assert!(!other.y.is_nan(), "other.y must be a number!");
+    debug_assert_ne!(
+      other.x, 0.0,
+      "other.x must not be equal to 0.0 to avoid causing division by zero error!"
+    );
+    debug_assert_ne!(
+      other.y, 0.0,
+      "other.y must not be equal to 0.0 to avoid causing division by zero error!"
+    );
+    Self::new((self.x / other.x, self.y / other.y))
+  }
+}
+
+impl DivAssign for DVec2 {
+  fn div_assign(&mut self, other: Self) {
+    debug_assert!(!other.x.is_nan(), "other.x must be a number!");
+    debug_assert!(!other.y.is_nan(), "other.y must be a number!");
+    debug_assert_ne!(
+      other.x, 0.0,
+      "other.x must not be equal to 0.0 to avoid causing division by zero error!"
+    );
+    debug_assert_ne!(
+      other.y, 0.0,
+      "other.y must not be equal to 0.0 to avoid causing division by zero error!"
+    );
+    if other == Self::new(1.0) {
+      return;
+    }
+    self.x /= other.x;
+    self.y /= other.y;
     self.is_len_valid = false;
   }
 }
