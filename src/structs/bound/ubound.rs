@@ -17,7 +17,7 @@ impl From<(u32, u32)> for Arg {
 }
 
 /// It defines a boundary between the minimum and maximum value.
-#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, Default)]
 pub struct UBound {
   min: u32,
   max: u32,
